@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="490.0" style="-fx-background-color: #FFFFF4;" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.AddHomesteads">
+   <children>
+      <VBox alignment="CENTER" layoutX="54.0" layoutY="42.0" prefHeight="463.0" prefWidth="136.0" spacing="16.0">
+         <children>
+            <Label text="Назва:">
+               <font>
+                  <Font name="Noteworthy Light" size="15.0" />
+               </font>
+            </Label>
+            <Label text="Кількість ліжок:">
+               <font>
+                  <Font name="Noteworthy Light" size="15.0" />
+               </font>
+            </Label>
+            <Label text="Кількість кімнат:">
+               <font>
+                  <Font name="Noteworthy Light" size="15.0" />
+               </font>
+            </Label>
+            <Label text="Кількість поверхів:">
+               <font>
+                  <Font name="Noteworthy Light" size="15.0" />
+               </font>
+            </Label>
+            <Label text="Є кондиціонер?">
+               <font>
+                  <Font name="Noteworthy Light" size="15.0" />
+               </font>
+            </Label>
+            <Label text="Є сейф?">
+               <font>
+                  <Font name="Noteworthy Light" size="15.0" />
+               </font>
+            </Label>
+            <Label text="Є Wi-Fi?">
+               <font>
+                  <Font name="Noteworthy Light" size="15.0" />
+               </font>
+            </Label>
+            <Label text="Є холодильник?">
+               <font>
+                  <Font name="Noteworthy Light" size="15.0" />
+               </font>
+            </Label>
+            <Label text="Є праска?">
+               <font>
+                  <Font name="Noteworthy Light" size="15.0" />
+               </font>
+            </Label>
+            <Label text="Є фен?">
+               <font>
+                  <Font name="Noteworthy Light" size="15.0" />
+               </font>
+            </Label>
+            <Label text="Ціна за добу (грн):">
+               <font>
+                  <Font name="Noteworthy Light" size="15.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="182.0" layoutY="8.0" text="Додати садибу" textAlignment="CENTER" AnchorPane.bottomAnchor="558.0">
+         <font>
+            <Font name="Noteworthy Light" size="20.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="Number_of_floors" layoutX="330.0" layoutY="180.0" maxHeight="35.0" maxWidth="50.0" minHeight="35.0" minWidth="50.0" prefHeight="35.0" prefWidth="50.0" style="-fx-background-color: #FFFFF4; -fx-border-color: #000; -fx-border-radius: 30px; -fx-border-width: 2px; -fx-font-family: Noteworthy; -fx-text-fill: black;" />
+      <ChoiceBox fx:id="Number_of_beds" layoutX="330.0" layoutY="100.0" maxHeight="35.0" maxWidth="50.0" minHeight="35.0" minWidth="50.0" prefHeight="35.0" prefWidth="50.0" style="-fx-background-color: #FFFFF4; -fx-border-color: #000; -fx-border-radius: 30px; -fx-border-width: 2px; -fx-font-family: Noteworthy; -fx-text-fill: black;" />
+      <CheckBox fx:id="Is_Hair" layoutX="345.0" layoutY="430.0" mnemonicParsing="false" />
+      <CheckBox fx:id="Is_Iron" layoutX="345.0" layoutY="390.0" mnemonicParsing="false" />
+      <CheckBox fx:id="Is_ref" layoutX="345.0" layoutY="350.0" mnemonicParsing="false" />
+      <CheckBox fx:id="Is_Wi_Fi" layoutX="345.0" layoutY="310.0" mnemonicParsing="false" />
+      <CheckBox fx:id="Is_safe" layoutX="345.0" layoutY="270.0" mnemonicParsing="false" />
+      <CheckBox fx:id="Is_air_conditioning" layoutX="345.0" layoutY="230.0" mnemonicParsing="false" />
+      <Button fx:id="Add_btn" alignment="CENTER" layoutX="177.0" layoutY="548.0" mnemonicParsing="false" onAction="#Add_method" prefHeight="44.0" prefWidth="136.0" style="-fx-background-color: #FFFFF4; -fx-background-radius: 30px; -fx-border-color: #000; -fx-border-radius: 30px; -fx-border-width: 2px;" text="Додати">
+         <font>
+            <Font name="Noteworthy Light" size="15.0" />
+         </font>
+      </Button>
+      <TextField fx:id="Price_homestead" alignment="CENTER" layoutX="280.0" layoutY="463.0" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #FFFFF4; -fx-border-color: #000; -fx-border-radius: 30px; -fx-border-width: 2px;">
+         <font>
+            <Font name="Noteworthy Light" size="12.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="Name_homestead" alignment="CENTER" layoutX="280.0" layoutY="60.0" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #FFFFF4; -fx-border-color: #000; -fx-border-radius: 30px; -fx-border-width: 2px; ">
+         <font>
+            <Font name="Noteworthy Light" size="12.0" />
+         </font>
+      </TextField>
+      <ChoiceBox fx:id="Number_of_rooms" layoutX="330.0" layoutY="140.0" maxHeight="35.0" maxWidth="50.0" minHeight="35.0" minWidth="50.0" prefHeight="50.0" prefWidth="22.5" style="-fx-background-color: #FFFFF4; -fx-border-color: #000; -fx-border-radius: 30px; -fx-border-width: 2px;  -fx-font-family: Noteworthy; -fx-text-fill: black;" />
+   </children>
+</AnchorPane>

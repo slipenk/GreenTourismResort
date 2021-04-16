@@ -1,0 +1,93 @@
+.check-box .box {
+
+-fx-background-color: #FFFFF4;
+-fx-border-color: black;
+-fx-border-radius: 3px; 
+
+}
+
+.check-box:selected .mark {
+
+-fx-background-color: black;
+
+}
+
+.check-box:selected .box {
+
+-fx-background-color: #FFFFF4;
+}
+
+.button:hover{
+
+    -fx-background-color: #FFFFCC !important;
+}
+
+.button:pressed{
+    -fx-background-color: #FFFFCC !important;
+}
+
+.table-view{
+   -fx-background-color: #FFFFF4;
+}
+
+.table-view:focused{
+    -fx-background-color: #FFFFF4;
+}
+
+
+
+.table-view .column-header-background{
+    -fx-background-color: #FFFFA5
+}
+
+.table-view .column-header-background .label{
+    -fx-background-color: #FFFFA5;
+    -fx-text-fill: black;
+    -fx-font-family: Noteworthy;
+}
+
+.table-view .column-header {
+    -fx-background-color: #FFFFA5;
+}
+
+.table-view .table-cell{
+    -fx-text-fill: black;
+    -fx-font-family: Noteworthy;
+    -fx-alignment: center;
+}
+
+.table-row-cell{
+    -fx-background-color: -fx-table-cell-border-color, #FFFFF4;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em; 
+}
+
+.table-row-cell:odd{
+    -fx-background-color: -fx-table-cell-border-color, #FFFFCC;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em; 
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #FFFFCC;
+    -fx-background-insets: 0;
+    -fx-background-radius: 1;
+}
+
+.table-view > .virtual-flow > .scroll-bar:vertical,
+.table-view > .virtual-flow > .scroll-bar:vertical > .track,
+.table-view > .virtual-flow > .scroll-bar:vertical > .track-background, 
+.table-view > .virtual-flow > .scroll-bar:horizontal,
+.table-view > .virtual-flow > .scroll-bar:horizontal > .track,
+.table-view > .virtual-flow > .scroll-bar:horizontal > .track-background {
+    -fx-background-color: #FFFFCC;
+}
+
+
+
+.table-view > .virtual-flow > .scroll-bar > .increment-button, 
+.table-view > .virtual-flow > .scroll-bar > .decrement-button {
+    -fx-opacity: 0;
+}
+
+

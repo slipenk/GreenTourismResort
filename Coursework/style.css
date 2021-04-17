@@ -43,31 +43,29 @@
 .table-view .column-header-background .label{
     -fx-background-color: #FFFFA5;
     -fx-text-fill: black;
-
     -fx-font-family: Noteworthy;
 }
 
 .table-view .column-header {
     -fx-background-color: #FFFFA5;
-
 }
 
 .table-view .table-cell{
     -fx-text-fill: black;
-
+    -fx-font-family: Noteworthy;
+    -fx-alignment: center;
 }
 
 .table-row-cell{
-    -fx-background-color: -fx-table-cell-border-color, black;
-    -fx-font-family: Noteworthy;
+    -fx-background-color: -fx-table-cell-border-color, #FFFFF4;
     -fx-background-insets: 0, 0 0 1 0;
-    -fx-padding: 0.0em;
+    -fx-padding: 0.0em; 
 }
 
 .table-row-cell:odd{
-    -fx-background-color: -fx-table-cell-border-color, #424242;
+    -fx-background-color: -fx-table-cell-border-color, #FFFFCC;
     -fx-background-insets: 0, 0 0 1 0;
-    -fx-padding: 0.0em; /* 0 */  
+    -fx-padding: 0.0em; 
 }
 
 .table-row-cell:selected {
@@ -90,4 +88,62 @@
 .table-view > .virtual-flow > .scroll-bar > .increment-button, 
 .table-view > .virtual-flow > .scroll-bar > .decrement-button {
     -fx-opacity: 0;
-}*
+}
+
+.button {
+    -fx-background-color: #FFFFF4;
+    -fx-background-radius: 30px;
+    -fx-border-color: #000;
+    -fx-border-radius: 30px;
+    -fx-border-width: 2px;
+}
+
+.root {
+    -fx-background-color: #FFFFF4;
+}
+
+.text-field {
+    -fx-background-color: #FFFFF4;
+    -fx-border-color: #000;
+    -fx-border-radius: 30px;
+    -fx-border-width: 2px;
+}
+
+.choice-box {
+    -fx-background-color: #FFFFF4;
+    -fx-border-color: #000;
+    -fx-border-radius: 30px;
+    -fx-border-width: 2px;
+    -fx-font-family: Noteworthy; -fx-text-fill: black;
+}
+
+.dialog-pane{
+    -fx-border-color:black;
+    -fx-border-width:2px;
+}
+
+.dialog-pane > .button-bar > .container {
+    -fx-background-color:#FFFFA5;
+}
+
+.dialog-pane > .content.label {
+    -fx-padding: 0.5em 0.5em 0.5em 0.5em;
+    -fx-background-color: #FFFFF4;
+    -fx-text-fill:black;
+    -fx-font-size:15px;
+    -fx-font-family: Noteworthy;
+}
+
+
+.dialog-pane .button{
+    -fx-background-color: #FFFFF4;
+    -fx-background-radius: 30px;
+    -fx-border-color: #000;
+    -fx-border-radius: 30px;
+    -fx-border-width: 2px;
+}
+
+.dialog-pane .button:hover{
+    -fx-background-color: #FFFFCC !important;
+}
+

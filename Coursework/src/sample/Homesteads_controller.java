@@ -5,11 +5,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -123,18 +122,69 @@ public class Homesteads_controller {
     public void Add_method(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Add_homesteads.fxml"));
         Parent parent = fxmlLoader.load();
-        AddHomesteads addHomesteads_controller = fxmlLoader.getController();
-        addHomesteads_controller.setWindow(this);
-        Scene scene = new Scene(parent, 490, 600);
+        AddHomesteads AddHomesteads_controller = fxmlLoader.getController();
+        AddHomesteads_controller.setController(this);
+        Get_Dialog(parent);
+    }
+
+    public void Update_method(ActionEvent actionEvent) throws IOException {
+        Homesteads homestead = table_homesteads.getSelectionModel().getSelectedItem();
+
+        if(homestead != null) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Update_homesteads.fxml"));
+            Parent parent = fxmlLoader.load();
+            UpdateHomesteads UpdateHomesteads_controller = fxmlLoader.getController();
+            UpdateHomesteads_controller.setController(this);
+            UpdateHomesteads_controller.setHomestead(homestead);
+            UpdateHomesteads_controller.setValues();
+            Get_Dialog(parent);
+        }
+    }
+
+    public void Get_Dialog(Parent parent) throws IOException {
+        Scene scene = new Scene(parent, 490, 628);
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
         stage.showAndWait();
     }
 
-    public void Update_method(ActionEvent actionEvent) {
-    }
 
     public void Delete_method(ActionEvent actionEvent) {
+        Homesteads homestead = table_homesteads.getSelectionModel().getSelectedItem();
+        if(homestead != null) {
+        String query = "DELETE FROM Homesteads WHERE ID_Homestead = " + homestead.getID_homestead();
+        Cancel_Dialog(query); }
+
+    }
+
+    public void executeQuery(String query) {
+        Connection conn = this.GetConnection();
+        Statement st;
+        try {
+            assert conn != null;
+            st = conn.createStatement();
+            st.executeUpdate(query);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        ShowHomesteads();
+    }
+
+    public void closeWindow(ActionEvent actionEvent) {
+        Node source = (Node)  actionEvent.getSource();
+        Stage stage  = (Stage) source.getScene().getWindow();
+        stage.close();
+    }
+
+    void Cancel_Dialog(String query)
+    {
+        ButtonType OK = new ButtonType("Видалити", ButtonBar.ButtonData.OK_DONE);
+        ButtonType CANCEL = new ButtonType("Скасувати", ButtonBar.ButtonData.CANCEL_CLOSE);
+        Alert alert = new Alert(Alert.AlertType.NONE, "Ви впевнені, що хочете видалити?", OK, CANCEL);
+        alert.showAndWait();
+        if (alert.getResult() == OK) {
+            executeQuery(query);
+        }
     }
 }

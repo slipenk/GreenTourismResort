@@ -9,12 +9,12 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="650.0" maxWidth="1000.0" minHeight="650.0" minWidth="1000.0" prefHeight="650.0" prefWidth="1000.0" style="-fx-background-color: #FFFFF4;" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Homesteads_controller">
+<AnchorPane maxHeight="650.0" maxWidth="1000.0" minHeight="650.0" minWidth="1000.0" prefHeight="650.0" prefWidth="1000.0"  stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Homesteads_controller">
    <children>
       <HBox alignment="BOTTOM_CENTER" layoutX="292.0" layoutY="536.0" prefHeight="100.0" prefWidth="446.0">
          <children>
             
-             <Button fx:id="Add_btn" mnemonicParsing="false" onAction="#Add_method" prefHeight="44.0" prefWidth="200.0" style="-fx-background-color: #FFFFF4; -fx-background-radius: 30px; -fx-border-color: #000; -fx-border-radius: 30px; -fx-border-width: 2px;" text="Додати">
+             <Button fx:id="Add_btn" mnemonicParsing="false" onAction="#Add_method" prefHeight="44.0" prefWidth="200.0"  text="Додати">
                  <font>
                      <Font name="Noteworthy Light" size="15.0" />
                  </font>
@@ -22,7 +22,7 @@
                   <Insets right="20.0" />
                </HBox.margin>
              </Button>
-            <Button fx:id="Update_btn" mnemonicParsing="false" onAction="#Update_method" prefHeight="44.0" prefWidth="200.0" style="-fx-background-color: #FFFFF4; -fx-background-radius: 30px; -fx-border-color: #000; -fx-border-radius: 30px; -fx-border-width: 2px;" text="Оновити">
+            <Button fx:id="Update_btn" mnemonicParsing="false" onAction="#Update_method" prefHeight="44.0" prefWidth="200.0"  text="Оновити">
                <font>
                   <Font name="Noteworthy Light" size="15.0" />
                </font>
@@ -30,7 +30,7 @@
                   <Insets right="20.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="Delete_btn" mnemonicParsing="false" onAction="#Delete_method" prefHeight="44.0" prefWidth="200.0" style="-fx-background-color: #FFFFF4; -fx-background-radius: 30px; -fx-border-color: #000; -fx-border-radius: 30px; -fx-border-width: 2px;" text="Видалити">
+            <Button fx:id="Delete_btn" mnemonicParsing="false" onAction="#Delete_method" prefHeight="44.0" prefWidth="200.0"  text="Видалити">
                <font>
                   <Font name="Noteworthy Light" size="15.0" />
                </font>

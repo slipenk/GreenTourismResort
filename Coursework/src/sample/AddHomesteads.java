@@ -45,9 +45,10 @@ public class AddHomesteads {
 
     private Homesteads_controller hc;
 
-    public void setWindow(Homesteads_controller hc) {
+    public void setController(Homesteads_controller hc) {
         this.hc = hc;
     }
+
 
     public void initialize() {
         Number_of_floors.setItems(FXCollections.observableArrayList(
@@ -88,28 +89,8 @@ public class AddHomesteads {
                 0 + ", " +
                 Float.parseFloat(Price_homestead.getText()) + ", " +
                 0 + ") ";
-        executeQuery(query);
-        hc.ShowHomesteads();
-        closeWindow(actionEvent);
-
+        hc.executeQuery(query);
+        hc.closeWindow(actionEvent);
     }
 
-    private void executeQuery(String query) {
-        Connection conn = hc.GetConnection();
-        Statement st;
-        try {
-            assert conn != null;
-            st = conn.createStatement();
-            st.executeUpdate(query);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-
-    private void closeWindow(ActionEvent actionEvent) {
-        Node source = (Node)  actionEvent.getSource();
-        Stage stage  = (Stage) source.getScene().getWindow();
-        stage.close();
-    }
 }

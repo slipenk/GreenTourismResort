@@ -1,4 +1,4 @@
-package sample;
+package sample.homesteads;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import sample.db_classes.Connection_db;
 import sample.db_classes.Homesteads;
 
 import java.io.IOException;
@@ -48,7 +49,7 @@ public class Homesteads_controller {
     @FXML
     private TableColumn<Homesteads, Boolean> Hair_col;
     @FXML
-    private TableColumn<Homesteads, Byte> Rate_col;
+    private TableColumn<Homesteads, Integer> Rate_col;
     @FXML
     private TableColumn<Homesteads, Float> Price_col;
     @FXML
@@ -59,23 +60,10 @@ public class Homesteads_controller {
         ShowHomesteads();
     }
 
-    public Connection GetConnection() {
-        String connectionUrl =
-                "jdbc:sqlserver://localhost:1433;database=Green_resort_Coursework;sendStringParametersAsUnicode=true";
-        String name = "sa";
-        String password = "Mysql1892";
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            return DriverManager.getConnection(connectionUrl, name, password);
-        }
-        catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+
     private ObservableList<Homesteads> getHomesteads() {
         ObservableList<Homesteads> HomesteadsList = FXCollections.observableArrayList();
-        Connection conn = GetConnection();
+        Connection conn = Connection_db.GetConnection();
         String query = "SELECT * FROM Homesteads";
         Statement st;
         ResultSet rs;
@@ -89,7 +77,7 @@ public class Homesteads_controller {
                    homesteads = new Homesteads(rs.getInt("ID_Homestead"), rs.getString("Name_homestead"),
                            rs.getByte("Number_of_beds_homestead"), rs.getByte("Number_of_rooms_homestead"), rs.getByte("Number_of_floors_homestead"), rs.getBoolean("Is_Air_Conditioning"),
                            rs.getBoolean("Is_Safe"), rs.getBoolean("Is_Wi_Fi"), rs.getBoolean("Is_Refrigerator"), rs.getBoolean("Is_Clothes_Iron"),
-                           rs.getBoolean("Is_Hair_Dryer"), rs.getByte("Rate_homestead"), rs.getFloat("Price_homestead"), rs.getBoolean("Is_Active"));
+                           rs.getBoolean("Is_Hair_Dryer"), rs.getInt("Rate_homestead"), rs.getFloat("Price_homestead"), rs.getBoolean("Is_Active"));
                    HomesteadsList.add(homesteads);
                }
            }
@@ -124,7 +112,7 @@ public class Homesteads_controller {
         Parent parent = fxmlLoader.load();
         AddHomesteads AddHomesteads_controller = fxmlLoader.getController();
         AddHomesteads_controller.setController(this);
-        Get_Dialog(parent);
+        Connection_db.Get_Dialog(parent);
     }
 
     public void Update_method(ActionEvent actionEvent) throws IOException {
@@ -137,17 +125,11 @@ public class Homesteads_controller {
             UpdateHomesteads_controller.setController(this);
             UpdateHomesteads_controller.setHomestead(homestead);
             UpdateHomesteads_controller.setValues();
-            Get_Dialog(parent);
+            Connection_db.Get_Dialog(parent);
         }
     }
 
-    public void Get_Dialog(Parent parent) throws IOException {
-        Scene scene = new Scene(parent, 490, 628);
-        Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setScene(scene);
-        stage.showAndWait();
-    }
+
 
 
     public void Delete_method(ActionEvent actionEvent) {
@@ -158,33 +140,16 @@ public class Homesteads_controller {
 
     }
 
-    public void executeQuery(String query) {
-        Connection conn = this.GetConnection();
-        Statement st;
-        try {
-            assert conn != null;
-            st = conn.createStatement();
-            st.executeUpdate(query);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        ShowHomesteads();
-    }
 
-    public void closeWindow(ActionEvent actionEvent) {
-        Node source = (Node)  actionEvent.getSource();
-        Stage stage  = (Stage) source.getScene().getWindow();
-        stage.close();
-    }
-
-    void Cancel_Dialog(String query)
+    private void Cancel_Dialog(String query)
     {
         ButtonType OK = new ButtonType("Видалити", ButtonBar.ButtonData.OK_DONE);
         ButtonType CANCEL = new ButtonType("Скасувати", ButtonBar.ButtonData.CANCEL_CLOSE);
         Alert alert = new Alert(Alert.AlertType.NONE, "Ви впевнені, що хочете видалити?", OK, CANCEL);
         alert.showAndWait();
         if (alert.getResult() == OK) {
-            executeQuery(query);
+            Connection_db.executeQuery(query);
+            ShowHomesteads();
         }
     }
 }

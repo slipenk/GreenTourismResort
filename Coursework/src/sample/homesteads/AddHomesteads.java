@@ -1,21 +1,16 @@
-package sample;
+package sample.homesteads;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
-import sample.db_classes.Homesteads;
-
-import java.sql.Connection;
-import java.sql.Statement;
+import sample.db_classes.Connection_db;
+import sample.homesteads.Homesteads_controller;
 
 public class AddHomesteads {
     @FXML
@@ -89,8 +84,9 @@ public class AddHomesteads {
                 0 + ", " +
                 Float.parseFloat(Price_homestead.getText()) + ", " +
                 0 + ") ";
-        hc.executeQuery(query);
-        hc.closeWindow(actionEvent);
+        Connection_db.executeQuery(query);
+        hc.ShowHomesteads();
+        Connection_db.closeWindow(actionEvent);
     }
 
 }

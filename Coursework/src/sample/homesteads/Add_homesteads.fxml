@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="628.0" prefWidth="490.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.AddHomesteads">
+<AnchorPane prefHeight="628.0" prefWidth="490.0" stylesheets="@../../../style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.homesteads.AddHomesteads">
    <children>
       <VBox alignment="CENTER" layoutX="57.0" layoutY="62.0" prefHeight="463.0" prefWidth="136.0" spacing="16.0">
          <children>

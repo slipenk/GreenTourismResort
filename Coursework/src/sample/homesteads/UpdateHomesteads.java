@@ -1,4 +1,4 @@
-package sample;
+package sample.homesteads;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -9,7 +9,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import sample.db_classes.Connection_db;
 import sample.db_classes.Homesteads;
+import sample.homesteads.Homesteads_controller;
+
+import java.util.ArrayList;
 
 public class UpdateHomesteads {
     @FXML
@@ -39,7 +43,7 @@ public class UpdateHomesteads {
     @FXML
     private CheckBox is_available;
     @FXML
-    private ChoiceBox<Byte> rate_box;
+    private ChoiceBox<Integer> rate_box;
 
     private Homesteads_controller hc;
     private Homesteads homestead;
@@ -62,8 +66,8 @@ public class UpdateHomesteads {
                 (byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6, (byte)7, (byte)8));
         Number_of_rooms.setValue((byte)1);
         rate_box.setItems(FXCollections.observableArrayList(
-                (byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6, (byte)7, (byte)8, (byte)9,(byte)10));
-        rate_box.setValue((byte)1);
+                1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+        rate_box.setValue(1);
 
 
         Price_homestead.textProperty().addListener(new ChangeListener<String>() {
@@ -82,7 +86,6 @@ public class UpdateHomesteads {
         Number_of_floors.setValue(homestead.getNumber_of_floors_homestead());
         Number_of_beds.setValue(homestead.getNumber_of_beds_homestead());
         Number_of_rooms.setValue(homestead.getNumber_of_rooms_homestead());
-        rate_box.setValue(homestead.getRate_homestead());
         is_available.setSelected(homestead.isIs_Active());
         Price_homestead.setText(String.valueOf(homestead.getPrice_homestead()));
         Name_homestead.setText(homestead.getName_homestead());
@@ -92,18 +95,21 @@ public class UpdateHomesteads {
         Is_ref.setSelected(homestead.isIs_Refrigerator());
         Is_Iron.setSelected(homestead.isIs_Clothes_Iron());
         Is_Hair.setSelected(homestead.isIs_Hair_Dryer());
+
     }
 
     public void Update_method(ActionEvent actionEvent) {
+
         String query = "UPDATE Homesteads SET Name_homestead = N'" + Name_homestead.getText()  + "', Number_of_beds_homestead = " +
                 Number_of_beds.getValue() + ", Number_of_rooms_homestead = " + Number_of_rooms.getValue() + ", Number_of_floors_homestead = " +
                 Number_of_floors.getValue() + ", Is_Air_Conditioning = " + (Is_air_conditioning.isSelected() ? 1 : 0) + ", Is_Safe = " +
                 (Is_safe.isSelected() ? 1 : 0) + ", Is_Wi_Fi = " + (Is_Wi_Fi.isSelected() ? 1 : 0) + ", Is_Refrigerator = " +
                 (Is_ref.isSelected() ? 1 : 0) + ", Is_Clothes_Iron = " + (Is_Iron.isSelected() ? 1 : 0) + ", Is_Hair_Dryer = " +
-                (Is_Hair.isSelected() ? 1 : 0) + ", Rate_homestead = " + rate_box.getValue() + ", Price_homestead = " +
+                (Is_Hair.isSelected() ? 1 : 0) + ", Rate_homestead = " + (rate_box.getValue() + homestead.getRate_homestead()) + ", Price_homestead = " +
                 Float.parseFloat(Price_homestead.getText()) + ", Is_active = " + (is_available.isSelected() ? 1 : 0) + " WHERE ID_Homestead = " +
                 homestead.getID_homestead();
-        hc.executeQuery(query);
-        hc.closeWindow(actionEvent);
+        Connection_db.executeQuery(query);
+        hc.ShowHomesteads();
+        Connection_db.closeWindow(actionEvent);
     }
 }

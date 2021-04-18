@@ -147,3 +147,98 @@
     -fx-background-color: #FFFFCC !important;
 }
 
+.date-picker {
+    -fx-background-color: #FFFFF4 ;
+    -fx-border-color: #FFFFF4;
+    -fx-font-family: Noteworthy;
+
+}
+.date-picker > .text-field  {
+    -fx-alignment: center;
+}
+
+.date-picker > .arrow-button {
+    -fx-background-color: #FFFFF4;
+    -fx-border-color: black;
+    -fx-border-radius: 30px;
+    -fx-border-width: 2px;
+}
+
+
+.date-picker-popup > .month-year-pane {
+    -fx-background-color: #FFFFF4;
+    -fx-font-family: Noteworthy;
+}
+
+.date-picker-popup > .calendar-grid {
+    -fx-background-color: #FFFFF4;
+    -fx-font-family: Noteworthy;
+    -fx-padding: 0;
+}
+
+.date-picker-popup > * > .date-cell {
+    -fx-background-color: #FFFFF4;
+    -fx-background-insets: 1, 2;
+    -fx-padding: 0;
+    -fx-alignment: BASELINE_CENTER;
+    -fx-opacity: 1.0;
+}
+.date-picker-popup > * > .day-cell {
+    -fx-padding: 0.333333em 0.583333em 0.333333em 0.583333em; /* 4 7 4 7 */
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+    -fx-font-size: 1em;
+    -fx-background:#FFFFA5;
+    -fx-background-color: -fx-background;
+    -fx-text-fill: -fx-text-background-color;
+}
+
+
+.date-picker-popup > * > .today {
+    -fx-background-color: #ffff4d;
+    -fx-background-insets: 1, 2, 3;
+}
+.date-picker-popup > * > .day-cell:hover,
+.date-picker-popup > * > .selected,
+.date-picker-popup > * > .previous-month.selected,
+.date-picker-popup > * > .next-month.selected {
+    -fx-background: #FFFFCC;
+}
+.date-picker-popup > * > .previous-month:hover,
+.date-picker-popup > * > .next-month:hover {
+    -fx-background: #FFFFCC;
+}
+.date-picker-popup > * > .today:hover,
+.date-picker-popup > * > .today.selected {
+    -fx-background-color: #FFFFCC;
+}
+.date-picker-popup > * > .day-cell:focused,
+.date-picker-popup > * > .today:focused {
+    -fx-background-color: #FFFFCC;
+    -fx-background-insets: 1, 2, 3;
+}
+.date-picker-popup > * > .day-cell:focused:hover,
+.date-picker-popup > * > .today:focused:hover,
+.date-picker-popup > * > .selected:focused,
+.date-picker-popup > * > .today.selected:focused {
+    -fx-background-color: #FFFFCC;
+}
+.date-picker-popup > * > .previous-month,
+.date-picker-popup > * > .next-month {
+    -fx-background: #FFFFCC;
+}
+.date-picker-popup > * > .day-cell:hover > .secondary-text,
+.date-picker-popup > * > .previous-month > .secondary-text,
+.date-picker-popup > * > .next-month > .secondary-text,
+.date-picker-popup > * > .selected > .secondary-text {
+    -fx-fill: #FFFFCC;
+}
+.date-picker-popup > * > .previous-month.today,
+.date-picker-popup > * > .next-month.today {
+    -fx-background-color: #FFFFCC;
+}
+
+.date-picker-popup > * > .previous-month.today:hover,
+.date-picker-popup > * > .next-month.today:hover {
+    -fx-background-color: #FFFFCC;
+}

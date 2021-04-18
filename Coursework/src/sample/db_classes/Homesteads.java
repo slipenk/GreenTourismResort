@@ -12,12 +12,12 @@ public class Homesteads {
     private boolean Is_Refrigerator;
     private boolean Is_Clothes_Iron;
     private boolean Is_Hair_Dryer;
-    private byte Rate_homestead;
+    private int Rate_homestead;
     private float Price_homestead;
     private boolean Is_Active;
 
 
-    public Homesteads(int ID_homestead, String name_homestead, byte number_of_beds_homestead, byte number_of_rooms_homestead, byte number_of_floors_homestead, boolean is_Air_Conditioning, boolean is_Safe, boolean Is_Wi_Fi, boolean is_Refrigerator, boolean is_Clothes_Iron, boolean is_Hair_Dryer, byte rate_homestead, float price_homestead, boolean is_Active) {
+    public Homesteads(int ID_homestead, String name_homestead, byte number_of_beds_homestead, byte number_of_rooms_homestead, byte number_of_floors_homestead, boolean is_Air_Conditioning, boolean is_Safe, boolean Is_Wi_Fi, boolean is_Refrigerator, boolean is_Clothes_Iron, boolean is_Hair_Dryer, int rate_homestead, float price_homestead, boolean is_Active) {
         this.ID_homestead = ID_homestead;
         Name_homestead = name_homestead;
         Number_of_beds_homestead = number_of_beds_homestead;
@@ -122,11 +122,11 @@ public class Homesteads {
         Is_Hair_Dryer = is_Hair_Dryer;
     }
 
-    public byte getRate_homestead() {
+    public int getRate_homestead() {
         return Rate_homestead;
     }
 
-    public void setRate_homestead(byte rate_homestead) {
+    public void setRate_homestead(int rate_homestead) {
         Rate_homestead = rate_homestead;
     }
 

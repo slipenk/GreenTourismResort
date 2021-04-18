@@ -90,14 +90,16 @@ public class Clients_controller {
 
     public void Update_method(ActionEvent actionEvent) throws IOException {
         Clients clients = table_clients.getSelectionModel().getSelectedItem();
-
+        if(clients != null) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("add_update_clients.fxml"));
         Parent parent = fxmlLoader.load();
         Add_update_clients add_update_clients = fxmlLoader.getController();
         add_update_clients.setController(this);
         add_update_clients.setAdd_Update(false);
         add_update_clients.setClient(clients);
+        add_update_clients.setValues();
         Connection_db.Get_Dialog(parent);
+        }
     }
 
     public void Delete_method(ActionEvent actionEvent) {

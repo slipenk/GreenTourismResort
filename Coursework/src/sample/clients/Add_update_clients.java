@@ -61,15 +61,63 @@ public class Add_update_clients {
         Surname.setText(" ");
         Name.setText(" ");
         Middle_name.setText(" ");
-        Phone_number.setText(" ");
-        Date_birth.setValue(LocalDate.now());
-        Date_reg.setValue(LocalDate.now());
 
         Phone_number.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("[0-9]")) {
+                if (!newValue.matches("\\d*(\\d*)?")) {
                     Phone_number.setText(oldValue);
+                }
+            }
+        });
+        Phone_number.setText(" ");
+
+        Date_birth.setConverter(new StringConverter<LocalDate>() {
+            String pattern = "yyyy-MM-dd";
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
+
+            {
+                Date_birth.setPromptText(pattern.toLowerCase());
+            }
+
+            @Override public String toString(LocalDate date) {
+                if (date != null) {
+                    return dateFormatter.format(date);
+                } else {
+                    return "";
+                }
+            }
+
+            @Override public LocalDate fromString(String string) {
+                if (string != null && !string.isEmpty()) {
+                    return LocalDate.parse(string, dateFormatter);
+                } else {
+                    return null;
+                }
+            }
+        });
+
+        Date_reg.setConverter(new StringConverter<LocalDate>() {
+            String pattern = "yyyy-MM-dd";
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
+
+            {
+                Date_reg.setPromptText(pattern.toLowerCase());
+            }
+
+            @Override public String toString(LocalDate date) {
+                if (date != null) {
+                    return dateFormatter.format(date);
+                } else {
+                    return "";
+                }
+            }
+
+            @Override public LocalDate fromString(String string) {
+                if (string != null && !string.isEmpty()) {
+                    return LocalDate.parse(string, dateFormatter);
+                } else {
+                    return null;
                 }
             }
         });
@@ -84,6 +132,10 @@ public class Add_update_clients {
         Date_birth.setValue(client.getDate_birth_client().toLocalDate());
         Id_document.setText(client.getDocument_id_client());
         Date_reg.setValue(client.getRegistration_date_client().toLocalDate());
+        if(!Add_Update) {
+            Name_window.setText("Оновити клієнта");
+            Add_btn.setText("Оновити");
+        }
     }
 
 
@@ -95,7 +147,7 @@ public class Add_update_clients {
         try {
             format.parse(Date_birth.getValue().toString());
             format.parse(Date_reg.getValue().toString());
-        } catch (ParseException e) {
+        } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.NONE, "Правильний формат дати \"yyyy-MM-dd\" ", ButtonType.OK);
             alert.showAndWait();
             if (alert.getResult() == ButtonType.OK) {
@@ -109,17 +161,15 @@ public class Add_update_clients {
                     Surname.getText() + "', N'" +
                     Name.getText() + "', N'" +
                     Middle_name.getText() + "', N'" +
-                    Phone_number.getText() + "', " +
-                    Date.valueOf(Date_birth.getValue()) + ", N'" +
-                    Id_document.getText() + "', " +
-                    Date.valueOf(Date_reg.getValue());
+                    Phone_number.getText() + "', '" +
+                    Date.valueOf(Date_birth.getValue()) + "', N'" +
+                    Id_document.getText() + "', '" +
+                    Date.valueOf(Date_reg.getValue()) + "')";
         } else {
-            Name_window.setText("Оновити клієнта");
-            Add_btn.setText("Оновити");
-            query = "UPDATE Homesteads SET Surname_client = N'" + Surname.getText()  + "', Name_client = N'" +
+            query = "UPDATE Client SET Surname_client = N'" + Surname.getText()  + "', Name_client = N'" +
                     Name.getText() + "', Middle_name_client = N'" + Middle_name.getText() + "', Phone_number_client = N'" +
-                    Phone_number.getText() + "', Date_birth_client = " + Date.valueOf(Date_birth.getValue()) + ", Document_id_client = N'" +
-                    Id_document.getText() + "', Registration_date_client = " + Date.valueOf(Date_reg.getValue()) + " WHERE ID_client = " +
+                    Phone_number.getText() + "', Date_birth_client = '" + Date.valueOf(Date_birth.getValue()) + "', Document_id_client = N'" +
+                    Id_document.getText() + "', Registration_date_client = '" + Date.valueOf(Date_reg.getValue()) + "' WHERE ID_client = " +
                     client.getID_client();
         }
 

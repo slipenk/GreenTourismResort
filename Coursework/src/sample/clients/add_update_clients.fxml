@@ -44,8 +44,8 @@
             <Font name="Noteworthy Light" size="12.0" />
          </font>
       </TextField>
-      <DatePicker fx:id="Date_birth" layoutX="280.0" layoutY="360.0" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0" />
-      <DatePicker fx:id="Date_reg" layoutX="280.0" layoutY="500.0" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0" />
+      <DatePicker fx:id="Date_birth" layoutX="280.0" layoutY="360.0" maxHeight="30.0" maxWidth="150.0" minHeight="35.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0" />
+      <DatePicker fx:id="Date_reg" layoutX="280.0" layoutY="500.0" maxHeight="30.0" maxWidth="150.0" minHeight="35.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0" />
           <Label layoutX="81.0" layoutY="83.0" text="Прізвище:">
               <font>
                   <Font name="Noteworthy Light" size="15.0" />
@@ -76,7 +76,7 @@
                   <Font name="Noteworthy Light" size="15.0" />
               </font>
           </Label>
-          <Label layoutX="62.0" layoutY="503.0" text="Дата реєстрації:">
+          <Label layoutX="63.0" layoutY="503.0" text="Дата реєстрації:">
               <font>
                   <Font name="Noteworthy Light" size="15.0" />
               </font>

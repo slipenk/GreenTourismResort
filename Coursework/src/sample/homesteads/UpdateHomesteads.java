@@ -66,8 +66,8 @@ public class UpdateHomesteads {
                 (byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6, (byte)7, (byte)8));
         Number_of_rooms.setValue((byte)1);
         rate_box.setItems(FXCollections.observableArrayList(
-                1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
-        rate_box.setValue(1);
+                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+        rate_box.setValue(0);
 
 
         Price_homestead.textProperty().addListener(new ChangeListener<String>() {
@@ -79,7 +79,6 @@ public class UpdateHomesteads {
             }
         });
         Price_homestead.setText("0");
-        Name_homestead.setText(" ");
     }
 
     public void setValues() {

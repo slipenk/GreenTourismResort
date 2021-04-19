@@ -65,7 +65,6 @@ public class AddHomesteads {
             }
         });
         Price_homestead.setText("0");
-        Name_homestead.setText(" ");
 
     }
 

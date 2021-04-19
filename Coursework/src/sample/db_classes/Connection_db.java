@@ -40,7 +40,6 @@ public class Connection_db {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        //ShowHomesteads();
     }
 
     static public void Get_Dialog(Parent parent) throws IOException {

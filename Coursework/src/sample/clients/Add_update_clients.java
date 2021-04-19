@@ -56,12 +56,6 @@ public class Add_update_clients {
     }
 
     public void initialize() {
-
-        Id_document.setText(" ");
-        Surname.setText(" ");
-        Name.setText(" ");
-        Middle_name.setText(" ");
-
         Phone_number.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -70,7 +64,6 @@ public class Add_update_clients {
                 }
             }
         });
-        Phone_number.setText(" ");
 
         Date_birth.setConverter(new StringConverter<LocalDate>() {
             String pattern = "yyyy-MM-dd";
@@ -119,6 +112,21 @@ public class Add_update_clients {
                 } else {
                     return null;
                 }
+            }
+        });
+
+        Date_birth.setDayCellFactory(param -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                setDisable(empty || date.compareTo(LocalDate.now()) > 0 );
+            }
+        });
+        Date_reg.setDayCellFactory(param -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                setDisable(empty || date.compareTo(LocalDate.now()) > 0 );
             }
         });
 

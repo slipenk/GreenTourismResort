@@ -7,76 +7,76 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="628.0" prefWidth="490.0" stylesheets="@../../../style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.entertainments.Add_update_entertainments">
+<AnchorPane prefHeight="680.0" prefWidth="490.0" stylesheets="@../../../style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.entertainments.Add_update_entertainments">
     <children>
-        <Label fx:id="Name_window" alignment="CENTER" contentDisplay="CENTER" layoutX="181.0" layoutY="15.0" text="Додати розвагу" textAlignment="CENTER" AnchorPane.bottomAnchor="579.0">
+        <Label fx:id="Name_window" alignment="CENTER" contentDisplay="CENTER" layoutX="183.0" layoutY="37.0" text="Додати розвагу" textAlignment="CENTER" AnchorPane.bottomAnchor="609.0">
             <font>
                 <Font name="Noteworthy Light" size="20.0" />
             </font>
         </Label>
-        <Button fx:id="Add_btn" alignment="CENTER" layoutX="178.0" layoutY="562.0" mnemonicParsing="false" onAction="#Add_method" prefHeight="44.0" prefWidth="136.0" text="Додати">
+        <Button fx:id="Add_btn" alignment="CENTER" layoutX="175.0" layoutY="602.0" mnemonicParsing="false" onAction="#Add_method" prefHeight="44.0" prefWidth="136.0" text="Додати">
             <font>
                 <Font name="Noteworthy Light" size="15.0" />
             </font>
         </Button>
 
-        <TextField fx:id="Price" alignment="CENTER" layoutX="275.0" layoutY="424.0" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0">
+        <TextField fx:id="Price" alignment="CENTER" layoutX="282.0" layoutY="448.0" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0">
             <font>
                 <Font name="Noteworthy Light" size="12.0" />
             </font>
         </TextField>
-        <TextField fx:id="Name" alignment="CENTER" layoutX="275.0" layoutY="124.0" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0">
+        <TextField fx:id="Name" alignment="CENTER" layoutX="282.0" layoutY="148.0" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0">
             <font>
                 <Font name="Noteworthy Light" size="12.0" />
             </font>
         </TextField>
-        <TextField fx:id="Time_start" alignment="CENTER" layoutX="275.0" layoutY="244.0" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0">
+        <TextField fx:id="Time_start" alignment="CENTER" layoutX="282.0" layoutY="268.0" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0">
             <font>
                 <Font name="Noteworthy Light" size="12.0" />
             </font>
         </TextField>
-        <TextField fx:id="Time_end" alignment="CENTER" layoutX="275.0" layoutY="304.0" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0">
+        <TextField fx:id="Time_end" alignment="CENTER" layoutX="282.0" layoutY="328.0" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0">
             <font>
                 <Font name="Noteworthy Light" size="12.0" />
             </font>
         </TextField>
-        <Label layoutX="76.0" layoutY="127.0" text="Назва:">
+        <Label layoutX="83.0" layoutY="151.0" text="Назва:">
             <font>
                 <Font name="Noteworthy Light" size="15.0" />
             </font>
         </Label>
-        <Label layoutX="45.0" layoutY="187.0" text="Кількість людей:">
+        <Label layoutX="52.0" layoutY="211.0" text="Кількість людей:">
             <font>
                 <Font name="Noteworthy Light" size="15.0" />
             </font>
         </Label>
-        <Label layoutX="59.0" layoutY="247.0" text="Час початку:">
+        <Label layoutX="66.0" layoutY="271.0" text="Час початку:">
             <font>
                 <Font name="Noteworthy Light" size="15.0" />
             </font>
         </Label>
-        <Label layoutX="62.0" layoutY="304.0" prefHeight="30.0" prefWidth="63.0" text="Час кінця:&#10;">
+        <Label layoutX="69.0" layoutY="328.0" prefHeight="30.0" prefWidth="63.0" text="Час кінця:&#10;">
             <font>
                 <Font name="Noteworthy Light" size="15.0" />
             </font>
         </Label>
-        <Label layoutX="67.0" layoutY="367.0" text="Рейтинг:">
+        <Label layoutX="74.0" layoutY="391.0" text="Рейтинг:">
             <font>
                 <Font name="Noteworthy Light" size="15.0" />
             </font>
         </Label>
-        <Label layoutX="73.0" layoutY="422.0" prefHeight="34.0" prefWidth="42.0" text=" Ціна:&#10;">
+        <Label layoutX="80.0" layoutY="446.0" prefHeight="34.0" prefWidth="42.0" text=" Ціна:&#10;">
             <font>
                 <Font name="Noteworthy Light" size="15.0" />
             </font>
         </Label>
-        <ChoiceBox fx:id="rate_box" layoutX="325.0" layoutY="364.0" maxHeight="35.0" maxWidth="50.0" minHeight="35.0" minWidth="50.0" prefHeight="35.0" prefWidth="50.0" />
-      <Label layoutX="59.0" layoutY="487.0" text="Тривалість:">
+        <ChoiceBox fx:id="rate_box" layoutX="332.0" layoutY="388.0" maxHeight="35.0" maxWidth="50.0" minHeight="35.0" minWidth="50.0" prefHeight="35.0" prefWidth="50.0" />
+      <Label layoutX="66.0" layoutY="511.0" text="Тривалість:">
          <font>
             <Font name="Noteworthy Light" size="15.0" />
          </font>
       </Label>
-      <ChoiceBox fx:id="Count_people" layoutX="325.0" layoutY="182.0" maxHeight="35.0" maxWidth="50.0" minHeight="35.0" minWidth="50.0" prefHeight="35.0" prefWidth="50.0" />
-      <ChoiceBox fx:id="Duration" layoutX="323.0" layoutY="484.0" maxHeight="35.0" maxWidth="50.0" minHeight="35.0" minWidth="50.0" prefHeight="35.0" prefWidth="50.0" />
+      <ChoiceBox fx:id="Count_people" layoutX="332.0" layoutY="206.0" maxHeight="35.0" maxWidth="50.0" minHeight="35.0" minWidth="50.0" prefHeight="35.0" prefWidth="50.0" />
+      <ChoiceBox fx:id="Duration" layoutX="330.0" layoutY="508.0" maxHeight="35.0" maxWidth="50.0" minHeight="35.0" minWidth="50.0" prefHeight="35.0" prefWidth="50.0" />
     </children>
 </AnchorPane>

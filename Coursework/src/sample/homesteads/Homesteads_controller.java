@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import sample.db_classes.Categories;
 import sample.db_classes.Connection_db;
 import sample.db_classes.Homesteads;
 
@@ -56,12 +57,13 @@ public class Homesteads_controller {
     private TableColumn<Homesteads, Boolean> Active_col;
 
 
+
     public void initialize() {
         ShowHomesteads();
     }
 
 
-    private ObservableList<Homesteads> getHomesteads() {
+    public static ObservableList<Homesteads> getHomesteads() {
         ObservableList<Homesteads> HomesteadsList = FXCollections.observableArrayList();
         Connection conn = Connection_db.GetConnection();
         String query = "SELECT * FROM Homesteads";
@@ -107,11 +109,13 @@ public class Homesteads_controller {
 
     }
 
+
     public void Add_method(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Add_homesteads.fxml"));
         Parent parent = fxmlLoader.load();
         AddHomesteads AddHomesteads_controller = fxmlLoader.getController();
         AddHomesteads_controller.setController(this);
+        AddHomesteads_controller.setCategory();
         Connection_db.Get_Dialog(parent);
     }
 
@@ -125,12 +129,10 @@ public class Homesteads_controller {
             UpdateHomesteads_controller.setController(this);
             UpdateHomesteads_controller.setHomestead(homestead);
             UpdateHomesteads_controller.setValues();
+            UpdateHomesteads_controller.GetAllCategories_of_homestead();
             Connection_db.Get_Dialog(parent);
         }
     }
-
-
-
 
     public void Delete_method(ActionEvent actionEvent) {
         Homesteads homestead = table_homesteads.getSelectionModel().getSelectedItem();
@@ -141,5 +143,7 @@ public class Homesteads_controller {
         }
 
     }
+
+
 
 }

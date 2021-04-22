@@ -1,6 +1,8 @@
 package sample.db_classes;
 
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -12,10 +14,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class Connection_db {
     static public Connection GetConnection() {
@@ -46,7 +45,7 @@ public class Connection_db {
     }
 
     static public void Get_Dialog(Parent parent) throws IOException {
-        Scene scene = new Scene(parent, 490, 628);
+        Scene scene = new Scene(parent, 490, 680);
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
@@ -69,4 +68,28 @@ public class Connection_db {
             executeQuery(query);
         }
     }
+
+    public static ObservableList<Categories> getCategories(String query) {
+        ObservableList<Categories> CategoriesList = FXCollections.observableArrayList();
+        Connection conn = Connection_db.GetConnection();
+        Statement st;
+        ResultSet rs;
+
+        try {
+            if(conn != null) {
+                st = conn.createStatement();
+                rs = st.executeQuery(query);
+                Categories categories;
+                while (rs.next()) {
+                    categories = new Categories(rs.getInt("ID_category"), rs.getString("Name_category"));
+                    CategoriesList.add(categories);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return CategoriesList;
+    }
+
+
 }

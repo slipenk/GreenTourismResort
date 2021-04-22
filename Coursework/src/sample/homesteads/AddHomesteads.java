@@ -3,16 +3,23 @@ package sample.homesteads;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import sample.db_classes.Categories;
 import sample.db_classes.Connection_db;
+import sample.db_classes.Entertainments;
+import sample.db_classes.Homesteads;
 import sample.homesteads.Homesteads_controller;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
 public class AddHomesteads {
+    @FXML
+    private Tooltip Category_tooltip;
     @FXML
     private ChoiceBox<Byte> Number_of_floors;
     @FXML
@@ -37,6 +44,12 @@ public class AddHomesteads {
     private TextField Name_homestead;
     @FXML
     private ChoiceBox<Byte> Number_of_rooms;
+    @FXML
+    private ChoiceBox<String> category;
+
+
+    private Set<String> list_cat;
+    private ObservableList<Categories> CategoriesList;
 
     private Homesteads_controller hc;
 
@@ -65,7 +78,8 @@ public class AddHomesteads {
             }
         });
         Price_homestead.setText("0");
-
+        list_cat = new HashSet<>();
+        Category_tooltip.setText("Виберіть категорії:");
     }
 
     public void Add_method(ActionEvent actionEvent) {
@@ -86,6 +100,40 @@ public class AddHomesteads {
         Connection_db.executeQuery(query);
         hc.ShowHomesteads();
         Connection_db.closeWindow(actionEvent);
+
+
+
+
+        ObservableList<Homesteads> list = Homesteads_controller.getHomesteads();
+
+        for( Categories c : CategoriesList) {
+            for (String s : list_cat) {
+                if (s.equals(c.getName_category())) {
+                    String query_2 = "INSERT INTO Category_Homesteads VALUES ( " + list.get(list.size() - 1).getID_homestead() + ", " +
+                            c.getID_category() + ")";
+                    Connection_db.executeQuery(query_2);
+                }
+            }
+        }
+
     }
 
+    public void setCategory() {
+
+        CategoriesList = Connection_db.getCategories("SELECT * FROM Category_H");
+        ObservableList<String> category_List = FXCollections.observableArrayList();
+
+        for(Categories e : CategoriesList) {
+            category_List.add(e.getName_category());
+        }
+        category.setItems(category_List);
+        category.setValue(category_List.get(category_List.size()-1));
+    }
+
+    private  StringBuilder string = new StringBuilder(" ");
+    public void add_category(ActionEvent actionEvent) {
+        list_cat.add(category.getValue());
+        string.append(category.getValue()).append(" ");
+        Category_tooltip.setText(String.valueOf(string));
+    }
 }

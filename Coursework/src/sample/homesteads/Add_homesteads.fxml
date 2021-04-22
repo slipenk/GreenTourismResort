@@ -5,11 +5,12 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="628.0" prefWidth="490.0" stylesheets="@../../../style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.homesteads.AddHomesteads">
+<AnchorPane prefHeight="680.0" prefWidth="490.0" stylesheets="@../../../style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.homesteads.AddHomesteads">
    <children>
       <VBox alignment="CENTER" layoutX="57.0" layoutY="62.0" prefHeight="463.0" prefWidth="136.0" spacing="16.0">
          <children>
@@ -70,7 +71,7 @@
             </Label>
          </children>
       </VBox>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="182.0" layoutY="14.0" text="Додати садибу" textAlignment="CENTER" AnchorPane.bottomAnchor="580.0">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="182.0" layoutY="23.0" text="Додати садибу" textAlignment="CENTER" AnchorPane.bottomAnchor="623.0">
          <font>
             <Font name="Noteworthy Light" size="20.0" />
          </font>
@@ -83,7 +84,7 @@
       <CheckBox fx:id="Is_Wi_Fi" layoutX="348.0" layoutY="330.0" mnemonicParsing="false" />
       <CheckBox fx:id="Is_safe" layoutX="348.0" layoutY="290.0" mnemonicParsing="false" />
       <CheckBox fx:id="Is_air_conditioning" layoutX="348.0" layoutY="250.0" mnemonicParsing="false" />
-      <Button fx:id="Add_btn" alignment="CENTER" layoutX="177.0" layoutY="548.0" mnemonicParsing="false" onAction="#Add_method" prefHeight="44.0" prefWidth="136.0" text="Додати">
+      <Button fx:id="Add_btn" alignment="CENTER" layoutX="179.0" layoutY="602.0" mnemonicParsing="false" onAction="#Add_method" prefHeight="44.0" prefWidth="136.0" text="Додати">
          <font>
             <Font name="Noteworthy Light" size="15.0" />
          </font>
@@ -99,5 +100,15 @@
          </font>
       </TextField>
       <ChoiceBox fx:id="Number_of_rooms" layoutX="333.0" layoutY="160.0" maxHeight="35.0" maxWidth="50.0" minHeight="35.0" minWidth="50.0" prefHeight="50.0" prefWidth="22.5" />
+      <ChoiceBox fx:id="category" layoutX="283.0" layoutY="525.0" prefWidth="150.0">
+         <tooltip>
+            <Tooltip fx:id="Category_tooltip" text="Empty Tooltip" />
+         </tooltip></ChoiceBox>
+      <Button fx:id="add_category" layoutX="439.0" layoutY="528.0" mnemonicParsing="false" onAction="#add_category" text="+" />
+      <Label layoutX="94.0" layoutY="531.0" text="Категорія:">
+         <font>
+            <Font name="Noteworthy Light" size="15.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

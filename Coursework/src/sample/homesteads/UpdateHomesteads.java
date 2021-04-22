@@ -3,19 +3,25 @@ package sample.homesteads;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import sample.db_classes.Categories;
 import sample.db_classes.Connection_db;
 import sample.db_classes.Homesteads;
 import sample.homesteads.Homesteads_controller;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class UpdateHomesteads {
+    @FXML
+    private ChoiceBox<String> Category;
     @FXML
     private ChoiceBox<Byte> Number_of_floors;
     @FXML
@@ -44,9 +50,14 @@ public class UpdateHomesteads {
     private CheckBox is_available;
     @FXML
     private ChoiceBox<Integer> rate_box;
+    @FXML
+    private Tooltip Category_tooltip;
 
     private Homesteads_controller hc;
     private Homesteads homestead;
+    private ObservableList<Categories> category;
+    private ObservableList<Categories> categoryAll;
+    private Set<String> set;
 
     public void setController(Homesteads_controller hc) {
         this.hc = hc;
@@ -68,7 +79,7 @@ public class UpdateHomesteads {
         rate_box.setItems(FXCollections.observableArrayList(
                 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
         rate_box.setValue(0);
-
+        set = new HashSet<>();
 
         Price_homestead.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -79,6 +90,7 @@ public class UpdateHomesteads {
             }
         });
         Price_homestead.setText("0");
+        Category_tooltip.setText("Виберіть категорії:");
     }
 
     public void setValues() {
@@ -110,5 +122,50 @@ public class UpdateHomesteads {
         Connection_db.executeQuery(query);
         hc.ShowHomesteads();
         Connection_db.closeWindow(actionEvent);
+
+
+        ObservableList<Homesteads> list = Homesteads_controller.getHomesteads();
+
+        for( Categories c : categoryAll) {
+            for (String s : set) {
+                if (s.equals(c.getName_category())) {
+                    String query_3 = "DELETE FROM Category_Homesteads WHERE ID_Homestead =  " + homestead.getID_homestead();
+                    String query_2 = " INSERT INTO Category_Homesteads VALUES ( " + list.get(list.size() - 1).getID_homestead() + ", " +
+                            c.getID_category() + ")";
+
+                    Connection_db.executeQuery(query_3 + query_2);
+                }
+            }
+        }
+
+    }
+
+    public void GetAllCategories_of_homestead() {
+        String query = "SELECT ch1.ID_category, ch1.Name_category " +
+                "FROM Category_H ch1 " +
+                "JOIN Category_Homesteads ch ON ch.ID_category = ch1.ID_category " +
+                "JOIN Homesteads h ON ch.ID_homestead = h.ID_Homestead " +
+                "WHERE h.ID_Homestead = " + homestead.getID_homestead();
+        category = Connection_db.getCategories(query);
+        StringBuilder s = new StringBuilder("");
+        for(Categories c : category)  {
+            s.append(c.getName_category()).append(" ");
+        }
+        Category_tooltip.setText(String.valueOf(s));
+        categoryAll  = Connection_db.getCategories("SELECT * FROM Category_H");
+        ObservableList<String> category = FXCollections.observableArrayList();
+
+        for(Categories e : categoryAll) {
+            category.add(e.getName_category());
+        }
+        Category.setItems(category);
+        Category.setValue(category.get(category.size()-1));
+    }
+
+    private StringBuilder string = new StringBuilder(" ");
+    public void Add_category(ActionEvent actionEvent) {
+        set.add(Category.getValue());
+        string.append(Category.getValue()).append(" ");
+        Category_tooltip.setText(String.valueOf(string));
     }
 }

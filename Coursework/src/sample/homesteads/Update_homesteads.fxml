@@ -5,11 +5,12 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="628.0" prefWidth="490.0" stylesheets="@../../../style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.homesteads.UpdateHomesteads">
+<AnchorPane prefHeight="680.0" prefWidth="490.0" stylesheets="@../../../style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.homesteads.UpdateHomesteads">
     <children>
         <VBox alignment="CENTER" layoutX="54.0" layoutY="58.0" prefHeight="463.0" prefWidth="136.0" spacing="16.0">
             <children>
@@ -80,7 +81,7 @@
             </Label>
             </children>
         </VBox>
-        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="178.0" layoutY="8.0" text="Оновити садибу" textAlignment="CENTER" AnchorPane.bottomAnchor="586.0">
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="182.0" layoutY="6.0" text="Оновити садибу" textAlignment="CENTER" AnchorPane.bottomAnchor="640.0">
             <font>
                 <Font name="Noteworthy Light" size="20.0" />
             </font>
@@ -93,7 +94,7 @@
         <CheckBox fx:id="Is_Wi_Fi" layoutX="345.0" layoutY="304.0" mnemonicParsing="false" />
         <CheckBox fx:id="Is_safe" layoutX="345.0" layoutY="264.0" mnemonicParsing="false" />
         <CheckBox fx:id="Is_air_conditioning" layoutX="345.0" layoutY="224.0" mnemonicParsing="false" />
-        <Button fx:id="Update_btn" alignment="CENTER" layoutX="177.0" layoutY="570.0" mnemonicParsing="false" onAction="#Update_method" prefHeight="44.0" prefWidth="136.0" text="Оновити">
+        <Button fx:id="Update_btn" alignment="CENTER" layoutX="172.0" layoutY="629.0" mnemonicParsing="false" onAction="#Update_method" prefHeight="44.0" prefWidth="136.0" text="Оновити">
             <font>
                 <Font name="Noteworthy Light" size="15.0" />
             </font>
@@ -111,5 +112,16 @@
         <ChoiceBox fx:id="Number_of_rooms" layoutX="330.0" layoutY="140.0" maxHeight="35.0" maxWidth="50.0" minHeight="35.0" minWidth="50.0" prefHeight="35.0" prefWidth="50.0" />
       <ChoiceBox fx:id="rate_box" layoutX="330.0" layoutY="460.0" maxHeight="35.0" maxWidth="50.0" minHeight="35.0" minWidth="50.0" prefHeight="35.0" prefWidth="50.0" />
       <CheckBox fx:id="is_available" layoutX="345.0" layoutY="542.0" mnemonicParsing="false" />
+      <ChoiceBox fx:id="Category" layoutX="278.0" layoutY="571.0" prefWidth="150.0">
+         <tooltip>
+            <Tooltip fx:id="Category_tooltip" text="Empty Tooltip" />
+         </tooltip>
+      </ChoiceBox>
+      <Button fx:id="Category_btn" layoutX="437.0" layoutY="573.0" mnemonicParsing="false" onAction="#Add_category" text="+" />
+      <Label layoutX="92.0" layoutY="576.0" text="Категорія:">
+         <font>
+            <Font name="Noteworthy Light" size="15.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>

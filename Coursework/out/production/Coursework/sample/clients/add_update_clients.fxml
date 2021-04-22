@@ -7,14 +7,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="628.0" prefWidth="490.0" stylesheets="@../../../style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.clients.Add_update_clients">
+<AnchorPane prefHeight="680.0" prefWidth="490.0" stylesheets="@../../../style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.clients.Add_update_clients">
     <children>
-        <Label fx:id="Name_window" alignment="CENTER" contentDisplay="CENTER" layoutX="181.0" layoutY="15.0" text="Додати клієнта" textAlignment="CENTER" AnchorPane.bottomAnchor="579.0">
+        <Label fx:id="Name_window" alignment="CENTER" contentDisplay="CENTER" layoutX="181.0" layoutY="23.0" text="Додати клієнта" textAlignment="CENTER" AnchorPane.bottomAnchor="623.0">
             <font>
                 <Font name="Noteworthy Light" size="20.0" />
             </font>
         </Label>
-        <Button fx:id="Add_btn" alignment="CENTER" layoutX="178.0" layoutY="562.0" mnemonicParsing="false" onAction="#Add_method" prefHeight="44.0" prefWidth="136.0" text="Додати">
+        <Button fx:id="Add_btn" alignment="CENTER" layoutX="178.0" layoutY="604.0" mnemonicParsing="false" onAction="#Add_method" prefHeight="44.0" prefWidth="136.0" text="Додати">
             <font>
                 <Font name="Noteworthy Light" size="15.0" />
             </font>

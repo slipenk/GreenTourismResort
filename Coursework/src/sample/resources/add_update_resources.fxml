@@ -49,7 +49,7 @@
                 <Font name="Noteworthy Light" size="15.0" />
             </font>
         </Label>
-      <ChoiceBox fx:id="Entertainment" layoutX="278.0" layoutY="430.0" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="Entertainment" layoutX="278.0" layoutY="430.0" maxHeight="35.0" maxWidth="150.0" minHeight="35.0" minWidth="150.0" prefHeight="35.0" prefWidth="150.0" />
       <TextField fx:id="Count" alignment="CENTER" layoutX="280.0" layoutY="230.0" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0">
          <font>
             <Font name="Noteworthy Light" size="12.0" />

@@ -5,6 +5,9 @@ import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -54,5 +57,16 @@ public class Connection_db {
         Node source = (Node)  actionEvent.getSource();
         Stage stage  = (Stage) source.getScene().getWindow();
         stage.close();
+    }
+
+    static public void Cancel_Dialog(String query)
+    {
+        ButtonType OK = new ButtonType("Видалити", ButtonBar.ButtonData.OK_DONE);
+        ButtonType CANCEL = new ButtonType("Скасувати", ButtonBar.ButtonData.CANCEL_CLOSE);
+        Alert alert = new Alert(Alert.AlertType.NONE, "Ви впевнені, що хочете видалити?", OK, CANCEL);
+        alert.showAndWait();
+        if (alert.getResult() == OK) {
+            executeQuery(query);
+        }
     }
 }

@@ -107,6 +107,7 @@
     -fx-border-color: #000;
     -fx-border-radius: 30px;
     -fx-border-width: 2px;
+    -fx-text-alignment: center;
 }
 
 .choice-box {
@@ -241,4 +242,10 @@
 .date-picker-popup > * > .previous-month.today:hover,
 .date-picker-popup > * > .next-month.today:hover {
     -fx-background-color: #FFFFCC;
+}
+
+.combo-box>.text-field {
+    -fx-alignment: center;
+    -fx-text-alignment:center;
+    -fx-background-color: #FFFFF4;
 }

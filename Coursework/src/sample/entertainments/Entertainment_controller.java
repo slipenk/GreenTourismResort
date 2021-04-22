@@ -42,7 +42,8 @@ public class Entertainment_controller {
     }
     public void ShowEntertainments() {
 
-        ObservableList<Entertainments> list = getEntertainments();
+        String query = "SELECT * FROM Entertainment";
+        ObservableList<Entertainments> list = getEntertainments(query);
 
         Name_col.setCellValueFactory(new PropertyValueFactory<>("Name_entertainment"));
         Count_people_col.setCellValueFactory(new PropertyValueFactory<>("Max_People_entertainment"));
@@ -55,10 +56,9 @@ public class Entertainment_controller {
         table_entertainments.setItems(list);
     }
 
-    private ObservableList<Entertainments> getEntertainments() {
+    public static ObservableList<Entertainments> getEntertainments(String query) {
         ObservableList<Entertainments> EntertainmentsList = FXCollections.observableArrayList();
         Connection conn = Connection_db.GetConnection();
-        String query = "SELECT * FROM Entertainment";
         Statement st;
         ResultSet rs;
 
@@ -107,17 +107,9 @@ public class Entertainment_controller {
         Entertainments entertainments = table_entertainments.getSelectionModel().getSelectedItem();
         if(entertainments != null) {
             String query = "DELETE FROM Entertainment WHERE ID_Entertainment = " + entertainments.getID_Entertainment();
-            Cancel_Dialog(query); }
-    }
-    private void Cancel_Dialog(String query)
-    {
-        ButtonType OK = new ButtonType("Видалити", ButtonBar.ButtonData.OK_DONE);
-        ButtonType CANCEL = new ButtonType("Скасувати", ButtonBar.ButtonData.CANCEL_CLOSE);
-        Alert alert = new Alert(Alert.AlertType.NONE, "Ви впевнені, що хочете видалити?", OK, CANCEL);
-        alert.showAndWait();
-        if (alert.getResult() == OK) {
-            Connection_db.executeQuery(query);
+            Connection_db.Cancel_Dialog(query);
             ShowEntertainments();
         }
     }
+
 }

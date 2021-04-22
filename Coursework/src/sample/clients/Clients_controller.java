@@ -106,18 +106,10 @@ public class Clients_controller {
         Clients clients = table_clients.getSelectionModel().getSelectedItem();
         if(clients != null) {
             String query = "DELETE FROM Client WHERE ID_client = " + clients.getID_client();
-            Cancel_Dialog(query); }
-    }
-
-    private void Cancel_Dialog(String query)
-    {
-        ButtonType OK = new ButtonType("Видалити", ButtonBar.ButtonData.OK_DONE);
-        ButtonType CANCEL = new ButtonType("Скасувати", ButtonBar.ButtonData.CANCEL_CLOSE);
-        Alert alert = new Alert(Alert.AlertType.NONE, "Ви впевнені, що хочете видалити?", OK, CANCEL);
-        alert.showAndWait();
-        if (alert.getResult() == OK) {
-            Connection_db.executeQuery(query);
+            Connection_db.Cancel_Dialog(query);
             ShowClients();
         }
     }
+
+
 }

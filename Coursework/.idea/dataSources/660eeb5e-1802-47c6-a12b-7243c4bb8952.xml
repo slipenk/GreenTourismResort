@@ -217,7 +217,7 @@
     </schema>
     <schema id="42" parent="4" name="dbo">
       <ObjectId>1</ObjectId>
-      <IntrospectionTimestamp>2021-04-17.18:45:05.503</IntrospectionTimestamp>
+      <IntrospectionTimestamp>2021-04-22.16:37:18.123</IntrospectionTimestamp>
       <Current>1</Current>
     </schema>
     <schema id="43" parent="4" name="guest">
@@ -327,7 +327,7 @@
     <table id="63" parent="42" name="Client">
       <ObjectId>581577110</ObjectId>
       <CreatedTimestamp>2021-04-13.15:37:14.910</CreatedTimestamp>
-      <ModifiedTimestamp>2021-04-13.18:13:40.290</ModifiedTimestamp>
+      <ModifiedTimestamp>2021-04-19.18:51:20.890</ModifiedTimestamp>
     </table>
     <table id="64" parent="42" name="Clients_tours">
       <ObjectId>613577224</ObjectId>
@@ -337,12 +337,12 @@
     <table id="65" parent="42" name="Entertainment">
       <ObjectId>965578478</ObjectId>
       <CreatedTimestamp>2021-04-13.16:54:44.900</CreatedTimestamp>
-      <ModifiedTimestamp>2021-04-13.18:24:07.693</ModifiedTimestamp>
+      <ModifiedTimestamp>2021-04-19.21:28:36.307</ModifiedTimestamp>
     </table>
     <table id="66" parent="42" name="Homesteads">
       <ObjectId>741577680</ObjectId>
       <CreatedTimestamp>2021-04-13.16:29:21.923</CreatedTimestamp>
-      <ModifiedTimestamp>2021-04-17.01:17:16.540</ModifiedTimestamp>
+      <ModifiedTimestamp>2021-04-19.18:51:55.583</ModifiedTimestamp>
     </table>
     <table id="67" parent="42" name="Options">
       <ObjectId>773577794</ObjectId>
@@ -352,7 +352,7 @@
     <table id="68" parent="42" name="Resources">
       <ObjectId>997578592</ObjectId>
       <CreatedTimestamp>2021-04-13.17:12:35.450</CreatedTimestamp>
-      <ModifiedTimestamp>2021-04-13.18:19:38.717</ModifiedTimestamp>
+      <ModifiedTimestamp>2021-04-20.00:32:21.870</ModifiedTimestamp>
     </table>
     <table id="69" parent="42" name="Tour">
       <ObjectId>645577338</ObjectId>
@@ -536,44 +536,37 @@
     </foreign-key>
     <column id="97" parent="63" name="ID_client">
       <Position>1</Position>
-      <SequenceIdentity>0</SequenceIdentity>
+      <SequenceIdentity>0(4)</SequenceIdentity>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
     <column id="98" parent="63" name="Surname_client">
       <Position>2</Position>
       <DataType>nvarchar(40 char)|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
     <column id="99" parent="63" name="Name_client">
       <Position>3</Position>
       <DataType>nvarchar(40 char)|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
     <column id="100" parent="63" name="Middle_name_client">
       <Position>4</Position>
       <DataType>nvarchar(40 char)|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
     <column id="101" parent="63" name="Phone_number_client">
       <Position>5</Position>
       <DataType>nvarchar(20 char)|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
     <column id="102" parent="63" name="Date_birth_client">
       <Position>6</Position>
       <DataType>date|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
     <column id="103" parent="63" name="Document_id_client">
       <Position>7</Position>
       <DataType>nvarchar(20 char)|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
     <column id="104" parent="63" name="Registration_date_client">
       <Position>8</Position>
       <DataType>date|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
     <index id="105" parent="63" name="Client_PK">
       <Position>1</Position>
@@ -641,44 +634,37 @@
     </foreign-key>
     <column id="114" parent="65" name="ID_Entertainment">
       <Position>1</Position>
-      <SequenceIdentity>0</SequenceIdentity>
+      <SequenceIdentity>0(4)</SequenceIdentity>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
     <column id="115" parent="65" name="Name_entertainment">
       <Position>2</Position>
       <DataType>nvarchar(100 char)|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
     <column id="116" parent="65" name="Max_People_entertainment">
       <Position>3</Position>
       <DataType>tinyint|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
     <column id="117" parent="65" name="Time_start_entertainment">
       <Position>4</Position>
       <DataType>time|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
     <column id="118" parent="65" name="Time_end_entertainment">
       <Position>5</Position>
       <DataType>time|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
     <column id="119" parent="65" name="Rate_entertainment">
       <Position>6</Position>
-      <DataType>tinyint|0s</DataType>
-      <NotNull>1</NotNull>
+      <DataType>int|0s</DataType>
     </column>
     <column id="120" parent="65" name="Price_entertainment">
       <Position>7</Position>
       <DataType>real|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
-    <column id="121" parent="65" name="Description_entertainment">
-      <Position>8</Position>
-      <DataType>nvarchar(100 char)|0s</DataType>
-      <NotNull>1</NotNull>
+    <column id="121" parent="65" name="Duration">
+      <Position>9</Position>
+      <DataType>tinyint|0s</DataType>
     </column>
     <index id="122" parent="65" name="Entertainment_PK">
       <Position>1</Position>
@@ -696,74 +682,61 @@
     </key>
     <column id="124" parent="66" name="ID_Homestead">
       <Position>1</Position>
-      <SequenceIdentity>0(15)</SequenceIdentity>
+      <SequenceIdentity>0(18)</SequenceIdentity>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
     <column id="125" parent="66" name="Name_homestead">
       <Position>2</Position>
       <DataType>nvarchar(100 char)|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
     <column id="126" parent="66" name="Number_of_beds_homestead">
       <Position>3</Position>
       <DataType>tinyint|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
     <column id="127" parent="66" name="Number_of_rooms_homestead">
       <Position>4</Position>
       <DataType>tinyint|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
     <column id="128" parent="66" name="Number_of_floors_homestead">
       <Position>5</Position>
       <DataType>tinyint|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
     <column id="129" parent="66" name="Is_Air_Conditioning">
       <Position>6</Position>
       <DataType>bit|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
     <column id="130" parent="66" name="Is_Safe">
       <Position>7</Position>
       <DataType>bit|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
     <column id="131" parent="66" name="Is_Wi_Fi">
       <Position>8</Position>
       <DataType>bit|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
     <column id="132" parent="66" name="Is_Refrigerator">
       <Position>9</Position>
       <DataType>bit|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
     <column id="133" parent="66" name="Is_Clothes_Iron">
       <Position>10</Position>
       <DataType>bit|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
     <column id="134" parent="66" name="Is_Hair_Dryer">
       <Position>11</Position>
       <DataType>bit|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
     <column id="135" parent="66" name="Rate_homestead">
       <Position>12</Position>
-      <DataType>tinyint|0s</DataType>
-      <NotNull>1</NotNull>
+      <DataType>int|0s</DataType>
     </column>
     <column id="136" parent="66" name="Price_homestead">
       <Position>13</Position>
       <DataType>real|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
     <column id="137" parent="66" name="Is_active">
       <Position>15</Position>
       <DataType>bit|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
     <index id="138" parent="66" name="Homesteads_PK">
       <Position>1</Position>
@@ -811,29 +784,25 @@
     </key>
     <column id="145" parent="68" name="ID_Resources">
       <Position>1</Position>
-      <SequenceIdentity>0</SequenceIdentity>
+      <SequenceIdentity>0(1)</SequenceIdentity>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
     <column id="146" parent="68" name="Name_Resources">
       <Position>2</Position>
       <DataType>nvarchar(100 char)|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
     <column id="147" parent="68" name="Count_resources">
       <Position>3</Position>
       <DataType>smallint|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
     <column id="148" parent="68" name="Price_one">
       <Position>4</Position>
       <DataType>real|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
     <column id="149" parent="68" name="ID_entertainment">
       <Position>5</Position>
       <DataType>int|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
     <index id="150" parent="68" name="Resources_PK">
       <Position>1</Position>

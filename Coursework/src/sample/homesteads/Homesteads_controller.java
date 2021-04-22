@@ -136,20 +136,10 @@ public class Homesteads_controller {
         Homesteads homestead = table_homesteads.getSelectionModel().getSelectedItem();
         if(homestead != null) {
         String query = "DELETE FROM Homesteads WHERE ID_Homestead = " + homestead.getID_homestead();
-        Cancel_Dialog(query); }
-
-    }
-
-
-    private void Cancel_Dialog(String query)
-    {
-        ButtonType OK = new ButtonType("Видалити", ButtonBar.ButtonData.OK_DONE);
-        ButtonType CANCEL = new ButtonType("Скасувати", ButtonBar.ButtonData.CANCEL_CLOSE);
-        Alert alert = new Alert(Alert.AlertType.NONE, "Ви впевнені, що хочете видалити?", OK, CANCEL);
-        alert.showAndWait();
-        if (alert.getResult() == OK) {
-            Connection_db.executeQuery(query);
-            ShowHomesteads();
+        Connection_db.Cancel_Dialog(query);
+        ShowHomesteads();
         }
+
     }
+
 }

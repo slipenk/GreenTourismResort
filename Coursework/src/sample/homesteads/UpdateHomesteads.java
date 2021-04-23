@@ -126,14 +126,14 @@ public class UpdateHomesteads {
 
         ObservableList<Homesteads> list = Homesteads_controller.getHomesteads();
 
+        String query_3 = "DELETE FROM Category_Homesteads WHERE ID_Homestead =  " + homestead.getID_homestead();
+        Connection_db.executeQuery(query_3);
         for( Categories c : categoryAll) {
             for (String s : set) {
                 if (s.equals(c.getName_category())) {
-                    String query_3 = "DELETE FROM Category_Homesteads WHERE ID_Homestead =  " + homestead.getID_homestead();
                     String query_2 = " INSERT INTO Category_Homesteads VALUES ( " + list.get(list.size() - 1).getID_homestead() + ", " +
                             c.getID_category() + ")";
-
-                    Connection_db.executeQuery(query_3 + query_2);
+                    Connection_db.executeQuery(query_2);
                 }
             }
         }

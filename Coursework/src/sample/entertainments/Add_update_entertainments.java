@@ -3,20 +3,26 @@ package sample.entertainments;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import sample.clients.Clients_controller;
-import sample.db_classes.Clients;
-import sample.db_classes.Connection_db;
-import sample.db_classes.Entertainments;
+import sample.db_classes.*;
+import sample.homesteads.Homesteads_controller;
 
 import java.sql.Date;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.ResolverStyle;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Add_update_entertainments {
+    @FXML
+    private ChoiceBox<String> category;
+    @FXML
+    private Tooltip Category_tooltip;
     @FXML
     private ChoiceBox<Byte> Duration;
     @FXML
@@ -38,6 +44,9 @@ public class Add_update_entertainments {
     private TextField Time_end;
 
 
+    private Set<String> list_cat;
+    private ObservableList<Categories> CategoriesList;
+    private ObservableList<Categories> CategoriesList_Update;
 
     private Entertainment_controller ec;
     private boolean Add_Update;
@@ -77,6 +86,8 @@ public class Add_update_entertainments {
         rate_box.setValue((byte)0);
         Time_end.setPromptText("гг:хx:cc");
         Time_start.setPromptText("гг:хx:cc");
+        list_cat = new HashSet<>();
+        Category_tooltip.setText("Виберіть категорії:");
 
     }
 
@@ -129,5 +140,73 @@ public class Add_update_entertainments {
         Connection_db.executeQuery(query);
         ec.ShowEntertainments();
         Connection_db.closeWindow(actionEvent);
+
+        ObservableList<Entertainments> list = Entertainment_controller.getEntertainments("SELECT * FROM Entertainment");
+
+        if(Add_Update) {
+
+            for( Categories c : CategoriesList) {
+                for (String s : list_cat) {
+                    if (s.equals(c.getName_category())) {
+                        String query_2 = "INSERT INTO Category_Entertainment VALUES ( " + list.get(list.size() - 1).getID_Entertainment() + ", " +
+                                c.getID_category() + ")";
+                        Connection_db.executeQuery(query_2);
+                    }
+                }
+            }
+        } else {
+            String query_3 = "DELETE FROM Category_Entertainment WHERE ID_entertainment =  " + entertainment.getID_Entertainment();
+            Connection_db.executeQuery(query_3);
+            for( Categories c : CategoriesList) {
+                for (String s : list_cat) {
+                    if (s.equals(c.getName_category())) {
+                        String query_2 = " INSERT INTO Category_Entertainment VALUES ( " + list.get(list.size() - 1).getID_Entertainment() + ", " +
+                                c.getID_category() + ")";
+
+                        Connection_db.executeQuery(query_2);
+                    }
+                }
+            }
+        }
+    }
+
+    public void setCategory() {
+        CategoriesList = Connection_db.getCategories("SELECT * FROM Category_E");
+        ObservableList<String> category_List = FXCollections.observableArrayList();
+
+        for(Categories e : CategoriesList) {
+            category_List.add(e.getName_category());
+        }
+        category.setItems(category_List);
+        category.setValue(category_List.get(category_List.size()-1));
+    }
+
+    public void GetAllCategories_of_enter() {
+        String query = "SELECT ch1.ID_category, ch1.Name_category " +
+                "FROM Category_E ch1 " +
+                "JOIN Category_Entertainment ch ON ch.ID_category = ch1.ID_category " +
+                "JOIN Entertainment h ON ch.ID_entertainment = h.ID_Entertainment " +
+                "WHERE h.ID_Entertainment = " + entertainment.getID_Entertainment();
+        CategoriesList_Update = Connection_db.getCategories(query);
+        StringBuilder s = new StringBuilder("");
+        for(Categories c : CategoriesList_Update)  {
+            s.append(c.getName_category()).append(" ");
+        }
+        Category_tooltip.setText(String.valueOf(s));
+        CategoriesList  = Connection_db.getCategories("SELECT * FROM Category_E");
+        ObservableList<String> category_str = FXCollections.observableArrayList();
+
+        for(Categories e : CategoriesList) {
+            category_str.add(e.getName_category());
+        }
+        category.setItems(category_str);
+        category.setValue(category_str.get(category_str.size()-1));
+    }
+
+    private  StringBuilder string = new StringBuilder(" ");
+    public void add_category(ActionEvent actionEvent) {
+        list_cat.add(category.getValue());
+        string.append(category.getValue()).append(" ");
+        Category_tooltip.setText(String.valueOf(string));
     }
 }

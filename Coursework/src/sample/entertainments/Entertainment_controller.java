@@ -86,6 +86,7 @@ public class Entertainment_controller {
         Add_update_entertainments add_update_entertainments = fxmlLoader.getController();
         add_update_entertainments.setController(this);
         add_update_entertainments.setAdd_Update(true);
+        add_update_entertainments.setCategory();
         Connection_db.Get_Dialog(parent);
     }
 
@@ -99,6 +100,7 @@ public class Entertainment_controller {
             add_update_entertainments.setAdd_Update(false);
             add_update_entertainments.setEntertainment(entertainments);
             add_update_entertainments.setValues();
+            add_update_entertainments.GetAllCategories_of_enter();
             Connection_db.Get_Dialog(parent);
         }
     }

@@ -111,7 +111,7 @@ public class UpdateHomesteads {
 
     public void Update_method(ActionEvent actionEvent) {
 
-        String query = "UPDATE Homesteads SET Name_homestead = N'" + Name_homestead.getText()  + "', Number_of_beds_homestead = " +
+        String query = "UPDATE Homesteads SET Name_homestead = N'" + Name_homestead.getText().trim()  + "', Number_of_beds_homestead = " +
                 Number_of_beds.getValue() + ", Number_of_rooms_homestead = " + Number_of_rooms.getValue() + ", Number_of_floors_homestead = " +
                 Number_of_floors.getValue() + ", Is_Air_Conditioning = " + (Is_air_conditioning.isSelected() ? 1 : 0) + ", Is_Safe = " +
                 (Is_safe.isSelected() ? 1 : 0) + ", Is_Wi_Fi = " + (Is_Wi_Fi.isSelected() ? 1 : 0) + ", Is_Refrigerator = " +

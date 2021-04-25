@@ -116,7 +116,7 @@ public class Homesteads_controller {
         AddHomesteads AddHomesteads_controller = fxmlLoader.getController();
         AddHomesteads_controller.setController(this);
         AddHomesteads_controller.setCategory();
-        Connection_db.Get_Dialog(parent);
+        Connection_db.Get_Dialog(parent, 490, 680);
     }
 
     public void Update_method(ActionEvent actionEvent) throws IOException {
@@ -130,16 +130,17 @@ public class Homesteads_controller {
             UpdateHomesteads_controller.setHomestead(homestead);
             UpdateHomesteads_controller.setValues();
             UpdateHomesteads_controller.GetAllCategories_of_homestead();
-            Connection_db.Get_Dialog(parent);
+            Connection_db.Get_Dialog(parent, 490, 680);
         }
     }
 
     public void Delete_method(ActionEvent actionEvent) {
         Homesteads homestead = table_homesteads.getSelectionModel().getSelectedItem();
         if(homestead != null) {
-        String query = "DELETE FROM Homesteads WHERE ID_Homestead = " + homestead.getID_homestead();
-        Connection_db.Cancel_Dialog(query);
-        ShowHomesteads();
+            String query_2 = "DELETE FROM Category_Homesteads WHERE ID_homestead = " + homestead.getID_homestead();
+            String query = "DELETE FROM Homesteads WHERE ID_Homestead = " + homestead.getID_homestead();
+            Connection_db.Cancel_Dialog(query_2 + query);
+            ShowHomesteads();
         }
 
     }

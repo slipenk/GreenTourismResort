@@ -166,18 +166,18 @@ public class Add_update_clients {
         String query;
         if(Add_Update) {
             query = "INSERT INTO Client VALUES ( N'" +
-                    Surname.getText() + "', N'" +
-                    Name.getText() + "', N'" +
-                    Middle_name.getText() + "', N'" +
-                    Phone_number.getText() + "', '" +
+                    Surname.getText().trim() + "', N'" +
+                    Name.getText().trim() + "', N'" +
+                    Middle_name.getText().trim() + "', N'" +
+                    Phone_number.getText().trim() + "', '" +
                     Date.valueOf(Date_birth.getValue()) + "', N'" +
-                    Id_document.getText() + "', '" +
+                    Id_document.getText().trim() + "', '" +
                     Date.valueOf(Date_reg.getValue()) + "')";
         } else {
-            query = "UPDATE Client SET Surname_client = N'" + Surname.getText()  + "', Name_client = N'" +
-                    Name.getText() + "', Middle_name_client = N'" + Middle_name.getText() + "', Phone_number_client = N'" +
-                    Phone_number.getText() + "', Date_birth_client = '" + Date.valueOf(Date_birth.getValue()) + "', Document_id_client = N'" +
-                    Id_document.getText() + "', Registration_date_client = '" + Date.valueOf(Date_reg.getValue()) + "' WHERE ID_client = " +
+            query = "UPDATE Client SET Surname_client = N'" + Surname.getText().trim()  + "', Name_client = N'" +
+                    Name.getText().trim() + "', Middle_name_client = N'" + Middle_name.getText().trim() + "', Phone_number_client = N'" +
+                    Phone_number.getText().trim() + "', Date_birth_client = '" + Date.valueOf(Date_birth.getValue()) + "', Document_id_client = N'" +
+                    Id_document.getText().trim() + "', Registration_date_client = '" + Date.valueOf(Date_reg.getValue()) + "' WHERE ID_client = " +
                     client.getID_client();
         }
 

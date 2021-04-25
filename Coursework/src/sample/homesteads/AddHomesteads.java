@@ -84,7 +84,7 @@ public class AddHomesteads {
 
     public void Add_method(ActionEvent actionEvent) {
         String query = "INSERT INTO Homesteads VALUES ( N'" +
-                Name_homestead.getText() + "', " +
+                Name_homestead.getText().trim() + "', " +
                 Number_of_beds.getValue()  + ", " +
                 Number_of_rooms.getValue() + ", " +
                 Number_of_floors.getValue() + ", " +

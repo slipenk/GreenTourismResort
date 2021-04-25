@@ -121,18 +121,18 @@ public class Add_update_entertainments {
         String query;
         if(Add_Update) {
             query = "INSERT INTO Entertainment VALUES ( N'" +
-                    Name.getText() + "', " +
+                    Name.getText().trim() + "', " +
                     Count_people.getValue() + ", '" +
-                    Time_start.getText() + "', '" +
-                    Time_end.getText() + "', " +
+                    Time_start.getText().trim() + "', '" +
+                    Time_end.getText().trim() + "', " +
                     0 + ", " +
                     Float.parseFloat(Price.getText()) + ", " +
                     Duration.getValue() + ")";
         } else {
-             query = "UPDATE Entertainment SET Name_entertainment = N'" + Name.getText()  + "', Max_People_entertainment = " +
-                    Count_people.getValue() + ", Time_start_entertainment = '" + Time_start.getText() + "', Time_end_entertainment = '" +
-                     Time_end.getText() + "', Rate_entertainment = " + (rate_box.getValue() + entertainment.getRate_entertainment()) + ", Price_entertainment = " +
-                    Price.getText() + ", Duration = " +
+             query = "UPDATE Entertainment SET Name_entertainment = N'" + Name.getText().trim()  + "', Max_People_entertainment = " +
+                    Count_people.getValue() + ", Time_start_entertainment = '" + Time_start.getText().trim() + "', Time_end_entertainment = '" +
+                     Time_end.getText().trim() + "', Rate_entertainment = " + (rate_box.getValue() + entertainment.getRate_entertainment()) + ", Price_entertainment = " +
+                     Float.parseFloat(Price.getText()) + ", Duration = " +
                     Duration.getValue() + " WHERE ID_Entertainment = " +
                     entertainment.getID_Entertainment();
         }

@@ -2,23 +2,33 @@ package sample.clients;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import sample.db_classes.Entertainments;
+import sample.tours.Tours_controller;
 import sample.db_classes.Clients;
 import sample.db_classes.Connection_db;
-import sample.db_classes.Homesteads;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 public class Clients_controller {
+    @FXML
+    private ChoiceBox<String> Clients_tour;
+    @FXML
+    private TextField search_field;
     @FXML
     private TableView<Clients> table_clients;
     @FXML
@@ -36,7 +46,19 @@ public class Clients_controller {
     @FXML
     private TableColumn<Clients, Date> Registration_date_col;
 
+    private Tours_controller tours_controller;
+
+    private ObservableList<String> clients_list_str;
+
+
+    public void setTours(Tours_controller tours_controller) {
+        this.tours_controller = tours_controller;
+    }
+
+
     public void initialize() {
+
+        clients_list_str = FXCollections.observableArrayList();
         ShowClients();
     }
 
@@ -51,7 +73,38 @@ public class Clients_controller {
         Document_col.setCellValueFactory(new PropertyValueFactory<>("Document_id_client"));
         Registration_date_col.setCellValueFactory(new PropertyValueFactory<>("Registration_date_client"));
 
-        table_clients.setItems(list);
+
+
+
+        FilteredList<Clients> filteredData = new FilteredList<>(list, b -> true);
+
+        search_field.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(client -> {
+                if(newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+                if(client.getSurname_client().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else if(client.getDocument_id_client().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else if(client.getPhone_number_client().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+        });
+
+        SortedList<Clients> sortedData = new SortedList<>(filteredData);
+
+        sortedData.comparatorProperty().bind(table_clients.comparatorProperty());
+
+        table_clients.setItems(sortedData);
+
+
+
     }
 
     private ObservableList<Clients> getClients() {
@@ -85,7 +138,7 @@ public class Clients_controller {
         Add_update_clients add_update_clients = fxmlLoader.getController();
         add_update_clients.setController(this);
         add_update_clients.setAdd_Update(true);
-        Connection_db.Get_Dialog(parent);
+        Connection_db.Get_Dialog(parent, 490, 680);
     }
 
     public void Update_method(ActionEvent actionEvent) throws IOException {
@@ -98,7 +151,7 @@ public class Clients_controller {
         add_update_clients.setAdd_Update(false);
         add_update_clients.setClient(clients);
         add_update_clients.setValues();
-        Connection_db.Get_Dialog(parent);
+        Connection_db.Get_Dialog(parent, 490, 680);
         }
     }
 
@@ -112,4 +165,39 @@ public class Clients_controller {
     }
 
 
+    public void Add_client_tour(ActionEvent actionEvent) {
+        Clients clients = table_clients.getSelectionModel().getSelectedItem();
+        if(clients != null) {
+            tours_controller.AddClients(clients);
+            clients_list_str.clear();
+            SetChoiceBox();
+        }
+    }
+
+    public void Delete_client_tour(ActionEvent actionEvent) {
+        Clients lastElement = null;
+        if(tours_controller.clients.size() != 0) {
+            Iterator<Clients> iterator = tours_controller.clients.iterator();
+            while(iterator.hasNext()){
+                lastElement = iterator.next();
+                if(lastElement.getSurname_client().equals(Clients_tour.getValue())) {
+                    break;
+                }
+            }
+            tours_controller.DeleteClients(lastElement);;
+        }
+
+            clients_list_str.clear();
+            SetChoiceBox();
+    }
+
+    public void SetChoiceBox() {
+        for(Clients c : tours_controller.clients) {
+            clients_list_str.add(c.getSurname_client());
+        }
+        Clients_tour.setItems(clients_list_str);
+        if(clients_list_str.size() != 0) {
+            Clients_tour.setValue(clients_list_str.get(0));
+        }
+    }
 }

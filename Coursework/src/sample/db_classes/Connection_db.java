@@ -44,8 +44,8 @@ public class Connection_db {
         }
     }
 
-    static public void Get_Dialog(Parent parent) throws IOException {
-        Scene scene = new Scene(parent, 490, 680);
+    static public void Get_Dialog(Parent parent, int w, int h) {
+        Scene scene = new Scene(parent, w, h);
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);

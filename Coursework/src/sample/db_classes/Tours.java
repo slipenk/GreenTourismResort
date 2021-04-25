@@ -1,5 +1,6 @@
 package sample.db_classes;
 
+import javafx.collections.ObservableList;
 import javafx.scene.control.ChoiceBox;
 
 import java.sql.Date;
@@ -12,11 +13,11 @@ public class Tours {
     private Date Date_end_tour;
     private boolean Is_active_tours;
     private String homestead;
-    private ChoiceBox<Clients> clientsChoiceBox;
-    private ChoiceBox<Entertainments> entertainmentsChoiceBox;
-    private String worker;
+    private ChoiceBox<String> clientsChoiceBox;
+    private ChoiceBox<String> entertainmentsChoiceBox;
+    private ChoiceBox<String> workersChoiceBox;
 
-    public Tours(int ID_tours, boolean isBreakfast_tours, float cost_tour, Date date_start_tour, Date date_end_tour, boolean is_active_tours, String homestead, ChoiceBox<Clients> clientsChoiceBox, ChoiceBox<Entertainments> entertainmentsChoiceBox, String worker) {
+    public Tours(int ID_tours, boolean isBreakfast_tours, float cost_tour, Date date_start_tour, Date date_end_tour, boolean is_active_tours, String homestead, ObservableList<String> clients, ObservableList<String> entertainments, ObservableList<String> workers) {
         this.ID_tours = ID_tours;
         IsBreakfast_tours = isBreakfast_tours;
         Cost_tour = cost_tour;
@@ -24,9 +25,12 @@ public class Tours {
         Date_end_tour = date_end_tour;
         Is_active_tours = is_active_tours;
         this.homestead = homestead;
-        this.clientsChoiceBox = clientsChoiceBox;
-        this.entertainmentsChoiceBox = entertainmentsChoiceBox;
-        this.worker = worker;
+        this.clientsChoiceBox.setItems(clients);
+        this.clientsChoiceBox.setValue(clients.get(0));
+        this.entertainmentsChoiceBox.setItems(entertainments);
+        this.entertainmentsChoiceBox.setValue(entertainments.get(0));
+        this.workersChoiceBox.setItems(workers);
+        this.workersChoiceBox.setValue(workers.get(0));
     }
 
     public int getID_tours() {
@@ -85,27 +89,27 @@ public class Tours {
         this.homestead = homestead;
     }
 
-    public ChoiceBox<Clients> getClientsChoiceBox() {
+    public ChoiceBox<String> getClientsChoiceBox() {
         return clientsChoiceBox;
     }
 
-    public void setClientsChoiceBox(ChoiceBox<Clients> clientsChoiceBox) {
-        this.clientsChoiceBox = clientsChoiceBox;
+    public void setClientsChoiceBox(ObservableList<String> clients) {
+        this.clientsChoiceBox.setItems(clients);
     }
 
-    public ChoiceBox<Entertainments> getEntertainmentsChoiceBox() {
+    public ChoiceBox<String> getEntertainmentsChoiceBox() {
         return entertainmentsChoiceBox;
     }
 
-    public void setEntertainmentsChoiceBox(ChoiceBox<Entertainments> entertainmentsChoiceBox) {
-        this.entertainmentsChoiceBox = entertainmentsChoiceBox;
+    public void setEntertainmentsChoiceBox(ObservableList<String> entertainments) {
+        this.entertainmentsChoiceBox.setItems(entertainments);
     }
 
-    public String getWorker() {
-        return worker;
+    public ChoiceBox<String> getWorkersChoiceBox() {
+        return workersChoiceBox;
     }
 
-    public void setWorker(String worker) {
-        this.worker = worker;
+    public void setWorkersChoiceBox(ObservableList<String> workers) {
+        this.workersChoiceBox.setItems(workers);
     }
 }

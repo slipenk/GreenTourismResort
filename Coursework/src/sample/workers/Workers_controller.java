@@ -45,7 +45,7 @@ public class Workers_controller {
     @FXML
     private Button Add_workers_tour;
     @FXML
-    private Label Label_set;
+    private ChoiceBox<String> Workers_box;
 
     private Tours_controller tours_controller;
 
@@ -63,7 +63,7 @@ public class Workers_controller {
     }
 
     public void ShowWorkers() {
-        ObservableList<Workers> list = getWorkers();
+        ObservableList<Workers> list = getWorkers("SELECT * FROM Worker");
 
         Surname_col.setCellValueFactory(new PropertyValueFactory<>("Surname_worker"));
         Name_col.setCellValueFactory(new PropertyValueFactory<>("Name_worker"));
@@ -103,10 +103,10 @@ public class Workers_controller {
 
     }
 
-    private ObservableList<Workers> getWorkers() {
+    public static ObservableList<Workers> getWorkers(String query) {
         ObservableList<Workers> WorkersList = FXCollections.observableArrayList();
         Connection conn = Connection_db.GetConnection();
-        String query = "SELECT * FROM Worker";
+
         Statement st;
         ResultSet rs;
 
@@ -164,20 +164,35 @@ public class Workers_controller {
         Workers workers = table_workers.getSelectionModel().getSelectedItem();
         if(workers != null) {
             tours_controller.AddWorkers(workers);
-            SetLabel();
-            Add_workers_tour.setVisible(false);
-
+            workers_list_str.clear();
+            SetChoiceBox();
         }
     }
 
     public void Delete_worker_tour(ActionEvent actionEvent) {
-        Add_workers_tour.setVisible(true);
-        tours_controller.AddHomesteads(null);
-        Label_set.setText(" ");
+        Workers lastElement = null;
+        if(tours_controller.getWorkers().size() != 0) {
+            Iterator<Workers> iterator = tours_controller.getWorkers().iterator();
+            while(iterator.hasNext()){
+                lastElement = iterator.next();
+                if(lastElement.getSurname_worker().equals(Workers_box.getValue())) {
+                    break;
+                }
+            }
+            tours_controller.DeleteWorkers(lastElement);
+        }
+
+        workers_list_str.clear();
+        SetChoiceBox();
     }
 
-    public void SetLabel() {
-        if(tours_controller.getWorkers() != null)
-            Label_set.setText(tours_controller.getWorkers().getSurname_worker());
+    public void SetChoiceBox() {
+        for(Workers c : tours_controller.getWorkers()) {
+            workers_list_str.add(c.getSurname_worker());
+        }
+        Workers_box.setItems(workers_list_str);
+        if(workers_list_str.size() != 0) {
+            Workers_box.setValue(workers_list_str.get(0));
+        }
     }
 }

@@ -15,6 +15,7 @@ import sample.clients.Clients_controller;
 import sample.db_classes.*;
 import sample.entertainments.Entertainment_controller;
 import sample.homesteads.Homesteads_controller;
+import sample.workers.Workers_controller;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -39,14 +40,15 @@ public class Tours_controller {
     @FXML
     private TableColumn<Tours, String> Homesteads_col;
     @FXML
-    private TableColumn<Tours, ChoiceBox<Clients>> Clients_col;
+    private TableColumn<Tours, ChoiceBox<String>> Clients_col;
     @FXML
-    private TableColumn<Tours, ChoiceBox<Entertainments>> Enter_col;
+    private TableColumn<Tours, ChoiceBox<String>> Enter_col;
 
     private Set<Clients> clients;
     private Set<Entertainments> entertainments;
+    private Set<Workers> workers;
     private Homesteads homesteads;
-    private Workers workers;
+
 
 
     public void initialize() {
@@ -78,18 +80,39 @@ public class Tours_controller {
         ResultSet rs;
         int ID_homestead;
         String homestead;
+        ObservableList<String> clients_list = FXCollections.observableArrayList();
+        ObservableList<String> entertainments_list = FXCollections.observableArrayList();
+        ObservableList<String> workers_list = FXCollections.observableArrayList();
+
         try {
             if(conn != null) {
                 st = conn.createStatement();
                 rs = st.executeQuery(query);
                 Tours tours;
+                //Доробитиииии
                 while (rs.next()) {
                     ID_homestead = rs.getInt("ID_homestead");
-                   /* homestead = getHomesteadQuery("SELECT Name_homestead FROM Homesteads WHERE ID_homestead = " + ID_homestead);
+                    homestead = getHomesteadQuery("SELECT Name_homestead FROM Homesteads WHERE ID_homestead = " + ID_homestead);
+                    clients_list = getClientsQuery("SELECT Surname_client, Name_client, Phone_number_client FROM " +
+                            "FROM Clients_tours ct " +
+                            "JOIN Tour t ON ct.ID_tours = t.ID_tours " +
+                            "JOIN Client c ON ct.ID_clients = c.ID_client " +
+                            "WHERE ct.ID_tours = " + rs.getInt("ID_tours"));
+                    workers_list = getClientsQuery("SELECT Surname_worker, Name_worker, Phone_number_worker FROM " +
+                            "FROM Tours_worker tw " +
+                            "JOIN Tour t ON t.ID_tours = tw.ID_tours " +
+                            "JOIN Worker w ON tw.ID_workers = w.ID_workers " +
+                            "WHERE tw.ID_tours = " + rs.getInt("ID_tours"));
+                    entertainments_list = getEnterQuery("SELECT Name_entertainment FROM " +
+                            "FROM Tours_entertainment te " +
+                            "JOIN Tour t ON t.ID_tours = te.ID_tours " +
+                            "JOIN Entertainment e ON te.ID_entertainments = e.ID_Entertainment " +
+                            "WHERE te.ID_tours = " + rs.getInt("ID_tours"));
+
                     tours = new Tours(rs.getInt("ID_tours"), rs.getBoolean("IsBreakfast_tours"),
                             rs.getFloat("Cost_tour"), rs.getDate("Date_start_tour"), rs.getDate("Date_end_tour"), rs.getBoolean("Is_active_tours"),
-                            homestead, );*/
-                    //HomesteadsList.add(homesteads);
+                            homestead, clients_list, entertainments_list, workers_list);
+                    ToursList.add(tours);
                 }
             }
         } catch (Exception e) {
@@ -117,7 +140,77 @@ public class Tours_controller {
         return homesteads;
     }
 
+    private ObservableList<String> getWorkersQuery(String query) {
+        Connection conn = Connection_db.GetConnection();
+        Statement st;
+        ResultSet rs;
+        String workers = new String(" ");
+        ObservableList<String> workers_list = FXCollections.observableArrayList();
+        try {
+            if(conn != null) {
+                st = conn.createStatement();
+                rs = st.executeQuery(query);
+                while (rs.next()) {
+                    workers = rs.getString("Surname_worker") + " " + rs.getString("Name_worker") + " " + rs.getString("Phone_number_worker");
+                    workers_list.add(workers);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return workers_list;
+    }
 
+    private ObservableList<String> getClientsQuery(String query) {
+        Connection conn = Connection_db.GetConnection();
+        Statement st;
+        ResultSet rs;
+        String clients = new String(" ");
+        ObservableList<String> clients_list = FXCollections.observableArrayList();
+        try {
+            if(conn != null) {
+                st = conn.createStatement();
+                rs = st.executeQuery(query);
+                while (rs.next()) {
+                    clients = rs.getString("Surname_client") + " " + rs.getString("Name_client") + " " + rs.getString("Phone_number_client");
+                    clients_list.add(clients);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return clients_list;
+    }
+
+    private ObservableList<String> getEnterQuery(String query) {
+        Connection conn = Connection_db.GetConnection();
+        Statement st;
+        ResultSet rs;
+        String enters = new String(" ");
+        ObservableList<String> enters_list = FXCollections.observableArrayList();
+        try {
+            if(conn != null) {
+                st = conn.createStatement();
+                rs = st.executeQuery(query);
+                while (rs.next()) {
+                    enters = rs.getString("Name_entertainment");
+                    enters_list.add(enters);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return enters_list;
+    }
+
+
+
+
+
+
+    public Set<Workers> getWorkers() {
+        return workers;
+    }
     public Set<Clients> getClients() {
         return clients;
     }
@@ -127,9 +220,6 @@ public class Tours_controller {
     public Homesteads getHomesteads() {
         return homesteads;
     }
-    public Workers getWorkers() {
-        return workers;
-    }
 
     public void AddClients(Clients c) {
         clients.add(c);
@@ -137,6 +227,15 @@ public class Tours_controller {
 
     public void DeleteClients(Clients c) {
         clients.remove(c);
+
+    }
+
+    public void AddWorkers(Workers c) {
+        workers.add(c);
+    }
+
+    public void DeleteWorkers(Workers c) {
+        workers.remove(c);
 
     }
 
@@ -154,9 +253,7 @@ public class Tours_controller {
         homesteads = h;
     }
 
-    public void AddWorkers(Workers h) {
-        workers = h;
-    }
+
 
 
     public void SetEntertainments() throws IOException {

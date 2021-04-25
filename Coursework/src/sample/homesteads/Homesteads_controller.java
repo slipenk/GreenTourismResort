@@ -2,25 +2,41 @@ package sample.homesteads;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.w3c.dom.css.RGBColor;
 import sample.db_classes.Categories;
+import sample.db_classes.Clients;
 import sample.db_classes.Connection_db;
 import sample.db_classes.Homesteads;
+import sample.tours.Tours_controller;
 
 import java.io.IOException;
 import java.sql.*;
 
 public class Homesteads_controller {
 
+    @FXML
+    private Button Add_homestead_tour;
+    @FXML
+    private TextField search_field;
+    @FXML
+    private Label Label_set;
     @FXML
     private Button Add_btn;
     @FXML
@@ -56,9 +72,17 @@ public class Homesteads_controller {
     @FXML
     private TableColumn<Homesteads, Boolean> Active_col;
 
+    private Tours_controller tours_controller;
 
+    private ObservableList<String> homesteads_list_str;
+
+
+    public void setTours(Tours_controller tours_controller) {
+        this.tours_controller = tours_controller;
+    }
 
     public void initialize() {
+        homesteads_list_str = FXCollections.observableArrayList();
         ShowHomesteads();
     }
 
@@ -105,7 +129,27 @@ public class Homesteads_controller {
         Rate_col.setCellValueFactory(new PropertyValueFactory<>("Rate_homestead"));
         Price_col.setCellValueFactory(new PropertyValueFactory<>("Price_homestead"));
         Active_col.setCellValueFactory(new PropertyValueFactory<>("Is_Active"));
-        table_homesteads.setItems(list);
+
+
+        FilteredList<Homesteads> filteredData = new FilteredList<>(list, b -> true);
+
+        search_field.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(homesteads -> {
+                if(newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+                return homesteads.getName_homestead().toLowerCase().indexOf(lowerCaseFilter) != -1;
+            });
+        });
+
+        SortedList<Homesteads> sortedData = new SortedList<>(filteredData);
+
+        sortedData.comparatorProperty().bind(table_homesteads.comparatorProperty());
+
+        table_homesteads.setItems(sortedData);
+
 
     }
 
@@ -146,5 +190,25 @@ public class Homesteads_controller {
     }
 
 
+    public void Add_homesteads_tour(ActionEvent actionEvent) {
+        Homesteads homestead = table_homesteads.getSelectionModel().getSelectedItem();
+        if(homestead != null) {
+            tours_controller.AddHomesteads(homestead);
+            SetLabel();
+            Add_homestead_tour.setVisible(false);
+
+        }
+    }
+
+    public void Delete_homesteads_tour(ActionEvent actionEvent) {
+        Add_homestead_tour.setVisible(true);
+        tours_controller.AddHomesteads(null);
+        Label_set.setText(" ");
+    }
+
+    public void SetLabel() {
+        if(tours_controller.getHomesteads() != null)
+        Label_set.setText(tours_controller.getHomesteads().getName_homestead());
+    }
 
 }

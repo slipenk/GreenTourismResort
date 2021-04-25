@@ -14,7 +14,7 @@
         <HBox alignment="BOTTOM_CENTER" layoutX="292.0" layoutY="536.0" prefHeight="100.0" prefWidth="446.0">
             <children>
 
-                <Button fx:id="Add_btn" mnemonicParsing="false" onAction="#Add_method" prefHeight="44.0" prefWidth="200.0"  text="Додати">
+                <Button fx:id="Add_btn" mnemonicParsing="false" onAction="#Add_method" prefHeight="44.0" prefWidth="200.0" text="Додати">
                     <font>
                         <Font name="Noteworthy Light" size="15.0" />
                     </font>
@@ -22,7 +22,7 @@
                         <Insets right="20.0" />
                     </HBox.margin>
                 </Button>
-                <Button fx:id="Update_btn" mnemonicParsing="false" onAction="#Update_method" prefHeight="44.0" prefWidth="200.0"  text="Оновити">
+                <Button fx:id="Update_btn" mnemonicParsing="false" onAction="#Update_method" prefHeight="44.0" prefWidth="200.0" text="Оновити">
                     <font>
                         <Font name="Noteworthy Light" size="15.0" />
                     </font>
@@ -30,13 +30,26 @@
                         <Insets right="20.0" />
                     </HBox.margin>
                 </Button>
-                <Button fx:id="Delete_btn" mnemonicParsing="false" onAction="#Delete_method" prefHeight="44.0" prefWidth="200.0"  text="Видалити">
+                <Button fx:id="Delete_btn" mnemonicParsing="false" onAction="#Delete_method" prefHeight="44.0" prefWidth="200.0" text="Видалити">
                     <font>
                         <Font name="Noteworthy Light" size="15.0" />
                     </font>
                 </Button>
             </children>
         </HBox>
+        <TableView fx:id="table_tours" layoutX="14.0" layoutY="57.0" prefHeight="510.0" prefWidth="968.0">
+            <columns>
+                <TableColumn fx:id="Breakfast_col" text="Cніданок" />
+                <TableColumn fx:id="Price_col" minWidth="2.477203369140625" prefWidth="97.0" text="Ціна&#10;" />
+                <TableColumn fx:id="Date_start_col" prefWidth="122.0" text="Дата початку" />
+                <TableColumn fx:id="Date_end_col" prefWidth="122.0" text="Дата кінця&#10;" />
+                <TableColumn fx:id="Active_col" text="Активний&#10;" />
+                <TableColumn fx:id="Homesteads_col" prefWidth="118.0" text="Cадиба&#10;" />
+            <TableColumn fx:id="Clients_col" prefWidth="118.0" text="Клієнти&#10;" />
+            <TableColumn fx:id="Enter_col" prefWidth="118.0" text="Розваги&#10;" />
+            <TableColumn fx:id="Enter_col1" prefWidth="115.0" text="Працівник&#10;" />
+            </columns>
+        </TableView>
 
         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="466.0" layoutY="10.0" text="Тури" textAlignment="CENTER" AnchorPane.bottomAnchor="599.0">
             <font>

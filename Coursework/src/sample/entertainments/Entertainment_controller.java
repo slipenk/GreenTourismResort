@@ -165,8 +165,8 @@ public class Entertainment_controller {
 
     public void Delete_enter_tour(ActionEvent actionEvent) {
         Entertainments lastElement = null;
-        if(tours_controller.entertainments.size() != 0) {
-            Iterator<Entertainments> iterator = tours_controller.entertainments.iterator();
+        if(tours_controller.getEntertainments().size() != 0) {
+            Iterator<Entertainments> iterator = tours_controller.getEntertainments().iterator();
             while(iterator.hasNext()){
                 lastElement = iterator.next();
                 if(lastElement.getName_entertainment().equals(Enter_tour.getValue())) {
@@ -181,7 +181,7 @@ public class Entertainment_controller {
     }
 
     public void SetChoiceBox() {
-        for(Entertainments c : tours_controller.entertainments) {
+        for(Entertainments c : tours_controller.getEntertainments()) {
             entertainments_list_str.add(c.getName_entertainment());
         }
         Enter_tour.setItems(entertainments_list_str);

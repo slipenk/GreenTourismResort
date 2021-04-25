@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
@@ -14,7 +15,7 @@
       <HBox alignment="BOTTOM_CENTER" layoutX="292.0" layoutY="536.0" prefHeight="100.0" prefWidth="446.0">
          <children>
             
-             <Button fx:id="Add_btn" mnemonicParsing="false" onAction="#Add_method" prefHeight="44.0" prefWidth="200.0"  text="Додати">
+             <Button fx:id="Add_btn" mnemonicParsing="false" onAction="#Add_method" prefHeight="44.0" prefWidth="200.0" text="Додати">
                  <font>
                      <Font name="Noteworthy Light" size="15.0" />
                  </font>
@@ -22,7 +23,7 @@
                   <Insets right="20.0" />
                </HBox.margin>
              </Button>
-            <Button fx:id="Update_btn" mnemonicParsing="false" onAction="#Update_method" prefHeight="44.0" prefWidth="200.0"  text="Оновити">
+            <Button fx:id="Update_btn" mnemonicParsing="false" onAction="#Update_method" prefHeight="44.0" prefWidth="200.0" text="Оновити">
                <font>
                   <Font name="Noteworthy Light" size="15.0" />
                </font>
@@ -30,7 +31,7 @@
                   <Insets right="20.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="Delete_btn" mnemonicParsing="false" onAction="#Delete_method" prefHeight="44.0" prefWidth="200.0"  text="Видалити">
+            <Button fx:id="Delete_btn" mnemonicParsing="false" onAction="#Delete_method" prefHeight="44.0" prefWidth="200.0" text="Видалити">
                <font>
                   <Font name="Noteworthy Light" size="15.0" />
                </font>
@@ -59,5 +60,22 @@
                <Font name="Noteworthy Light" size="25.0" />
            </font>
        </Label>
+      <TextField fx:id="search_field" layoutX="92.0" layoutY="13.0">
+         <font>
+            <Font name="Noteworthy Light" size="13.0" />
+         </font>
+      </TextField>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="40.0" layoutY="15.0" text="Пошук:" textAlignment="CENTER">
+         <font>
+            <Font name="Noteworthy Light" size="15.0" />
+         </font>
+      </Label>
+      <Button fx:id="Add_homestead_tour" layoutX="738.0" layoutY="22.0" mnemonicParsing="false" onAction="#Add_homesteads_tour" text="+" />
+      <Button fx:id="Delete_homestead_tour" layoutX="773.0" layoutY="22.0" mnemonicParsing="false" onAction="#Delete_homesteads_tour" prefHeight="30.0" prefWidth="29.0" text="-" />
+      <Label fx:id="Label_set" alignment="CENTER" contentDisplay="CENTER" layoutX="825.0" layoutY="16.0" prefHeight="39.0" prefWidth="159.0" textAlignment="CENTER">
+         <font>
+            <Font name="Noteworthy Light" size="15.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

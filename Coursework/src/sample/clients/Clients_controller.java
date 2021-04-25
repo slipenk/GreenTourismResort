@@ -176,8 +176,8 @@ public class Clients_controller {
 
     public void Delete_client_tour(ActionEvent actionEvent) {
         Clients lastElement = null;
-        if(tours_controller.clients.size() != 0) {
-            Iterator<Clients> iterator = tours_controller.clients.iterator();
+        if(tours_controller.getClients().size() != 0) {
+            Iterator<Clients> iterator = tours_controller.getClients().iterator();
             while(iterator.hasNext()){
                 lastElement = iterator.next();
                 if(lastElement.getSurname_client().equals(Clients_tour.getValue())) {
@@ -192,7 +192,7 @@ public class Clients_controller {
     }
 
     public void SetChoiceBox() {
-        for(Clients c : tours_controller.clients) {
+        for(Clients c : tours_controller.getClients()) {
             clients_list_str.add(c.getSurname_client());
         }
         Clients_tour.setItems(clients_list_str);

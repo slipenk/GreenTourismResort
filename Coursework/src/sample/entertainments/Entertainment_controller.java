@@ -14,6 +14,7 @@ import sample.clients.Add_update_clients;
 import sample.db_classes.Clients;
 import sample.db_classes.Connection_db;
 import sample.db_classes.Entertainments;
+import sample.tours.Add_update_tours;
 import sample.tours.Tours_controller;
 
 import java.io.IOException;
@@ -48,11 +49,11 @@ public class Entertainment_controller {
     private TableColumn<Entertainments, Byte> Duration_col;
 
 
-    private Tours_controller tours_controller;
+    private Add_update_tours tours_controller;
     private ObservableList<String> entertainments_list_str;
 
 
-    public void setTours(Tours_controller tours_controller) {
+    public void setTours(Add_update_tours tours_controller) {
         this.tours_controller = tours_controller;
     }
 

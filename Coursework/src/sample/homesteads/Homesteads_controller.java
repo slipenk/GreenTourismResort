@@ -24,6 +24,7 @@ import sample.db_classes.Categories;
 import sample.db_classes.Clients;
 import sample.db_classes.Connection_db;
 import sample.db_classes.Homesteads;
+import sample.tours.Add_update_tours;
 import sample.tours.Tours_controller;
 
 import java.io.IOException;
@@ -72,12 +73,12 @@ public class Homesteads_controller {
     @FXML
     private TableColumn<Homesteads, Boolean> Active_col;
 
-    private Tours_controller tours_controller;
+    private Add_update_tours tours_controller;
 
     private ObservableList<String> homesteads_list_str;
 
 
-    public void setTours(Tours_controller tours_controller) {
+    public void setTours(Add_update_tours tours_controller) {
         this.tours_controller = tours_controller;
     }
 

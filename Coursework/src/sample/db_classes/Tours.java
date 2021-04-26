@@ -25,10 +25,13 @@ public class Tours {
         Date_end_tour = date_end_tour;
         Is_active_tours = is_active_tours;
         this.homestead = homestead;
+        this.clientsChoiceBox = new ChoiceBox<>();
         this.clientsChoiceBox.setItems(clients);
         this.clientsChoiceBox.setValue(clients.get(0));
+        this.entertainmentsChoiceBox = new ChoiceBox<>();
         this.entertainmentsChoiceBox.setItems(entertainments);
         this.entertainmentsChoiceBox.setValue(entertainments.get(0));
+        this.workersChoiceBox = new ChoiceBox<>();
         this.workersChoiceBox.setItems(workers);
         this.workersChoiceBox.setValue(workers.get(0));
     }
@@ -41,7 +44,7 @@ public class Tours {
         this.ID_tours = ID_tours;
     }
 
-    public boolean isBreakfast_tours() {
+    public boolean getIsBreakfast_tours() {
         return IsBreakfast_tours;
     }
 

@@ -15,6 +15,7 @@ import sample.db_classes.Clients;
 import sample.db_classes.Connection_db;
 import sample.db_classes.Homesteads;
 import sample.db_classes.Workers;
+import sample.tours.Add_update_tours;
 import sample.tours.Tours_controller;
 
 import java.io.IOException;
@@ -47,12 +48,12 @@ public class Workers_controller {
     @FXML
     private ChoiceBox<String> Workers_box;
 
-    private Tours_controller tours_controller;
+    private Add_update_tours tours_controller;
 
     private ObservableList<String> workers_list_str;
 
 
-    public void setTours(Tours_controller tours_controller) {
+    public void setTours(Add_update_tours tours_controller) {
         this.tours_controller = tours_controller;
     }
 

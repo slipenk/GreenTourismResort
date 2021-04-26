@@ -5,11 +5,12 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="650.0" maxWidth="1000.0" minHeight="650.0" minWidth="1000.0" prefHeight="650.0" prefWidth="1000.0" stylesheets="@../../../style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.tours.Tours_controller">
+<AnchorPane maxHeight="650.0" maxWidth="1000.0" minHeight="650.0" minWidth="1000.0" prefHeight="650.0" prefWidth="1000.0" stylesheets="@../../../style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.options_enter.Options_enter_controller">
     <children>
         <HBox alignment="BOTTOM_CENTER" layoutX="292.0" layoutY="536.0" prefHeight="100.0" prefWidth="446.0">
             <children>
@@ -37,23 +38,28 @@
                 </Button>
             </children>
         </HBox>
-        <TableView fx:id="table_tours" layoutX="14.0" layoutY="57.0" prefHeight="510.0" prefWidth="968.0">
+        <TableView fx:id="table_options" layoutX="142.0" layoutY="52.0" prefHeight="510.0" prefWidth="751.0">
             <columns>
-                <TableColumn fx:id="Breakfast_col" prefWidth="65.0" text="Cніданок" />
-                <TableColumn fx:id="Price_col" minWidth="2.477203369140625" prefWidth="83.38365173339844" text="Ціна&#10;" />
-                <TableColumn fx:id="Date_start_col" prefWidth="110.0" text="Дата початку" />
-                <TableColumn fx:id="Date_end_col" prefWidth="110.0" text="Дата кінця&#10;" />
-                <TableColumn fx:id="Active_col" prefWidth="65.0" text="Активний&#10;" />
-                <TableColumn fx:id="Homesteads_col" prefWidth="118.0" text="Cадиба&#10;" />
-            <TableColumn fx:id="Clients_col" prefWidth="140.0" text="Клієнти&#10;" />
-            <TableColumn fx:id="Enter_col" prefWidth="140.0" text="Розваги&#10;" />
-            <TableColumn fx:id="Worker_col" prefWidth="140.0" text="Працівник&#10;" />
+                <TableColumn fx:id="Date_col" prefWidth="141.71371269226074" text="Дата" />
+                <TableColumn fx:id="Time_col" prefWidth="105.84318542480469" text="Час" />
+                <TableColumn fx:id="Count_col" minWidth="2.477203369140625" prefWidth="127.0" text="Кількість&#10;" />
+                <TableColumn fx:id="Enter_col" prefWidth="200.36590576171875" text="Розвага" />
+                <TableColumn fx:id="Clients_col" prefWidth="174.5" text="Клієнти туру" />
             </columns>
         </TableView>
-
-        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="466.0" layoutY="10.0" text="Тури" textAlignment="CENTER" AnchorPane.bottomAnchor="599.0">
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="446.0" layoutY="6.0" text="Запис на розваги" textAlignment="CENTER" AnchorPane.bottomAnchor="603.0">
             <font>
                 <Font name="Noteworthy Light" size="25.0" />
+            </font>
+        </Label>
+        <TextField fx:id="search_field" layoutX="129.0" layoutY="13.0">
+            <font>
+                <Font name="Noteworthy Light" size="13.0" />
+            </font>
+        </TextField>
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="77.0" layoutY="15.0" text="Пошук:" textAlignment="CENTER">
+            <font>
+                <Font name="Noteworthy Light" size="15.0" />
             </font>
         </Label>
     </children>

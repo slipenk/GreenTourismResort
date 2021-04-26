@@ -15,6 +15,7 @@ import sample.clients.Clients_controller;
 import sample.db_classes.*;
 import sample.entertainments.Entertainment_controller;
 import sample.homesteads.Homesteads_controller;
+import sample.workers.Add_update_workers;
 import sample.workers.Workers_controller;
 
 import java.io.IOException;
@@ -24,6 +25,7 @@ import java.sql.Statement;
 import java.util.*;
 
 public class Tours_controller {
+
 
     @FXML
     private TableView<Tours> table_tours;
@@ -43,21 +45,14 @@ public class Tours_controller {
     private TableColumn<Tours, ChoiceBox<String>> Clients_col;
     @FXML
     private TableColumn<Tours, ChoiceBox<String>> Enter_col;
-
-    private Set<Clients> clients;
-    private Set<Entertainments> entertainments;
-    private Set<Workers> workers;
-    private Homesteads homesteads;
-
-
+    @FXML
+    private TableColumn<Tours, ChoiceBox<String>> Worker_col;
 
     public void initialize() {
-        clients = new HashSet<>();
-        entertainments = new HashSet<>();
         ShowTours();
     }
 
-    private void ShowTours() {
+    public void ShowTours() {
         ObservableList<Tours> list = getTours();
 
         Breakfast_col.setCellValueFactory(new PropertyValueFactory<>("IsBreakfast_tours"));
@@ -68,7 +63,7 @@ public class Tours_controller {
         Homesteads_col.setCellValueFactory(new PropertyValueFactory<>("homestead"));
         Clients_col.setCellValueFactory(new PropertyValueFactory<>("clientsChoiceBox"));
         Enter_col.setCellValueFactory(new PropertyValueFactory<>("entertainmentsChoiceBox"));
-
+        Worker_col.setCellValueFactory(new PropertyValueFactory<>("workersChoiceBox"));
         table_tours.setItems(list);
     }
 
@@ -89,21 +84,21 @@ public class Tours_controller {
                 st = conn.createStatement();
                 rs = st.executeQuery(query);
                 Tours tours;
-                //Доробитиииии
+               
                 while (rs.next()) {
                     ID_homestead = rs.getInt("ID_homestead");
                     homestead = getHomesteadQuery("SELECT Name_homestead FROM Homesteads WHERE ID_homestead = " + ID_homestead);
-                    clients_list = getClientsQuery("SELECT Surname_client, Name_client, Phone_number_client FROM " +
+                    clients_list = getClientsQuery("SELECT Surname_client, Name_client, Phone_number_client " +
                             "FROM Clients_tours ct " +
                             "JOIN Tour t ON ct.ID_tours = t.ID_tours " +
                             "JOIN Client c ON ct.ID_clients = c.ID_client " +
                             "WHERE ct.ID_tours = " + rs.getInt("ID_tours"));
-                    workers_list = getClientsQuery("SELECT Surname_worker, Name_worker, Phone_number_worker FROM " +
+                    workers_list = getWorkersQuery("SELECT Surname_worker, Name_worker, Phone_number_worker " +
                             "FROM Tours_worker tw " +
                             "JOIN Tour t ON t.ID_tours = tw.ID_tours " +
                             "JOIN Worker w ON tw.ID_workers = w.ID_workers " +
                             "WHERE tw.ID_tours = " + rs.getInt("ID_tours"));
-                    entertainments_list = getEnterQuery("SELECT Name_entertainment FROM " +
+                    entertainments_list = getEnterQuery("SELECT Name_entertainment " +
                             "FROM Tours_entertainment te " +
                             "JOIN Tour t ON t.ID_tours = te.ID_tours " +
                             "JOIN Entertainment e ON te.ID_entertainments = e.ID_Entertainment " +
@@ -208,94 +203,30 @@ public class Tours_controller {
 
 
 
-    public Set<Workers> getWorkers() {
-        return workers;
-    }
-    public Set<Clients> getClients() {
-        return clients;
-    }
-    public Set<Entertainments> getEntertainments() {
-        return entertainments;
-    }
-    public Homesteads getHomesteads() {
-        return homesteads;
-    }
-
-    public void AddClients(Clients c) {
-        clients.add(c);
-    }
-
-    public void DeleteClients(Clients c) {
-        clients.remove(c);
-
-    }
-
-    public void AddWorkers(Workers c) {
-        workers.add(c);
-    }
-
-    public void DeleteWorkers(Workers c) {
-        workers.remove(c);
-
-    }
-
-
-    public void AddEntertainments(Entertainments e) {
-        entertainments.add(e);
-    }
-
-    public void DeleteEntertainments(Entertainments e) {
-       entertainments.remove(e);
-
-    }
-
-    public void AddHomesteads(Homesteads h) {
-        homesteads = h;
-    }
 
 
 
 
-    public void SetEntertainments() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sample/entertainments/Entertainments.fxml"));
-        Parent parent = fxmlLoader.load();
-        Entertainment_controller entertainment_controller = fxmlLoader.getController();
-        entertainment_controller.setTours(this);
-        entertainment_controller.SetChoiceBox();
-        Connection_db.Get_Dialog(parent, 1000, 650);
-    }
 
 
-    public void SetClients() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sample/clients/Clients.fxml"));
-        Parent parent = fxmlLoader.load();
-        Clients_controller clients_controller = fxmlLoader.getController();
-        clients_controller.setTours(this);
-        clients_controller.SetChoiceBox();
-        Connection_db.Get_Dialog(parent, 1000, 650);
-    }
-
-    public void SetHomestead() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sample/homesteads/homesteads.fxml"));
-        Parent parent = fxmlLoader.load();
-        Homesteads_controller homesteads_controller = fxmlLoader.getController();
-        homesteads_controller.setTours(this);
-        homesteads_controller.SetLabel();
-        Connection_db.Get_Dialog(parent, 1000, 650);
-    }
 
 
 
     public void Add_method(ActionEvent actionEvent) throws IOException {
-        SetClients();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Add_update_tours.fxml"));
+        Parent parent = fxmlLoader.load();
+        Add_update_tours add_update_tours = fxmlLoader.getController();
+        add_update_tours.setController(this);
+        add_update_tours.setAdd_Update(true);
+        Connection_db.Get_Dialog(parent, 490, 680);
     }
 
     public void Update_method(ActionEvent actionEvent) throws IOException {
-        SetHomestead();
+
     }
 
     public void Delete_method(ActionEvent actionEvent) throws IOException {
-        SetEntertainments();
+
     }
 
 

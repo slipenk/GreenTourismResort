@@ -58,7 +58,7 @@ public class Connection_db {
         stage.close();
     }
 
-    static public void Cancel_Dialog(String query)
+    static public boolean Cancel_Dialog(String query)
     {
         ButtonType OK = new ButtonType("Видалити", ButtonBar.ButtonData.OK_DONE);
         ButtonType CANCEL = new ButtonType("Скасувати", ButtonBar.ButtonData.CANCEL_CLOSE);
@@ -66,6 +66,9 @@ public class Connection_db {
         alert.showAndWait();
         if (alert.getResult() == OK) {
             executeQuery(query);
+            return true;
+        } else {
+            return false;
         }
     }
 

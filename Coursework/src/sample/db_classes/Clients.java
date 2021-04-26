@@ -86,4 +86,20 @@ public class Clients {
     public void setRegistration_date_client(Date registration_date_client) {
         Registration_date_client = registration_date_client;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (!(obj instanceof Clients))
+            return false;
+        if (obj == this)
+            return true;
+        return this.getID_client() == ((Clients) obj).getID_client();
+    }
+
+    @Override
+    public int hashCode() {
+        return ID_client;
+    }
+
 }

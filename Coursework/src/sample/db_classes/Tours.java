@@ -27,12 +27,15 @@ public class Tours {
         this.homestead = homestead;
         this.clientsChoiceBox = new ChoiceBox<>();
         this.clientsChoiceBox.setItems(clients);
+        if(clients.size() != 0)
         this.clientsChoiceBox.setValue(clients.get(0));
         this.entertainmentsChoiceBox = new ChoiceBox<>();
         this.entertainmentsChoiceBox.setItems(entertainments);
+        if(entertainments.size() != 0)
         this.entertainmentsChoiceBox.setValue(entertainments.get(0));
         this.workersChoiceBox = new ChoiceBox<>();
         this.workersChoiceBox.setItems(workers);
+        if(workers.size() != 0)
         this.workersChoiceBox.setValue(workers.get(0));
     }
 
@@ -92,24 +95,24 @@ public class Tours {
         this.homestead = homestead;
     }
 
-    public ChoiceBox<String> getClientsChoiceBox() {
-        return clientsChoiceBox;
+    public ObservableList<String> getClientsChoiceBox() {
+        return clientsChoiceBox.getItems();
     }
 
     public void setClientsChoiceBox(ObservableList<String> clients) {
         this.clientsChoiceBox.setItems(clients);
     }
 
-    public ChoiceBox<String> getEntertainmentsChoiceBox() {
-        return entertainmentsChoiceBox;
+    public ObservableList<String> getEntertainmentsChoiceBox() {
+        return entertainmentsChoiceBox.getItems();
     }
 
     public void setEntertainmentsChoiceBox(ObservableList<String> entertainments) {
         this.entertainmentsChoiceBox.setItems(entertainments);
     }
 
-    public ChoiceBox<String> getWorkersChoiceBox() {
-        return workersChoiceBox;
+    public ObservableList<String> getWorkersChoiceBox() {
+        return workersChoiceBox.getItems();
     }
 
     public void setWorkersChoiceBox(ObservableList<String> workers) {

@@ -64,7 +64,7 @@ public class Clients_controller {
     }
 
     public void ShowClients() {
-        ObservableList<Clients> list = getClients();
+        ObservableList<Clients> list = getClients("SELECT * FROM Client");
 
         Surname_col.setCellValueFactory(new PropertyValueFactory<>("Surname_client"));
         Name_col.setCellValueFactory(new PropertyValueFactory<>("Name_client"));
@@ -108,10 +108,10 @@ public class Clients_controller {
 
     }
 
-    private ObservableList<Clients> getClients() {
+    public static ObservableList<Clients> getClients(String query) {
         ObservableList<Clients> ClientsList = FXCollections.observableArrayList();
         Connection conn = Connection_db.GetConnection();
-        String query = "SELECT * FROM Client";
+
         Statement st;
         ResultSet rs;
 

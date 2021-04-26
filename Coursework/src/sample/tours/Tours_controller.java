@@ -84,7 +84,7 @@ public class Tours_controller {
                 st = conn.createStatement();
                 rs = st.executeQuery(query);
                 Tours tours;
-               
+
                 while (rs.next()) {
                     ID_homestead = rs.getInt("ID_homestead");
                     homestead = getHomesteadQuery("SELECT Name_homestead FROM Homesteads WHERE ID_homestead = " + ID_homestead);
@@ -199,19 +199,6 @@ public class Tours_controller {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     public void Add_method(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Add_update_tours.fxml"));
         Parent parent = fxmlLoader.load();
@@ -222,11 +209,30 @@ public class Tours_controller {
     }
 
     public void Update_method(ActionEvent actionEvent) throws IOException {
-
+        Tours tours = table_tours.getSelectionModel().getSelectedItem();
+        if(tours != null) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Add_update_tours.fxml"));
+            Parent parent = fxmlLoader.load();
+            Add_update_tours add_update_tours = fxmlLoader.getController();
+            add_update_tours.setController(this);
+            add_update_tours.setAdd_Update(false);
+            add_update_tours.setTour(tours);
+            add_update_tours.setValues();
+            Connection_db.Get_Dialog(parent, 490, 680);
+        }
     }
 
     public void Delete_method(ActionEvent actionEvent) throws IOException {
+        Tours tours = table_tours.getSelectionModel().getSelectedItem();
+        if(tours != null) {
 
+            if(Connection_db.Cancel_Dialog("DELETE FROM Clients_tours WHERE ID_tours = " + tours.getID_tours())) {
+                Connection_db.executeQuery("DELETE FROM Tours_entertainment WHERE ID_tours = " + tours.getID_tours());
+                Connection_db.executeQuery("DELETE FROM Tours_worker WHERE ID_tours = " + tours.getID_tours());
+                Connection_db.executeQuery("DELETE FROM Tour WHERE ID_tours = " + tours.getID_tours());
+            }
+            ShowTours();
+        }
     }
 
 

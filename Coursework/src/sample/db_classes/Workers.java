@@ -76,4 +76,19 @@ public class Workers {
     public void setJob_worker(String job_worker) {
         Job_worker = job_worker;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (!(obj instanceof Workers))
+            return false;
+        if (obj == this)
+            return true;
+        return this.getID_workers() == ((Workers) obj).getID_workers();
+    }
+
+    @Override
+    public int hashCode() {
+        return ID_workers;
+    }
 }

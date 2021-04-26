@@ -86,6 +86,21 @@ public class Entertainments {
     public void setDuration(byte duration) {
         Duration = duration;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (!(obj instanceof Entertainments))
+            return false;
+        if (obj == this)
+            return true;
+        return this.getID_Entertainment() == ((Entertainments) obj).getID_Entertainment();
+    }
+
+    @Override
+    public int hashCode() {
+        return ID_Entertainment;
+    }
 }
 
 

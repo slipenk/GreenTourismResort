@@ -15,6 +15,7 @@ import sample.clients.Clients_controller;
 import sample.db_classes.*;
 import sample.entertainments.Entertainment_controller;
 import sample.homesteads.Homesteads_controller;
+import sample.options_enter.Options_enter_controller;
 import sample.workers.Add_update_workers;
 import sample.workers.Workers_controller;
 
@@ -156,7 +157,7 @@ public class Tours_controller {
         return workers_list;
     }
 
-    private ObservableList<String> getClientsQuery(String query) {
+    public static ObservableList<String> getClientsQuery(String query) {
         Connection conn = Connection_db.GetConnection();
         Statement st;
         ResultSet rs;
@@ -177,7 +178,7 @@ public class Tours_controller {
         return clients_list;
     }
 
-    private ObservableList<String> getEnterQuery(String query) {
+    public static ObservableList<String> getEnterQuery(String query) {
         Connection conn = Connection_db.GetConnection();
         Statement st;
         ResultSet rs;
@@ -236,5 +237,15 @@ public class Tours_controller {
     }
 
 
-
+    public void Options_method(ActionEvent actionEvent) throws IOException {
+        Tours tours = table_tours.getSelectionModel().getSelectedItem();
+        if(tours != null) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sample/options_enter/Options_enter.fxml"));
+            Parent parent = fxmlLoader.load();
+            Options_enter_controller options_enter_controller = fxmlLoader.getController();
+            options_enter_controller.SetTour(tours);
+            options_enter_controller.GetEnters();
+            Connection_db.Get_Dialog(parent, 1000, 650);
+        }
+    }
 }

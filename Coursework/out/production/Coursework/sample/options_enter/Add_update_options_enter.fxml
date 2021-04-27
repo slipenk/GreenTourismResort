@@ -4,13 +4,12 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="680.0" prefWidth="490.0" stylesheets="@../../../style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.options_enter.Add_update_options_enter">
     <children>
-        <Label fx:id="Name_window" alignment="CENTER" contentDisplay="CENTER" layoutX="196.0" layoutY="14.0" text="Додати запис" textAlignment="CENTER" AnchorPane.bottomAnchor="632.0">
+        <Label fx:id="Name_window" alignment="CENTER" contentDisplay="CENTER" layoutX="196.0" layoutY="14.0" text="Додати запиc" textAlignment="CENTER" AnchorPane.bottomAnchor="632.0">
             <font>
                 <Font name="Noteworthy Light" size="20.0" />
             </font>
@@ -20,37 +19,23 @@
                 <Font name="Noteworthy Light" size="15.0" />
             </font>
         </Button>
-        <TextField fx:id="Count" alignment="CENTER" layoutX="280.0" layoutY="350.0" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0">
-            <font>
-                <Font name="Noteworthy Light" size="12.0" />
-            </font>
-        </TextField>
-        <Label layoutX="76.0" layoutY="153.0" text="Дата:">
+        <Label layoutX="79.0" layoutY="186.0" text="Дата:">
             <font>
                 <Font name="Noteworthy Light" size="15.0" />
             </font>
         </Label>
-        <Label layoutX="81.0" layoutY="253.0" text="Час:">
+        <Label layoutX="84.0" layoutY="286.0" text="Час:">
             <font>
                 <Font name="Noteworthy Light" size="15.0" />
             </font>
         </Label>
-        <Label layoutX="64.0" layoutY="353.0" text="Кількість:">
+        <Label layoutX="67.0" layoutY="386.0" text="Кількість:">
             <font>
                 <Font name="Noteworthy Light" size="15.0" />
             </font>
         </Label>
-        <Label layoutX="65.0" layoutY="452.0" prefHeight="30.0" prefWidth="58.0" text="Розвага:">
-            <font>
-                <Font name="Noteworthy Light" size="15.0" />
-            </font>
-        </Label>
-        <DatePicker fx:id="Date" layoutX="280.0" layoutY="150.0" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" prefWidth="150.0" />
-        <TextField fx:id="Time" alignment="CENTER" layoutX="280.0" layoutY="250.0" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0">
-            <font>
-                <Font name="Noteworthy Light" size="12.0" />
-            </font>
-        </TextField>
-      <ChoiceBox fx:id="Enter" layoutX="280.0" layoutY="450.0" prefWidth="150.0" />
+        <DatePicker fx:id="Date_picker" layoutX="280.0" layoutY="183.0" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="Count_box" layoutX="315.0" layoutY="381.0" prefHeight="35.0" prefWidth="58.0" />
+      <ChoiceBox fx:id="Time_box" layoutX="299.0" layoutY="281.0" prefHeight="35.0" prefWidth="89.0" />
     </children>
 </AnchorPane>

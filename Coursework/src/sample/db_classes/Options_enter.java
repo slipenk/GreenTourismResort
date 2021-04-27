@@ -11,14 +11,16 @@ public class Options_enter {
     private Date Date_options;
     private Time Time_options;
     private byte Count_people_options;
+    private int ID_tours_enter;
     private String Enters;
     private ChoiceBox<String> clients;
 
-    public Options_enter(int ID_Options, Date date_options, Time time_options, byte count_people_options, String enters, ObservableList<String> clients) {
+    public Options_enter(int ID_Options, Date date_options, Time time_options, byte count_people_options, int ID_tours_enter ,String enters, ObservableList<String> clients) {
         this.ID_Options = ID_Options;
         Date_options = date_options;
         Time_options = time_options;
         Count_people_options = count_people_options;
+        this.ID_tours_enter = ID_tours_enter;
         Enters = enters;
         this.clients = new ChoiceBox<>();
         this.clients.setItems(clients);
@@ -65,12 +67,20 @@ public class Options_enter {
         Enters = enters;
     }
 
-    public ChoiceBox<String> getClients() {
-        return clients;
+    public ObservableList<String> getClients() {
+        return clients.getItems();
     }
 
     public void setClients(ObservableList<String> clients) {
         this.clients.setItems(clients);
         this.clients.setValue(clients.get(0));
+    }
+
+    public int getID_enter_tours() {
+        return ID_tours_enter;
+    }
+
+    public void setID_enter_tours(int ID_tours_enter) {
+        this.ID_tours_enter = ID_tours_enter;
     }
 }

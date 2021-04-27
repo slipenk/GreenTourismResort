@@ -6,16 +6,21 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import sample.db_classes.Connection_db;
-import sample.db_classes.Options_enter;
-import sample.db_classes.Workers;
+import sample.db_classes.*;
+import sample.entertainments.Entertainment_controller;
+import sample.tours.Add_update_tours;
+import sample.tours.Tours_controller;
 
+import java.io.IOException;
 import java.sql.*;
+import java.util.Set;
 
 public class Options_enter_controller {
     @FXML
@@ -32,15 +37,39 @@ public class Options_enter_controller {
     private TableColumn<Options_enter, ChoiceBox<String>> Clients_col;
     @FXML
     private TextField search_field;
+    @FXML
+    private ChoiceBox<String> enter_box;
 
-    private ObservableList<Options_enter> options_list;
+
+    private ObservableList<Entertainments> entertainments;
+    private ObservableList<String> entertainments_str;
+    private Tours tours;
+
+    public void SetTour(Tours t) {
+        tours = t;
+    }
 
     public void initialize() {
-        options_list = FXCollections.observableArrayList();
+        entertainments = FXCollections.observableArrayList();
+        entertainments_str = FXCollections.observableArrayList();
         ShowOptions();
     }
 
-    private void ShowOptions() {
+    public void GetEnters() {
+        entertainments = Entertainment_controller.getEntertainments("SELECT * " +
+                "FROM Entertainment e " +
+                "JOIN Tours_entertainment te ON e.ID_Entertainment = te.ID_entertainments \n" +
+                "WHERE te.ID_tours = " + tours.getID_tours());
+        for(Entertainments e : entertainments) {
+            entertainments_str.add(e.getName_entertainment());
+        }
+        enter_box.setItems(entertainments_str);
+        if(entertainments_str.size() != 0) {
+            enter_box.setValue(entertainments_str.get(0));
+        }
+    }
+
+    public void ShowOptions() {
         ObservableList<Options_enter> list = getOptions("SELECT * FROM Options");
 
         Date_col.setCellValueFactory(new PropertyValueFactory<>("Date_options"));
@@ -76,35 +105,76 @@ public class Options_enter_controller {
     }
 
     private ObservableList<Options_enter> getOptions(String query) {
-        ObservableList<Options_enter> WorkersList = FXCollections.observableArrayList();
+        ObservableList<Options_enter> OptionsList = FXCollections.observableArrayList();
         Connection conn = Connection_db.GetConnection();
 
         Statement st;
         ResultSet rs;
-
+        ObservableList<String> enters;
+        ObservableList<String> clients;
         try {
             if(conn != null) {
                 st = conn.createStatement();
                 rs = st.executeQuery(query);
                 Options_enter options_enter;
                 while (rs.next()) {
-                   /* options_enter = new Options_enter(rs.getInt("ID_Options"), rs.getDate("Date_options"),
-                            rs.getTime("Time_options"), rs.getByte("Count_people_options"), );
-                   WorkersList.add(workers);*/
+                    enters = Tours_controller.getEnterQuery("SELECT e.Name_entertainment " +
+                            "FROM [Options] o " +
+                            "JOIN Tours_entertainment te ON te.ID_TEN = o.ID_tours_enter " +
+                            "JOIN Entertainment e ON e.ID_Entertainment = te.ID_entertainments " +
+                            "WHERE o.ID_Options = " + rs.getInt("ID_Options"));
+                    clients = Tours_controller.getClientsQuery("SELECT c.Surname_client, c.Name_client, c.Phone_number_client \n" +
+                            "FROM [Options] o " +
+                            "JOIN Tours_entertainment te ON te.ID_TEN = o.ID_tours_enter " +
+                            "JOIN Tour t ON t.ID_tours = te.ID_tours " +
+                            "JOIN Clients_tours ct ON ct.ID_tours = t.ID_tours " +
+                            "JOIN Client c ON c.ID_client = ct.ID_clients " +
+                            "WHERE o.ID_Options = " + rs.getInt("ID_Options"));
+                    options_enter = new Options_enter(rs.getInt("ID_Options"), rs.getDate("Date_options"),
+                            rs.getTime("Time_options"), rs.getByte("Count_people_options"), rs.getInt("ID_tours_enter"),
+                            enters.get(0), clients);
+                    OptionsList.add(options_enter);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return WorkersList;
+        return OptionsList;
     }
 
-    public void Add_method(ActionEvent actionEvent) {
+
+
+
+
+
+    public void Add_method(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Add_update_options_enter.fxml"));
+        Parent parent = fxmlLoader.load();
+        Add_update_options_enter add_update_options_enter = fxmlLoader.getController();
+        add_update_options_enter.SetEnters(entertainments, enter_box.getValue(), this, true, tours);
+        Connection_db.Get_Dialog(parent, 490, 680);
     }
 
-    public void Update_method(ActionEvent actionEvent) {
+    public void Update_method(ActionEvent actionEvent) throws IOException {
+        Options_enter options_enter = table_options.getSelectionModel().getSelectedItem();
+        if(options_enter != null) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Add_update_options_enter.fxml"));
+            Parent parent = fxmlLoader.load();
+            Add_update_options_enter add_update_options_enter = fxmlLoader.getController();
+            add_update_options_enter.SetEnters(entertainments, enter_box.getValue(), this, true, tours);
+            add_update_options_enter.setOptions_enter(options_enter);
+            add_update_options_enter.setValues();
+            Connection_db.Get_Dialog(parent, 490, 680);
+        }
     }
 
     public void Delete_method(ActionEvent actionEvent) {
+        Options_enter options_enter = table_options.getSelectionModel().getSelectedItem();
+        if(options_enter != null) {
+            String query = "DELETE FROM Options WHERE ID_Options = " + options_enter.getID_Options();
+            Connection_db.Cancel_Dialog(query);
+            ShowOptions();
+        }
     }
+
 }

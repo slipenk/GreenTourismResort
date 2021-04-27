@@ -29,6 +29,7 @@ public class Add_update_options_enter {
     @FXML
     private ChoiceBox<LocalTime> Time_box;
 
+
     private ObservableList<Entertainments> entertainments;
     private String entertainments_str;
     private Options_enter_controller oc;
@@ -124,8 +125,23 @@ public class Add_update_options_enter {
     public void Add_method(ActionEvent actionEvent) {
         int id_te = GetIdEnter_tours("SELECT te.ID_TEN " +
                 "FROM Tours_entertainment te " +
-                "WHERE te.ID_entertainments = " + enter.getID_Entertainment() + " AND te.ID_tours = " + tours.getID_tours());
+                "WHERE te.ID_entertainments = " + enter.getID_Entertainment() + " AND te.ID_tours = " + tours.getID_tours(), "ID_TEN");
         String query;
+
+        int count = GetIdEnter_tours("SELECT SUM(o.Count_people_options) AS Count_people_options " +
+                "FROM [Options] o " +
+                "JOIN Tours_entertainment te ON te.ID_TEN = o.ID_tours_enter " +
+                "WHERE o.Date_options = '" + Date.valueOf(Date_picker.getValue()) + "' AND o.Time_options = '" + Time.valueOf(Time_box.getValue()) +
+                "' AND te.ID_entertainments = " + enter.getID_Entertainment(), "Count_people_options");
+
+        if(count + Count_box.getValue() > enter.getMax_People_entertainment()) {
+            Alert alert = new Alert(Alert.AlertType.NONE, "Вибачте, але місць на цю розвагу вже немає. Виберіть інший час або дату. Кількість доступних місць: " + (enter.getMax_People_entertainment() - count), ButtonType.OK);
+            alert.showAndWait();
+            if (alert.getResult() == ButtonType.OK) {
+                return;
+            }
+        }
+
         if(Add_update) {
             query = "INSERT INTO Options VALUES ( '" +
                     Date.valueOf(Date_picker.getValue()) + "' , " +
@@ -142,7 +158,7 @@ public class Add_update_options_enter {
         Connection_db.closeWindow(actionEvent);
     }
 
-    private int GetIdEnter_tours(String query) {
+    private int GetIdEnter_tours(String query, String name) {
         Connection conn = Connection_db.GetConnection();
         Statement st;
         ResultSet rs;
@@ -153,7 +169,7 @@ public class Add_update_options_enter {
                 st = conn.createStatement();
                 rs = st.executeQuery(query);
                 while (rs.next()) {
-                    id = rs.getInt("ID_TEN");
+                    id = rs.getInt(name);
                 }
             }
         } catch (Exception e) {
@@ -161,6 +177,8 @@ public class Add_update_options_enter {
         }
         return id;
     }
+
+
 
 
 }

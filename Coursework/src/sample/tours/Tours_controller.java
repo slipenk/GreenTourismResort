@@ -10,15 +10,20 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import sample.clients.Add_update_clients;
 import sample.clients.Clients_controller;
 import sample.db_classes.*;
 import sample.entertainments.Entertainment_controller;
 import sample.homesteads.Homesteads_controller;
 import sample.options_enter.Options_enter_controller;
+import sample.start_window.Start_window_controller;
 import sample.workers.Add_update_workers;
 import sample.workers.Workers_controller;
 
+import java.awt.*;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -26,8 +31,10 @@ import java.sql.Statement;
 import java.util.*;
 
 public class Tours_controller {
-
-
+    @FXML
+    private ImageView Back_img;
+    @FXML
+    private AnchorPane root;
     @FXML
     private TableView<Tours> table_tours;
     @FXML
@@ -49,7 +56,14 @@ public class Tours_controller {
     @FXML
     private TableColumn<Tours, ChoiceBox<String>> Worker_col;
 
+    private String Worker_name;
+
+    public void SetWorker(String s) {
+        Worker_name = s;
+    }
+
     public void initialize() {
+        Back_img.setPickOnBounds(true);
         ShowTours();
     }
 
@@ -248,4 +262,16 @@ public class Tours_controller {
             Connection_db.Get_Dialog(parent, 1000, 650);
         }
     }
+
+
+    public void Go_back(MouseEvent mouseEvent) throws IOException {
+
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sample/start_window/Start_window.fxml"));
+            Parent parent = fxmlLoader.load();
+            Start_window_controller start_window_controller = fxmlLoader.getController();
+            start_window_controller.setWorkers(Worker_name);
+            root.getChildren().setAll(parent);
+
+    }
+
 }

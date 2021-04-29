@@ -19,6 +19,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 public class Add_update_clients {
 
@@ -157,6 +158,8 @@ public class Add_update_clients {
             format.parse(Date_reg.getValue().toString());
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.NONE, "Правильний формат дати \"yyyy-MM-dd\" ", ButtonType.OK);
+            alert.getDialogPane().getStylesheets().add(
+                    Objects.requireNonNull(getClass().getResource("/sample/style.css")).toExternalForm());
             alert.showAndWait();
             if (alert.getResult() == ButtonType.OK) {
                return;

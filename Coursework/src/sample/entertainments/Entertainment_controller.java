@@ -10,6 +10,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import sample.clients.Add_update_clients;
 import sample.db_classes.Clients;
 import sample.db_classes.Connection_db;
@@ -27,6 +30,14 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class Entertainment_controller {
+    @FXML
+    private Button Add_client_enter;
+    @FXML
+    private Button Delete_client_enter;
+    @FXML
+    private ImageView img_back;
+    @FXML
+    private AnchorPane root;
     @FXML
     private ChoiceBox<String> Enter_tour;
     @FXML
@@ -52,6 +63,24 @@ public class Entertainment_controller {
     private Add_update_tours tours_controller;
     private ObservableList<String> entertainments_list_str;
 
+    private int Category_enter = 0;
+
+    private boolean FromStartWindow;
+
+    public void setFromStartWindow(boolean b) {
+        FromStartWindow = b;
+        if(b) {
+            Add_client_enter.setVisible(false);
+            Delete_client_enter.setVisible(false);
+            Enter_tour.setVisible(false);
+        }
+    }
+
+
+    public void setCategory(int Category) {
+        Category_enter = Category;
+    }
+
 
     public void setTours(Add_update_tours tours_controller) {
         this.tours_controller = tours_controller;
@@ -60,12 +89,23 @@ public class Entertainment_controller {
 
     public void initialize() {
         entertainments_list_str = FXCollections.observableArrayList();
-
-        ShowEntertainments();
+        img_back.setPickOnBounds(true);
+        //ShowEntertainments();
     }
-    public void ShowEntertainments() {
 
-        String query = "SELECT * FROM Entertainment";
+
+    public void ShowEntertainments() {
+        String query = " ";
+        if (Category_enter == 2) {
+            query = "SELECT * FROM Entertainment e JOIN Category_Entertainment ce ON e.ID_Entertainment = ce.ID_entertainment WHERE ce.ID_category = 1";
+        } else if (Category_enter == 3) {
+            query = "SELECT * FROM Entertainment e JOIN Category_Entertainment ce ON e.ID_Entertainment = ce.ID_entertainment WHERE ce.ID_category = 3";
+        }
+        else if (Category_enter == 4) {
+            query = "SELECT * FROM Entertainment e JOIN Category_Entertainment ce ON e.ID_Entertainment = ce.ID_entertainment WHERE ce.ID_category = 2";
+        } else {
+            query = "SELECT * FROM Entertainment";
+        }
         ObservableList<Entertainments> list = getEntertainments(query);
 
         Name_col.setCellValueFactory(new PropertyValueFactory<>("Name_entertainment"));
@@ -190,4 +230,15 @@ public class Entertainment_controller {
             Enter_tour.setValue(entertainments_list_str.get(0));
         }
     }
+
+    public void Go_back(MouseEvent mouseEvent) throws IOException {
+        if(FromStartWindow) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sample/other_windows/Categories.fxml"));
+            Parent parent = fxmlLoader.load();
+            root.getChildren().setAll(parent);
+        } else {
+            Connection_db.closeWindowImg(mouseEvent);
+        }
+    }
+
 }

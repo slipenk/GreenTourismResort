@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -54,6 +55,12 @@ public class Connection_db {
 
     static public void closeWindow(ActionEvent actionEvent) {
         Node source = (Node)  actionEvent.getSource();
+        Stage stage  = (Stage) source.getScene().getWindow();
+        stage.close();
+    }
+
+    static public void closeWindowImg(MouseEvent mouseEvent) {
+        Node source = (Node)  mouseEvent.getSource();
         Stage stage  = (Stage) source.getScene().getWindow();
         stage.close();
     }

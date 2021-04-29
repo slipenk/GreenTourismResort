@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="680.0" prefWidth="490.0" stylesheets="@../../../style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.clients.Add_update_clients">
+    <children>
+        <Label fx:id="Name_window" alignment="CENTER" contentDisplay="CENTER" layoutX="181.0" layoutY="23.0" text="Додати клієнта" textAlignment="CENTER" AnchorPane.bottomAnchor="623.0">
+            <font>
+                <Font name="Noteworthy Light" size="20.0" />
+            </font>
+        </Label>
+        <Button fx:id="Add_btn" alignment="CENTER" layoutX="178.0" layoutY="604.0" mnemonicParsing="false" onAction="#Add_method" prefHeight="44.0" prefWidth="136.0" text="Додати">
+            <font>
+                <Font name="Noteworthy Light" size="15.0" />
+            </font>
+        </Button>
+        <TextField fx:id="Id_document" alignment="CENTER" layoutX="280.0" layoutY="430.0" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0">
+            <font>
+                <Font name="Noteworthy Light" size="12.0" />
+            </font>
+        </TextField>
+        <TextField fx:id="Surname" alignment="CENTER" layoutX="280.0" layoutY="80.0" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0">
+            <font>
+                <Font name="Noteworthy Light" size="12.0" />
+            </font>
+        </TextField>
+      <TextField fx:id="Name" alignment="CENTER" layoutX="280.0" layoutY="150.0" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0">
+         <font>
+            <Font name="Noteworthy Light" size="12.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="Middle_name" alignment="CENTER" layoutX="280.0" layoutY="220.0" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0">
+         <font>
+            <Font name="Noteworthy Light" size="12.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="Phone_number" alignment="CENTER" layoutX="280.0" layoutY="290.0" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0">
+         <font>
+            <Font name="Noteworthy Light" size="12.0" />
+         </font>
+      </TextField>
+      <DatePicker fx:id="Date_birth" layoutX="280.0" layoutY="360.0" maxHeight="30.0" maxWidth="150.0" minHeight="35.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0" />
+      <DatePicker fx:id="Date_reg" layoutX="280.0" layoutY="500.0" maxHeight="30.0" maxWidth="150.0" minHeight="35.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0" />
+          <Label layoutX="81.0" layoutY="83.0" text="Прізвище:">
+              <font>
+                  <Font name="Noteworthy Light" size="15.0" />
+              </font>
+          </Label>
+          <Label layoutX="100.0" layoutY="153.0" text="Ім'я:">
+              <font>
+                  <Font name="Noteworthy Light" size="15.0" />
+              </font>
+          </Label>
+          <Label layoutX="74.0" layoutY="223.0" text="По батькові:">
+              <font>
+                  <Font name="Noteworthy Light" size="15.0" />
+              </font>
+          </Label>
+          <Label layoutX="58.0" layoutY="267.0" prefHeight="76.0" prefWidth="116.0" text="Номер мобільного &#10;     телефону:">
+              <font>
+                  <Font name="Noteworthy Light" size="15.0" />
+              </font>
+          </Label>
+          <Label layoutX="56.0" layoutY="363.0" text="Дата народження:">
+              <font>
+                  <Font name="Noteworthy Light" size="15.0" />
+              </font>
+          </Label>
+          <Label layoutX="53.0" layoutY="414.0" prefHeight="62.0" prefWidth="125.0" text=" Номер документа, &#10;що посвідчує особу">
+              <font>
+                  <Font name="Noteworthy Light" size="15.0" />
+              </font>
+          </Label>
+          <Label layoutX="63.0" layoutY="503.0" text="Дата реєстрації:">
+              <font>
+                  <Font name="Noteworthy Light" size="15.0" />
+              </font>
+          </Label>
+    </children>
+</AnchorPane>

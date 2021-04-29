@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="650.0" maxWidth="1000.0" minHeight="650.0" minWidth="1000.0" prefHeight="650.0" prefWidth="1000.0" stylesheets="@../../../style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.workers.Workers_controller">
+    <children>
+        <HBox alignment="BOTTOM_CENTER" layoutX="292.0" layoutY="536.0" prefHeight="100.0" prefWidth="446.0">
+            <children>
+
+                <Button fx:id="Add_btn" mnemonicParsing="false" onAction="#Add_method" prefHeight="44.0" prefWidth="200.0" text="Додати">
+                    <font>
+                        <Font name="Noteworthy Light" size="15.0" />
+                    </font>
+                    <HBox.margin>
+                        <Insets right="20.0" />
+                    </HBox.margin>
+                </Button>
+                <Button fx:id="Update_btn" mnemonicParsing="false" onAction="#Update_method" prefHeight="44.0" prefWidth="200.0" text="Оновити">
+                    <font>
+                        <Font name="Noteworthy Light" size="15.0" />
+                    </font>
+                    <HBox.margin>
+                        <Insets right="20.0" />
+                    </HBox.margin>
+                </Button>
+                <Button fx:id="Delete_btn" mnemonicParsing="false" onAction="#Delete_method" prefHeight="44.0" prefWidth="200.0" text="Видалити">
+                    <font>
+                        <Font name="Noteworthy Light" size="15.0" />
+                    </font>
+                </Button>
+            </children>
+        </HBox>
+        <TableView fx:id="table_workers" layoutX="142.0" layoutY="52.0" prefHeight="510.0" prefWidth="751.0">
+            <columns>
+                <TableColumn fx:id="Surname_col" prefWidth="141.71371269226074" text="Прізвище" />
+                <TableColumn fx:id="Name_col" prefWidth="105.84318542480469" text="Ім'я" />
+                <TableColumn fx:id="Middle_name_col" minWidth="2.477203369140625" prefWidth="127.0" text="По батькові&#10;" />
+                <TableColumn fx:id="Phone_col" prefWidth="127.0" text="Номер телефону" />
+                <TableColumn fx:id="Date_birth_col" prefWidth="127.0" text="Дата народження&#10;" />
+                <TableColumn fx:id="Job_col" prefWidth="120.3916015625" text="Назва роботи&#10;" />
+            </columns>
+        </TableView>
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="495.0" layoutY="7.0" text="Гіди" textAlignment="CENTER" AnchorPane.bottomAnchor="602.0">
+            <font>
+                <Font name="Noteworthy Light" size="25.0" />
+            </font>
+        </Label>
+        <TextField fx:id="search_field" layoutX="129.0" layoutY="13.0">
+            <font>
+                <Font name="Noteworthy Light" size="13.0" />
+            </font>
+        </TextField>
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="77.0" layoutY="15.0" text="Пошук:" textAlignment="CENTER">
+            <font>
+                <Font name="Noteworthy Light" size="15.0" />
+            </font>
+        </Label>
+        <Button fx:id="Add_workers_tour" layoutX="768.0" layoutY="12.0" mnemonicParsing="false" onAction="#Add_worker_tour" text="+" />
+        <Button fx:id="Delete_workers_tour" layoutX="803.0" layoutY="12.0" mnemonicParsing="false" onAction="#Delete_worker_tour" prefHeight="30.0" prefWidth="29.0" text="-" />
+      <ChoiceBox fx:id="Workers_box" layoutX="841.0" layoutY="11.0" prefWidth="150.0" />
+    </children>
+</AnchorPane>

@@ -10,7 +10,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import sample.db_classes.Entertainments;
+import sample.start_window.Start_window_controller;
 import sample.tours.Add_update_tours;
 import sample.tours.Tours_controller;
 import sample.db_classes.Clients;
@@ -26,6 +30,14 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class Clients_controller {
+    @FXML
+    private ImageView back_img;
+    @FXML
+    private AnchorPane root;
+    @FXML
+    private Button Add_client_tour;
+    @FXML
+    private Button Delete_client_tour;
     @FXML
     private ChoiceBox<String> Clients_tour;
     @FXML
@@ -51,6 +63,19 @@ public class Clients_controller {
 
     private ObservableList<String> clients_list_str;
 
+    private boolean FromStartWindow;
+    private String Worker_name;
+
+    public void setFromStartWindow(boolean b, String s) {
+        Worker_name = s;
+        FromStartWindow = b;
+        if(b) {
+            Add_client_tour.setVisible(false);
+            Delete_client_tour.setVisible(false);
+            Clients_tour.setVisible(false);
+        }
+    }
+
 
     public void setTours(Add_update_tours tours_controller) {
         this.tours_controller = tours_controller;
@@ -58,12 +83,13 @@ public class Clients_controller {
 
 
     public void initialize() {
-
+        back_img.setPickOnBounds(true);
         clients_list_str = FXCollections.observableArrayList();
         ShowClients();
     }
 
     public void ShowClients() {
+
         ObservableList<Clients> list = getClients("SELECT * FROM Client");
 
         Surname_col.setCellValueFactory(new PropertyValueFactory<>("Surname_client"));
@@ -73,9 +99,6 @@ public class Clients_controller {
         Date_birth_col.setCellValueFactory(new PropertyValueFactory<>("Date_birth_client"));
         Document_col.setCellValueFactory(new PropertyValueFactory<>("Document_id_client"));
         Registration_date_col.setCellValueFactory(new PropertyValueFactory<>("Registration_date_client"));
-
-
-
 
         FilteredList<Clients> filteredData = new FilteredList<>(list, b -> true);
 
@@ -199,6 +222,18 @@ public class Clients_controller {
         Clients_tour.setItems(clients_list_str);
         if(clients_list_str.size() != 0) {
             Clients_tour.setValue(clients_list_str.get(0));
+        }
+    }
+
+    public void Go_back(MouseEvent mouseEvent) throws IOException {
+        if(FromStartWindow) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sample/start_window/Start_window.fxml"));
+            Parent parent = fxmlLoader.load();
+            Start_window_controller start_window_controller = fxmlLoader.getController();
+            start_window_controller.setWorkers(Worker_name);
+            root.getChildren().setAll(parent);
+        } else {
+            Connection_db.closeWindowImg(mouseEvent);
         }
     }
 }

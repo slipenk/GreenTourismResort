@@ -7,11 +7,13 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="650.0" maxWidth="1000.0" minHeight="650.0" minWidth="1000.0" prefHeight="650.0" prefWidth="1000.0" stylesheets="@../../../style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.entertainments.Entertainment_controller">
+<AnchorPane fx:id="root" maxHeight="650.0" maxWidth="1000.0" minHeight="650.0" minWidth="1000.0" prefHeight="650.0" prefWidth="1000.0" stylesheets="@../../../style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.entertainments.Entertainment_controller">
     <children>
         <HBox alignment="BOTTOM_CENTER" layoutX="292.0" layoutY="536.0" prefHeight="100.0" prefWidth="446.0">
             <children>
@@ -65,8 +67,13 @@
             <Font name="Noteworthy Light" size="15.0" />
          </font>
       </Label>
-      <Button fx:id="Add_client_tour" layoutX="799.0" layoutY="16.0" mnemonicParsing="false" onAction="#Add_enter_tour" text="+" />
-      <Button fx:id="Delete_client_tour" layoutX="834.0" layoutY="16.0" mnemonicParsing="false" onAction="#Delete_enter_tour" prefHeight="30.0" prefWidth="29.0" text="-" />
+      <Button fx:id="Add_client_enter" layoutX="799.0" layoutY="16.0" mnemonicParsing="false" onAction="#Add_enter_tour" text="+" />
+      <Button fx:id="Delete_client_enter" layoutX="834.0" layoutY="16.0" mnemonicParsing="false" onAction="#Delete_enter_tour" prefHeight="30.0" prefWidth="29.0" text="-" />
       <ChoiceBox fx:id="Enter_tour" layoutX="869.0" layoutY="13.0" prefHeight="35.0" prefWidth="117.0" />
+      <ImageView fx:id="img_back" fitHeight="50.0" fitWidth="50.0" layoutX="-10.0" layoutY="-10.0" onMousePressed="#Go_back">
+         <image>
+            <Image url="@../icons/back-button.png" />
+         </image>
+      </ImageView>
     </children>
 </AnchorPane>

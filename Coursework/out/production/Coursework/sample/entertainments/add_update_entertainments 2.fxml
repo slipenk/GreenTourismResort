@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="680.0" prefWidth="490.0" stylesheets="@../../../style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.entertainments.Add_update_entertainments">
+    <children>
+        <Label fx:id="Name_window" alignment="CENTER" contentDisplay="CENTER" layoutX="181.0" layoutY="17.0" text="Додати розвагу" textAlignment="CENTER" AnchorPane.bottomAnchor="629.0">
+            <font>
+                <Font name="Noteworthy Light" size="20.0" />
+            </font>
+        </Label>
+        <Button fx:id="Add_btn" alignment="CENTER" layoutX="175.0" layoutY="602.0" mnemonicParsing="false" onAction="#Add_method" prefHeight="44.0" prefWidth="136.0" text="Додати">
+            <font>
+                <Font name="Noteworthy Light" size="15.0" />
+            </font>
+        </Button>
+
+        <TextField fx:id="Price" alignment="CENTER" layoutX="283.0" layoutY="386.0" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0">
+            <font>
+                <Font name="Noteworthy Light" size="12.0" />
+            </font>
+        </TextField>
+        <TextField fx:id="Name" alignment="CENTER" layoutX="283.0" layoutY="86.0" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0">
+            <font>
+                <Font name="Noteworthy Light" size="12.0" />
+            </font>
+        </TextField>
+        <TextField fx:id="Time_start" alignment="CENTER" layoutX="283.0" layoutY="206.0" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0">
+            <font>
+                <Font name="Noteworthy Light" size="12.0" />
+            </font>
+        </TextField>
+        <TextField fx:id="Time_end" alignment="CENTER" layoutX="283.0" layoutY="266.0" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0">
+            <font>
+                <Font name="Noteworthy Light" size="12.0" />
+            </font>
+        </TextField>
+        <Label layoutX="84.0" layoutY="89.0" text="Назва:">
+            <font>
+                <Font name="Noteworthy Light" size="15.0" />
+            </font>
+        </Label>
+        <Label layoutX="53.0" layoutY="149.0" text="Кількість людей:">
+            <font>
+                <Font name="Noteworthy Light" size="15.0" />
+            </font>
+        </Label>
+        <Label layoutX="67.0" layoutY="209.0" text="Час початку:">
+            <font>
+                <Font name="Noteworthy Light" size="15.0" />
+            </font>
+        </Label>
+        <Label layoutX="70.0" layoutY="266.0" prefHeight="30.0" prefWidth="63.0" text="Час кінця:&#10;">
+            <font>
+                <Font name="Noteworthy Light" size="15.0" />
+            </font>
+        </Label>
+        <Label layoutX="75.0" layoutY="329.0" text="Рейтинг:">
+            <font>
+                <Font name="Noteworthy Light" size="15.0" />
+            </font>
+        </Label>
+        <Label layoutX="81.0" layoutY="384.0" prefHeight="34.0" prefWidth="42.0" text=" Ціна:&#10;">
+            <font>
+                <Font name="Noteworthy Light" size="15.0" />
+            </font>
+        </Label>
+        <ChoiceBox fx:id="rate_box" layoutX="333.0" layoutY="326.0" maxHeight="35.0" maxWidth="50.0" minHeight="35.0" minWidth="50.0" prefHeight="35.0" prefWidth="50.0" />
+      <Label layoutX="67.0" layoutY="449.0" text="Тривалість:">
+         <font>
+            <Font name="Noteworthy Light" size="15.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="Count_people" layoutX="333.0" layoutY="144.0" maxHeight="35.0" maxWidth="50.0" minHeight="35.0" minWidth="50.0" prefHeight="35.0" prefWidth="50.0" />
+      <ChoiceBox fx:id="Duration" layoutX="331.0" layoutY="446.0" maxHeight="35.0" maxWidth="50.0" minHeight="35.0" minWidth="50.0" prefHeight="35.0" prefWidth="50.0" />
+        <ChoiceBox fx:id="category" layoutX="281.0" layoutY="511.0" prefWidth="150.0">
+            <tooltip>
+                <Tooltip fx:id="Category_tooltip" text="Empty Tooltip" />
+            </tooltip></ChoiceBox>
+        <Button fx:id="add_category" layoutX="439.0" layoutY="514.0" mnemonicParsing="false" onAction="#add_category" text="+" />
+        <Label layoutX="72.0" layoutY="513.0" text="Категорія:">
+            <font>
+                <Font name="Noteworthy Light" size="15.0" />
+            </font>
+        </Label>
+    </children>
+</AnchorPane>

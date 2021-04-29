@@ -269,3 +269,12 @@
     -fx-background-color: #FFFFA5 !important;
 }
 
+.dialog-pane {
+    -fx-background-color: black;
+}
+
+.dialog-pane .label {
+    -fx-text-fill: white;
+}
+
+

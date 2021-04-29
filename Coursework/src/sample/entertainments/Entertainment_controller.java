@@ -17,6 +17,7 @@ import sample.clients.Add_update_clients;
 import sample.db_classes.Clients;
 import sample.db_classes.Connection_db;
 import sample.db_classes.Entertainments;
+import sample.other_windows.Categories_controller;
 import sample.tours.Add_update_tours;
 import sample.tours.Tours_controller;
 
@@ -66,8 +67,10 @@ public class Entertainment_controller {
     private int Category_enter = 0;
 
     private boolean FromStartWindow;
+    private String worker;
 
-    public void setFromStartWindow(boolean b) {
+    public void setFromStartWindow(boolean b, String workers) {
+        worker = workers;
         FromStartWindow = b;
         if(b) {
             Add_client_enter.setVisible(false);
@@ -188,9 +191,11 @@ public class Entertainment_controller {
     public void Delete_method(ActionEvent actionEvent) {
         Entertainments entertainments = table_entertainments.getSelectionModel().getSelectedItem();
         if(entertainments != null) {
+            String query_4 = "DELETE FROM Tours_entertainment t WHERE t.ID_entertainments = " + entertainments.getID_Entertainment();
+            String query_3 = "DELETE FROM [Options] o JOIN Tours_entertainment t ON o.ID_tours_enter = t.ID_TEN WHERE t.ID_entertainments = " + entertainments.getID_Entertainment();
             String query_2 = "DELETE FROM Category_Entertainment WHERE ID_entertainment = " + entertainments.getID_Entertainment();
             String query = "DELETE FROM Entertainment WHERE ID_Entertainment = " + entertainments.getID_Entertainment();
-            Connection_db.Cancel_Dialog(query_2 + query);
+            Connection_db.Cancel_Dialog(query_3 + query_4 + query_2 + query);
             ShowEntertainments();
         }
     }
@@ -235,6 +240,8 @@ public class Entertainment_controller {
         if(FromStartWindow) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sample/other_windows/Categories.fxml"));
             Parent parent = fxmlLoader.load();
+            Categories_controller categories_controller = fxmlLoader.getController();
+            categories_controller.SetWorker(worker);
             root.getChildren().setAll(parent);
         } else {
             Connection_db.closeWindowImg(mouseEvent);

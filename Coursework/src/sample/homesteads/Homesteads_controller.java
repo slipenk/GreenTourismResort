@@ -13,6 +13,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -24,6 +27,8 @@ import sample.db_classes.Categories;
 import sample.db_classes.Clients;
 import sample.db_classes.Connection_db;
 import sample.db_classes.Homesteads;
+import sample.other_windows.Categories_controller;
+import sample.start_window.Start_window_controller;
 import sample.tours.Add_update_tours;
 import sample.tours.Tours_controller;
 
@@ -32,6 +37,12 @@ import java.sql.*;
 
 public class Homesteads_controller {
 
+    @FXML
+    private AnchorPane root;
+    @FXML
+    private Button Delete_homestead_tour;
+    @FXML
+    private ImageView Back_img;
     @FXML
     private Button Add_homestead_tour;
     @FXML
@@ -77,21 +88,35 @@ public class Homesteads_controller {
 
     private ObservableList<String> homesteads_list_str;
 
+    private boolean FromStartWindow;
+    private int Category = 0;
+    private String worker;
+
+    public void setFromStartWindow(boolean b, int id, String workers) {
+        worker = workers;
+        Category = id;
+        FromStartWindow = b;
+        if(b) {
+            Add_homestead_tour.setVisible(false);
+            Delete_homestead_tour.setVisible(false);
+            Label_set.setVisible(false);
+        }
+    }
+
 
     public void setTours(Add_update_tours tours_controller) {
         this.tours_controller = tours_controller;
     }
 
     public void initialize() {
+        Back_img.setPickOnBounds(true);
         homesteads_list_str = FXCollections.observableArrayList();
-        ShowHomesteads();
     }
 
 
-    public static ObservableList<Homesteads> getHomesteads() {
+    public static ObservableList<Homesteads> getHomesteads(String query) {
         ObservableList<Homesteads> HomesteadsList = FXCollections.observableArrayList();
         Connection conn = Connection_db.GetConnection();
-        String query = "SELECT * FROM Homesteads";
         Statement st;
         ResultSet rs;
 
@@ -115,7 +140,23 @@ public class Homesteads_controller {
     }
 
     public void ShowHomesteads() {
-        ObservableList<Homesteads> list = getHomesteads();
+
+
+        String query = " ";
+        if (Category == 2) {
+            query = "SELECT * FROM Homesteads h JOIN Category_Homesteads ch ON h.ID_Homestead = ch.ID_homestead WHERE ch.ID_category = 0";
+        } else if (Category == 3) {
+            query = "SELECT * FROM Homesteads h JOIN Category_Homesteads ch ON h.ID_Homestead = ch.ID_homestead WHERE ch.ID_category = 1";
+        }
+        else if (Category == 4) {
+            query = "SELECT * FROM Homesteads h JOIN Category_Homesteads ch ON h.ID_Homestead = ch.ID_homestead WHERE ch.ID_category = 2";
+        } else {
+            query = "SELECT * FROM Homesteads";
+        }
+
+
+
+        ObservableList<Homesteads> list = getHomesteads(query);
 
         Name_col.setCellValueFactory(new PropertyValueFactory<>("Name_homestead"));
         Beds_col.setCellValueFactory(new PropertyValueFactory<>("Number_of_beds_homestead"));
@@ -182,9 +223,10 @@ public class Homesteads_controller {
     public void Delete_method(ActionEvent actionEvent) {
         Homesteads homestead = table_homesteads.getSelectionModel().getSelectedItem();
         if(homestead != null) {
-            String query_2 = "DELETE FROM Category_Homesteads WHERE ID_homestead = " + homestead.getID_homestead();
-            String query = "DELETE FROM Homesteads WHERE ID_Homestead = " + homestead.getID_homestead();
-            Connection_db.Cancel_Dialog(query_2 + query);
+            String query_3 = "UPDATE Tour SET ID_homestead = NULL WHERE ID_homestead = " + homestead.getID_homestead();
+            String query_2 = " DELETE FROM Category_Homesteads WHERE ID_homestead = " + homestead.getID_homestead();
+            String query = " DELETE FROM Homesteads WHERE ID_Homestead = " + homestead.getID_homestead();
+            Connection_db.Cancel_Dialog(query_3 + query_2 + query);
             ShowHomesteads();
         }
 
@@ -210,6 +252,20 @@ public class Homesteads_controller {
     public void SetLabel() {
         if(tours_controller.getHomesteads() != null)
         Label_set.setText(tours_controller.getHomesteads().getName_homestead());
+    }
+
+    public void Go_back(MouseEvent mouseEvent) throws IOException {
+        if(FromStartWindow) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sample/other_windows/Categories.fxml"));
+            Parent parent = fxmlLoader.load();
+            Categories_controller categories_controller = fxmlLoader.getController();
+            categories_controller.setWindow(3);
+            categories_controller.setButtons();
+            categories_controller.SetWorker(worker);
+            root.getChildren().setAll(parent);
+        } else {
+            Connection_db.closeWindowImg(mouseEvent);
+        }
     }
 
 }

@@ -16,6 +16,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 public class Add_update_options_enter {
     @FXML
@@ -136,24 +137,29 @@ public class Add_update_options_enter {
 
         if(count + Count_box.getValue() > enter.getMax_People_entertainment()) {
             Alert alert = new Alert(Alert.AlertType.NONE, "Вибачте, але місць на цю розвагу вже немає. Виберіть інший час або дату. Кількість доступних місць: " + (enter.getMax_People_entertainment() - count), ButtonType.OK);
+            alert.getDialogPane().getStylesheets().add(
+                    Objects.requireNonNull(getClass().getResource("/sample/style.css")).toExternalForm());
             alert.showAndWait();
             if (alert.getResult() == ButtonType.OK) {
                 return;
             }
         }
-
+        String query_2 = " ";
         if(Add_update) {
             query = "INSERT INTO Options VALUES ( '" +
                     Date.valueOf(Date_picker.getValue()) + "' , " +
                     Count_box.getValue() + ", '" +
                     Time.valueOf(Time_box.getValue()) + "', " +
                     id_te + ")";
+            float price = tours.getCost_tour() + enter.getPrice_entertainment();
+            tours.setCost_tour(price);
+            query_2 = " UPDATE Tour t SET t.Cost_tour = " + price;
         } else {
             query = "UPDATE Options SET Date_options = '" + Date.valueOf(Date_picker.getValue())  + "', Count_people_options = " +
                     Count_box.getValue() + ", Time_options = '" + Time.valueOf(Time_box.getValue()) + "' WHERE ID_Options = " +
                     options_enter.getID_Options();
         }
-        Connection_db.executeQuery(query);
+        Connection_db.executeQuery(query + query_2);
         oc.ShowOptions();
         Connection_db.closeWindow(actionEvent);
     }

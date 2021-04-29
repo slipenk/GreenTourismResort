@@ -9,7 +9,7 @@
 
 <AnchorPane fx:id="root" maxHeight="650.0" maxWidth="1000.0" minHeight="650.0" minWidth="1000.0" prefHeight="650.0" prefWidth="1000.0" stylesheets="@../../../style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.other_windows.Categories_controller">
     <children>
-        <Label fx:id="Label_name" alignment="CENTER" contentDisplay="CENTER" layoutX="343.0" layoutY="24.0" text="Категорії розваг" textAlignment="CENTER" AnchorPane.bottomAnchor="550.0">
+        <Label fx:id="Label_name" alignment="CENTER" contentDisplay="CENTER" layoutX="197.0" layoutY="23.0" prefHeight="76.0" prefWidth="587.0" text="Категорії розваг" textAlignment="CENTER" AnchorPane.bottomAnchor="551.0">
             <font>
                 <Font name="Noteworthy Light" size="45.0" />
             </font>

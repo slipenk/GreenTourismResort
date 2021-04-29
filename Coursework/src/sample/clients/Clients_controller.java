@@ -182,8 +182,9 @@ public class Clients_controller {
     public void Delete_method(ActionEvent actionEvent) {
         Clients clients = table_clients.getSelectionModel().getSelectedItem();
         if(clients != null) {
-            String query = "DELETE FROM Client WHERE ID_client = " + clients.getID_client();
-            Connection_db.Cancel_Dialog(query);
+            if(Connection_db.Cancel_Dialog("DELETE FROM Clients_tours c WHERE c.ID_clients = " + clients.getID_client())) {
+                Connection_db.executeQuery("DELETE FROM Client WHERE ID_client = " + clients.getID_client());
+            }
             ShowClients();
         }
     }

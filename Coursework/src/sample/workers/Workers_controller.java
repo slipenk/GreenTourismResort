@@ -10,11 +10,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import sample.clients.Add_update_clients;
 import sample.db_classes.Clients;
 import sample.db_classes.Connection_db;
 import sample.db_classes.Homesteads;
 import sample.db_classes.Workers;
+import sample.start_window.Start_window_controller;
 import sample.tours.Add_update_tours;
 import sample.tours.Tours_controller;
 
@@ -27,6 +31,12 @@ import java.util.Iterator;
 
 public class Workers_controller {
 
+    @FXML
+    private AnchorPane root;
+    @FXML
+    private Button Delete_workers_tour;
+    @FXML
+    private ImageView back_img;
     @FXML
     private TableView<Workers> table_workers;
     @FXML
@@ -52,6 +62,19 @@ public class Workers_controller {
 
     private ObservableList<String> workers_list_str;
 
+    private boolean FromStartWindow;
+    private String Worker_name;
+
+    public void setFromStartWindow(boolean b, String s) {
+        Worker_name = s;
+        FromStartWindow = b;
+        if(b) {
+            Add_workers_tour.setVisible(false);
+            Delete_workers_tour.setVisible(false);
+            Workers_box.setVisible(false);
+        }
+    }
+
 
     public void setTours(Add_update_tours tours_controller) {
         this.tours_controller = tours_controller;
@@ -59,12 +82,13 @@ public class Workers_controller {
 
 
     public void initialize() {
+        back_img.setPickOnBounds(true);
         workers_list_str = FXCollections.observableArrayList();
         ShowWorkers();
     }
 
     public void ShowWorkers() {
-        ObservableList<Workers> list = getWorkers("SELECT * FROM Worker");
+        ObservableList<Workers> list = getWorkers("SELECT * FROM Worker w WHERE w.Job_worker = N'Гід'");
 
         Surname_col.setCellValueFactory(new PropertyValueFactory<>("Surname_worker"));
         Name_col.setCellValueFactory(new PropertyValueFactory<>("Name_worker"));
@@ -155,8 +179,9 @@ public class Workers_controller {
     public void Delete_method(ActionEvent actionEvent) {
         Workers workers = table_workers.getSelectionModel().getSelectedItem();
         if(workers != null) {
-            String query = "DELETE FROM Worker WHERE ID_workers = " + workers.getID_workers();
-            Connection_db.Cancel_Dialog(query);
+            if(Connection_db.Cancel_Dialog("DELETE FROM Tours_worker c WHERE c.ID_workers =  " + workers.getID_workers())) {
+                Connection_db.executeQuery("DELETE FROM Worker WHERE ID_workers = " + workers.getID_workers());
+            }
             ShowWorkers();
         }
     }
@@ -194,6 +219,18 @@ public class Workers_controller {
         Workers_box.setItems(workers_list_str);
         if(workers_list_str.size() != 0) {
             Workers_box.setValue(workers_list_str.get(0));
+        }
+    }
+
+    public void Go_back(MouseEvent mouseEvent) throws IOException {
+        if(FromStartWindow) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sample/start_window/Start_window.fxml"));
+            Parent parent = fxmlLoader.load();
+            Start_window_controller start_window_controller = fxmlLoader.getController();
+            start_window_controller.setWorkers(Worker_name);
+            root.getChildren().setAll(parent);
+        } else {
+            Connection_db.closeWindowImg(mouseEvent);
         }
     }
 }

@@ -104,7 +104,7 @@ public class AddHomesteads {
 
 
 
-        ObservableList<Homesteads> list = Homesteads_controller.getHomesteads();
+        ObservableList<Homesteads> list = Homesteads_controller.getHomesteads("SELECT * FROM Homesteads");
 
         for( Categories c : CategoriesList) {
             for (String s : list_cat) {

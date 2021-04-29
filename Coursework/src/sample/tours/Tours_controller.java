@@ -19,6 +19,7 @@ import sample.db_classes.*;
 import sample.entertainments.Entertainment_controller;
 import sample.homesteads.Homesteads_controller;
 import sample.options_enter.Options_enter_controller;
+import sample.other_windows.Categories_controller;
 import sample.start_window.Start_window_controller;
 import sample.workers.Add_update_workers;
 import sample.workers.Workers_controller;
@@ -56,19 +57,35 @@ public class Tours_controller {
     @FXML
     private TableColumn<Tours, ChoiceBox<String>> Worker_col;
 
-    private String Worker_name;
 
-    public void SetWorker(String s) {
-        Worker_name = s;
+
+    private int Category_tours = 0;
+    private String worker;
+    public void setCategory(int Category, String workers) {
+        worker = workers;
+        Category_tours = Category;
     }
+
+
 
     public void initialize() {
         Back_img.setPickOnBounds(true);
-        ShowTours();
+        //ShowTours();
     }
 
     public void ShowTours() {
-        ObservableList<Tours> list = getTours();
+
+        String query = " ";
+        if (Category_tours == 2) {
+            query = "SELECT * FROM Tour t WHERE t.Is_active_tours = 1";
+        } else if (Category_tours == 3) {
+            query = " SELECT * FROM Tour t WHERE t.Is_active_tours = 0";
+        } else {
+            query = "SELECT * FROM Tour";
+        }
+
+
+        ObservableList<Tours> list = getTours(query);
 
         Breakfast_col.setCellValueFactory(new PropertyValueFactory<>("IsBreakfast_tours"));
         Price_col.setCellValueFactory(new PropertyValueFactory<>("Cost_tour"));
@@ -82,10 +99,9 @@ public class Tours_controller {
         table_tours.setItems(list);
     }
 
-    private ObservableList<Tours> getTours() {
+    private ObservableList<Tours> getTours(String query) {
         ObservableList<Tours> ToursList = FXCollections.observableArrayList();
         Connection conn = Connection_db.GetConnection();
-        String query = "SELECT * FROM Tour";
         Statement st;
         ResultSet rs;
         int ID_homestead;
@@ -241,7 +257,10 @@ public class Tours_controller {
         Tours tours = table_tours.getSelectionModel().getSelectedItem();
         if(tours != null) {
 
+
+
             if(Connection_db.Cancel_Dialog("DELETE FROM Clients_tours WHERE ID_tours = " + tours.getID_tours())) {
+                Connection_db.Cancel_Dialog("DELETE FROM [Options] o JOIN Tours_entertainment t ON o.ID_tours_enter = t.ID_TEN WHERE t.ID_tours = " + tours.getID_tours());
                 Connection_db.executeQuery("DELETE FROM Tours_entertainment WHERE ID_tours = " + tours.getID_tours());
                 Connection_db.executeQuery("DELETE FROM Tours_worker WHERE ID_tours = " + tours.getID_tours());
                 Connection_db.executeQuery("DELETE FROM Tour WHERE ID_tours = " + tours.getID_tours());
@@ -265,12 +284,13 @@ public class Tours_controller {
 
 
     public void Go_back(MouseEvent mouseEvent) throws IOException {
-
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sample/start_window/Start_window.fxml"));
-            Parent parent = fxmlLoader.load();
-            Start_window_controller start_window_controller = fxmlLoader.getController();
-            start_window_controller.setWorkers(Worker_name);
-            root.getChildren().setAll(parent);
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sample/other_windows/Categories.fxml"));
+        Parent parent = fxmlLoader.load();
+        Categories_controller categories_controller = fxmlLoader.getController();
+        categories_controller.SetWorker(worker);
+        categories_controller.setWindow(1);
+        categories_controller.setButtons();
+        root.getChildren().setAll(parent);
 
     }
 

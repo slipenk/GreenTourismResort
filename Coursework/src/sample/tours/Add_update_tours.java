@@ -259,6 +259,7 @@ public class Add_update_tours {
         Homesteads_controller homesteads_controller = fxmlLoader.getController();
         homesteads_controller.setTours(this);
         homesteads_controller.SetLabel();
+        homesteads_controller.ShowHomesteads();
         Connection_db.Get_Dialog(parent, 1000, 650);
     }
 

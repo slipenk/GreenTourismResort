@@ -124,7 +124,7 @@ public class UpdateHomesteads {
         Connection_db.closeWindow(actionEvent);
 
 
-        ObservableList<Homesteads> list = Homesteads_controller.getHomesteads();
+        ObservableList<Homesteads> list = Homesteads_controller.getHomesteads("SELECT * FROM Homesteads");
 
         String query_3 = "DELETE FROM Category_Homesteads WHERE ID_Homestead =  " + homestead.getID_homestead();
         Connection_db.executeQuery(query_3);

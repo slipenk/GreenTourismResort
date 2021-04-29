@@ -8,21 +8,35 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import sample.db_classes.*;
 import sample.entertainments.Entertainment_controller;
+import sample.other_windows.Categories_controller;
+import sample.start_window.Start_window_controller;
 import sample.tours.Add_update_tours;
 import sample.tours.Tours_controller;
 
 import java.io.IOException;
 import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Set;
 
 public class Options_enter_controller {
+    @FXML
+    private AnchorPane root;
+    @FXML
+    private Button Add_btn;
+    @FXML
+    private Button Update_btn;
+    @FXML
+    private Button Delete_btn;
+    @FXML
+    private ImageView back_img;
     @FXML
     private TableView<Options_enter> table_options;
     @FXML
@@ -45,6 +59,23 @@ public class Options_enter_controller {
     private ObservableList<String> entertainments_str;
     private Tours tours;
 
+    private boolean FromStartWindow;
+    private int Category = 0;
+    private String worker;
+
+    public void setFromStartWindow(boolean b, int id, String workers) {
+        worker = workers;
+        Category = id;
+        FromStartWindow = b;
+        if(b) {
+            Add_btn.setVisible(false);
+            Update_btn.setVisible(false);
+            Delete_btn.setVisible(false);
+            enter_box.setVisible(false);
+        }
+    }
+
+
     public void SetTour(Tours t) {
         tours = t;
     }
@@ -52,7 +83,8 @@ public class Options_enter_controller {
     public void initialize() {
         entertainments = FXCollections.observableArrayList();
         entertainments_str = FXCollections.observableArrayList();
-        ShowOptions();
+        back_img.setPickOnBounds(true);
+
     }
 
     public void GetEnters() {
@@ -70,7 +102,20 @@ public class Options_enter_controller {
     }
 
     public void ShowOptions() {
-        ObservableList<Options_enter> list = getOptions("SELECT * FROM Options");
+
+        String query = " ";
+        Date d = new Date(Calendar.getInstance().getTime().getTime());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        if (Category == 3) {
+            query = "SELECT * FROM [Options] o WHERE o.Date_options = '" + sdf.format(d) + "'";
+        } else {
+            query = "SELECT * FROM Options";
+        }
+
+
+
+        ObservableList<Options_enter> list = getOptions(query);
 
         Date_col.setCellValueFactory(new PropertyValueFactory<>("Date_options"));
         Time_col.setCellValueFactory(new PropertyValueFactory<>("Time_options"));
@@ -174,6 +219,20 @@ public class Options_enter_controller {
             String query = "DELETE FROM Options WHERE ID_Options = " + options_enter.getID_Options();
             Connection_db.Cancel_Dialog(query);
             ShowOptions();
+        }
+    }
+
+    public void Go_back(MouseEvent mouseEvent) throws IOException {
+        if(FromStartWindow) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sample/other_windows/Categories.fxml"));
+            Parent parent = fxmlLoader.load();
+            Categories_controller categories_controller = fxmlLoader.getController();
+            categories_controller.setWindow(4);
+            categories_controller.setButtons();
+            categories_controller.SetWorker(worker);
+            root.getChildren().setAll(parent);
+        } else {
+            Connection_db.closeWindowImg(mouseEvent);
         }
     }
 

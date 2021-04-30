@@ -21,8 +21,6 @@ public class Add_update_workers {
     @FXML
     private Button Add_btn;
     @FXML
-    private TextField Job_name;
-    @FXML
     private TextField Surname;
     @FXML
     private TextField Middle_name;
@@ -100,7 +98,6 @@ public class Add_update_workers {
         Middle_name.setText(worker.getMiddle_name_worker());
         Phone_number_worker.setText(worker.getPhone_number_worker());
         Date_birth_worker.setValue(worker.getDate_birth_worker().toLocalDate());
-        Job_name.setText(worker.getJob_worker());
         if(!Add_Update) {
             Name_window.setText("Оновити гіда");
             Add_btn.setText("Оновити");
@@ -128,12 +125,12 @@ public class Add_update_workers {
                     Middle_name.getText().trim() + "', N'" +
                     Phone_number_worker.getText().trim() + "', '" +
                     Date.valueOf(Date_birth_worker.getValue()) + "', N'" +
-                    Job_name.getText().trim() + "')";
+                    "Гід" + "')";
         } else {
             query = "UPDATE Worker SET Surname_worker = N'" + Surname.getText().trim()  + "', Name_worker = N'" +
                     Name.getText().trim() + "', Middle_name_worker = N'" + Middle_name.getText().trim() + "', Phone_number_worker = N'" +
                     Phone_number_worker.getText().trim() + "', Date_birth_worker = '" + Date.valueOf(Date_birth_worker.getValue()) + "', Job_worker = N'" +
-                    Job_name.getText().trim() +"' WHERE ID_workers = " +
+                    "Гід" +"' WHERE ID_workers = " +
                     worker.getID_workers();
         }
 

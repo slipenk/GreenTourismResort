@@ -146,14 +146,20 @@ public class Add_update_options_enter {
         }
         String query_2 = " ";
         if(Add_update) {
-            query = "INSERT INTO Options VALUES ( '" +
+            float price = tours.getCost_tour() + enter.getPrice_entertainment();
+            tours.setCost_tour(price);
+            query = "BEGIN TRY BEGIN TRAN " +
+                    "INSERT INTO Options VALUES ( '" +
                     Date.valueOf(Date_picker.getValue()) + "' , " +
                     Count_box.getValue() + ", '" +
                     Time.valueOf(Time_box.getValue()) + "', " +
-                    id_te + ")";
-            float price = tours.getCost_tour() + enter.getPrice_entertainment();
-            tours.setCost_tour(price);
-            query_2 = " UPDATE Tour t SET t.Cost_tour = " + price;
+                    id_te + ") " +
+                    "UPDATE Tour t SET t.Cost_tour = " + price +
+                    " COMMIT TRAN END TRY BEGIN CATCH " +
+                    "SELECT error_message() AS ErrorMessage " +
+                    "ROLLBACK TRAN END CATCH";
+
+
         } else {
             query = "UPDATE Options SET Date_options = '" + Date.valueOf(Date_picker.getValue())  + "', Count_people_options = " +
                     Count_box.getValue() + ", Time_options = '" + Time.valueOf(Time_box.getValue()) + "' WHERE ID_Options = " +

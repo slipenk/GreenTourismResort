@@ -115,6 +115,10 @@ public class Clients_controller {
                     return true;
                 } else if(client.getPhone_number_client().toLowerCase().indexOf(lowerCaseFilter) != -1) {
                     return true;
+                } else if(client.getDate_birth_client().toString().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else if(client.getRegistration_date_client().toString().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
                 } else {
                     return false;
                 }
@@ -125,10 +129,9 @@ public class Clients_controller {
 
         sortedData.comparatorProperty().bind(table_clients.comparatorProperty());
 
+
         table_clients.setItems(sortedData);
-
-
-
+        table_clients.refresh();
     }
 
     public static ObservableList<Clients> getClients(String query) {
@@ -182,9 +185,15 @@ public class Clients_controller {
     public void Delete_method(ActionEvent actionEvent) {
         Clients clients = table_clients.getSelectionModel().getSelectedItem();
         if(clients != null) {
-            if(Connection_db.Cancel_Dialog("DELETE FROM Clients_tours c WHERE c.ID_clients = " + clients.getID_client())) {
-                Connection_db.executeQuery("DELETE FROM Client WHERE ID_client = " + clients.getID_client());
-            }
+
+            String query = "BEGIN TRY BEGIN TRAN " +
+                    "DELETE FROM Clients_tours  WHERE ID_clients = " + clients.getID_client() +
+                    " DELETE FROM Client WHERE ID_client = " + clients.getID_client() +
+                    " COMMIT TRAN END TRY BEGIN CATCH " +
+                    "SELECT error_message() AS ErrorMessage " +
+                    "ROLLBACK TRAN END CATCH";
+
+            new Connection_db().Cancel_Dialog(query);
             ShowClients();
         }
     }

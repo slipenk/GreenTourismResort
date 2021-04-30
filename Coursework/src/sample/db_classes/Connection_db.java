@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.Objects;
 
 public class Connection_db {
     static public Connection GetConnection() {
@@ -65,11 +66,13 @@ public class Connection_db {
         stage.close();
     }
 
-    static public boolean Cancel_Dialog(String query)
+     public boolean Cancel_Dialog(String query)
     {
         ButtonType OK = new ButtonType("Видалити", ButtonBar.ButtonData.OK_DONE);
         ButtonType CANCEL = new ButtonType("Скасувати", ButtonBar.ButtonData.CANCEL_CLOSE);
         Alert alert = new Alert(Alert.AlertType.NONE, "Ви впевнені, що хочете видалити?", OK, CANCEL);
+        alert.getDialogPane().getStylesheets().add(
+                Objects.requireNonNull(getClass().getResource("/sample/style.css")).toExternalForm());
         alert.showAndWait();
         if (alert.getResult() == OK) {
             executeQuery(query);

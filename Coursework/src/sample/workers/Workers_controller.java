@@ -125,7 +125,7 @@ public class Workers_controller {
         sortedData.comparatorProperty().bind(table_workers.comparatorProperty());
 
         table_workers.setItems(sortedData);
-
+        table_workers.refresh();
     }
 
     public static ObservableList<Workers> getWorkers(String query) {
@@ -179,9 +179,15 @@ public class Workers_controller {
     public void Delete_method(ActionEvent actionEvent) {
         Workers workers = table_workers.getSelectionModel().getSelectedItem();
         if(workers != null) {
-            if(Connection_db.Cancel_Dialog("DELETE FROM Tours_worker c WHERE c.ID_workers =  " + workers.getID_workers())) {
-                Connection_db.executeQuery("DELETE FROM Worker WHERE ID_workers = " + workers.getID_workers());
-            }
+
+            String query = "BEGIN TRY BEGIN TRAN " +
+                    "DELETE FROM Tours_worker  WHERE ID_workers =  " + workers.getID_workers() +
+                    " DELETE FROM Worker WHERE ID_workers = " + workers.getID_workers() +
+                    " COMMIT TRAN END TRY BEGIN CATCH " +
+                    "SELECT error_message() AS ErrorMessage " +
+                    "ROLLBACK TRAN END CATCH";
+
+            new Connection_db().Cancel_Dialog(query);
             ShowWorkers();
         }
     }

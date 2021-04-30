@@ -15,6 +15,7 @@ import sample.homesteads.Homesteads_controller;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class AddHomesteads {
@@ -77,12 +78,27 @@ public class AddHomesteads {
                 }
             }
         });
-        Price_homestead.setText("0");
+        Price_homestead.setPromptText("Ціна");
+        Name_homestead.setPromptText("Назва");
         list_cat = new HashSet<>();
         Category_tooltip.setText("Виберіть категорії:");
     }
 
+
+    private void GetAlert(String text) {
+        Alert alert = new Alert(Alert.AlertType.NONE, text, ButtonType.OK);
+        alert.getDialogPane().getStylesheets().add(
+                Objects.requireNonNull(getClass().getResource("/sample/style.css")).toExternalForm());
+        alert.showAndWait();
+    }
+
     public void Add_method(ActionEvent actionEvent) {
+
+        if (Name_homestead.getText().isBlank() || Price_homestead.getText().isBlank()) {
+            GetAlert("Введіть назву та ціну садиби");
+            return;
+        }
+
         String query = "INSERT INTO Homesteads VALUES ( N'" +
                 Name_homestead.getText().trim() + "', " +
                 Number_of_beds.getValue()  + ", " +
@@ -98,7 +114,7 @@ public class AddHomesteads {
                 Float.parseFloat(Price_homestead.getText()) + ", " +
                 0 + ") ";
         Connection_db.executeQuery(query);
-        hc.ShowHomesteads();
+
         Connection_db.closeWindow(actionEvent);
 
 
@@ -115,6 +131,7 @@ public class AddHomesteads {
                 }
             }
         }
+        hc.ShowHomesteads();
 
     }
 

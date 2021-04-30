@@ -17,6 +17,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class UpdateHomesteads {
@@ -58,6 +59,7 @@ public class UpdateHomesteads {
     private ObservableList<Categories> category;
     private ObservableList<Categories> categoryAll;
     private Set<String> set;
+    private Boolean delete_cat = false;
 
     public void setController(Homesteads_controller hc) {
         this.hc = hc;
@@ -89,7 +91,8 @@ public class UpdateHomesteads {
                 }
             }
         });
-        Price_homestead.setText("0");
+        Price_homestead.setPromptText("Ціна");
+        Name_homestead.setPromptText("Назва");
         Category_tooltip.setText("Виберіть категорії:");
     }
 
@@ -109,7 +112,19 @@ public class UpdateHomesteads {
 
     }
 
+    private void GetAlert(String text) {
+        Alert alert = new Alert(Alert.AlertType.NONE, text, ButtonType.OK);
+        alert.getDialogPane().getStylesheets().add(
+                Objects.requireNonNull(getClass().getResource("/sample/style.css")).toExternalForm());
+        alert.showAndWait();
+    }
+
     public void Update_method(ActionEvent actionEvent) {
+
+        if (Name_homestead.getText().isBlank() || Price_homestead.getText().isBlank()) {
+            GetAlert("Введіть назву та ціну садиби");
+            return;
+        }
 
         String query = "UPDATE Homesteads SET Name_homestead = N'" + Name_homestead.getText().trim()  + "', Number_of_beds_homestead = " +
                 Number_of_beds.getValue() + ", Number_of_rooms_homestead = " + Number_of_rooms.getValue() + ", Number_of_floors_homestead = " +
@@ -120,24 +135,25 @@ public class UpdateHomesteads {
                 Float.parseFloat(Price_homestead.getText()) + ", Is_active = " + (is_available.isSelected() ? 1 : 0) + " WHERE ID_Homestead = " +
                 homestead.getID_homestead();
         Connection_db.executeQuery(query);
-        hc.ShowHomesteads();
+
         Connection_db.closeWindow(actionEvent);
 
 
         ObservableList<Homesteads> list = Homesteads_controller.getHomesteads("SELECT * FROM Homesteads");
 
         String query_3 = "DELETE FROM Category_Homesteads WHERE ID_Homestead =  " + homestead.getID_homestead();
+        if(delete_cat)
         Connection_db.executeQuery(query_3);
         for( Categories c : categoryAll) {
             for (String s : set) {
                 if (s.equals(c.getName_category())) {
-                    String query_2 = " INSERT INTO Category_Homesteads VALUES ( " + list.get(list.size() - 1).getID_homestead() + ", " +
+                    String query_2 = " INSERT INTO Category_Homesteads VALUES ( " + homestead.getID_homestead() + ", " +
                             c.getID_category() + ")";
                     Connection_db.executeQuery(query_2);
                 }
             }
         }
-
+        hc.ShowHomesteads();
     }
 
     public void GetAllCategories_of_homestead() {
@@ -164,6 +180,7 @@ public class UpdateHomesteads {
 
     private StringBuilder string = new StringBuilder(" ");
     public void Add_category(ActionEvent actionEvent) {
+        delete_cat = true;
         set.add(Category.getValue());
         string.append(Category.getValue()).append(" ");
         Category_tooltip.setText(String.valueOf(string));

@@ -15,7 +15,9 @@ import java.sql.Date;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.ResolverStyle;
+import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class Add_update_entertainments {
@@ -51,6 +53,7 @@ public class Add_update_entertainments {
     private Entertainment_controller ec;
     private boolean Add_Update;
     private Entertainments entertainment;
+    private boolean delete_cat;
 
     public void setController(Entertainment_controller ec) {
         this.ec = ec;
@@ -72,7 +75,8 @@ public class Add_update_entertainments {
                 }
             }
         });
-        Price.setText("0");
+       Price.setPromptText("Ціна");
+       Name.setPromptText("Назва");
 
         Duration.setItems(FXCollections.observableArrayList(
                 (byte)1, (byte)2, (byte)3, (byte)4, (byte)5));
@@ -103,19 +107,46 @@ public class Add_update_entertainments {
             Add_btn.setText("Оновити");
         }
     }
+    private void GetAlert(String text) {
+        Alert alert = new Alert(Alert.AlertType.NONE, text, ButtonType.OK);
+        alert.getDialogPane().getStylesheets().add(
+                Objects.requireNonNull(getClass().getResource("/sample/style.css")).toExternalForm());
+        alert.showAndWait();
+    }
 
     public void Add_method(ActionEvent actionEvent) {
+
+        if (Name.getText().isBlank() || Price.getText().isBlank()) {
+            GetAlert("Введіть назву та ціну садиби");
+            return;
+        }
+
+
         DateTimeFormatter strictTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss")
                 .withResolverStyle(ResolverStyle.STRICT);
         try {
-            LocalTime.parse(Time_start.getText(), strictTimeFormatter);
-            LocalTime.parse(Time_end.getText(), strictTimeFormatter);
-        } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.NONE, "Правильний формат часу \"гг:хх:cc\" ", ButtonType.OK);
-            alert.showAndWait();
-            if (alert.getResult() == ButtonType.OK) {
+            LocalTime t = LocalTime.parse(Time_start.getText(), strictTimeFormatter);
+            LocalTime t2 = LocalTime.parse(Time_end.getText(), strictTimeFormatter);
+            if(t.compareTo(t2) > 0) {
+                GetAlert("Час початку не може бути більшим часу кінця");
                 return;
             }
+            if(ChronoUnit.HOURS.between(t, t2) < Duration.getValue()) {
+                GetAlert("Перевірте тривалість розваги");
+                return;
+            }
+
+            while(t.plusHours(Duration.getValue()) != t2 ) {
+                t = t.plusHours(Duration.getValue());
+                if(t.compareTo(t2) > 0)  {
+                    GetAlert("Перевірте тривалість розваги");
+                    return;
+                }
+            }
+
+        } catch (Exception e) {
+          GetAlert("Правильний формат часу \"гг:хх:cc\"");
+          return;
         }
 
         String query;
@@ -156,11 +187,12 @@ public class Add_update_entertainments {
             }
         } else {
             String query_3 = "DELETE FROM Category_Entertainment WHERE ID_entertainment =  " + entertainment.getID_Entertainment();
+            if(delete_cat)
             Connection_db.executeQuery(query_3);
             for( Categories c : CategoriesList) {
                 for (String s : list_cat) {
                     if (s.equals(c.getName_category())) {
-                        String query_2 = " INSERT INTO Category_Entertainment VALUES ( " + list.get(list.size() - 1).getID_Entertainment() + ", " +
+                        String query_2 = " INSERT INTO Category_Entertainment VALUES ( " + entertainment.getID_Entertainment() + ", " +
                                 c.getID_category() + ")";
 
                         Connection_db.executeQuery(query_2);
@@ -205,6 +237,7 @@ public class Add_update_entertainments {
 
     private  StringBuilder string = new StringBuilder(" ");
     public void add_category(ActionEvent actionEvent) {
+        delete_cat = true;
         list_cat.add(category.getValue());
         string.append(category.getValue()).append(" ");
         Category_tooltip.setText(String.valueOf(string));

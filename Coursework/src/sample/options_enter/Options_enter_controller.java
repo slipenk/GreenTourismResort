@@ -217,7 +217,7 @@ public class Options_enter_controller {
         Options_enter options_enter = table_options.getSelectionModel().getSelectedItem();
         if(options_enter != null) {
             String query = "DELETE FROM Options WHERE ID_Options = " + options_enter.getID_Options();
-            Connection_db.Cancel_Dialog(query);
+            new Connection_db().Cancel_Dialog(query);
             ShowOptions();
         }
     }

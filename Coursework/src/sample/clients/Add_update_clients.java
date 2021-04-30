@@ -57,6 +57,11 @@ public class Add_update_clients {
     }
 
     public void initialize() {
+        Surname.setPromptText("Прізвище");
+        Name.setPromptText("Ім'я");
+        Middle_name.setPromptText("По батькові");
+        Phone_number.setPromptText("Номер");
+        Id_document.setPromptText("Документ");
         Phone_number.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -148,22 +153,28 @@ public class Add_update_clients {
     }
 
 
+    private void GetAlert(String text) {
+        Alert alert = new Alert(Alert.AlertType.NONE, text, ButtonType.OK);
+        alert.getDialogPane().getStylesheets().add(
+                Objects.requireNonNull(getClass().getResource("/sample/style.css")).toExternalForm());
+        alert.showAndWait();
+    }
 
     public void Add_method(ActionEvent actionEvent)  {
+
+        if (Surname.getText().isBlank() || Name.getText().isBlank()) {
+            GetAlert("Введіть прізвище та ім'я клієнта");
+            return;
+        }
 
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
         try {
-            format.parse(Date_birth.getValue().toString());
-            format.parse(Date_reg.getValue().toString());
+            format.parse(String.valueOf(Date_birth.getValue()));
+            format.parse(String.valueOf(Date_reg.getValue()));
         } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.NONE, "Правильний формат дати \"yyyy-MM-dd\" ", ButtonType.OK);
-            alert.getDialogPane().getStylesheets().add(
-                    Objects.requireNonNull(getClass().getResource("/sample/style.css")).toExternalForm());
-            alert.showAndWait();
-            if (alert.getResult() == ButtonType.OK) {
-               return;
-            }
+            GetAlert("Правильний формат дати \"yyyy-MM-dd\" ");
+            return;
         }
 
         String query;
@@ -186,6 +197,7 @@ public class Add_update_clients {
 
         Connection_db.executeQuery(query);
         cc.ShowClients();
+
         Connection_db.closeWindow(actionEvent);
     }
 }

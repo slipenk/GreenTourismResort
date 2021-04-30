@@ -176,6 +176,11 @@ public class Tours_controller {
 
                 while (rs.next()) {
                     ID_homestead = rs.getInt("ID_homestead");
+                    if (rs.wasNull()) {
+                        ID_homestead = -1;
+                    }
+                    if(ID_homestead == -1)
+                        homestead = " ";
                     homestead = getHomesteadQuery("SELECT Name_homestead FROM Homesteads WHERE ID_homestead = " + ID_homestead);
                     clients_list = getClientsQuery("SELECT Surname_client, Name_client, Phone_number_client " +
                             "FROM Clients_tours ct " +
@@ -315,14 +320,20 @@ public class Tours_controller {
         Tours tours = table_tours.getSelectionModel().getSelectedItem();
         if(tours != null) {
 
+            String query = "BEGIN TRY BEGIN TRAN " +
+                    "DELETE FROM Clients_tours WHERE ID_tours = " + tours.getID_tours() +
+                    " DELETE FROM [Options] o JOIN Tours_entertainment t ON o.ID_tours_enter = t.ID_TEN WHERE t.ID_tours = " + tours.getID_tours() +
+                    " DELETE FROM Tours_entertainment WHERE ID_tours = " + tours.getID_tours() +
+                    " DELETE FROM Tours_worker WHERE ID_tours = " + tours.getID_tours() +
+                    " DELETE FROM Tour WHERE ID_tours = " + tours.getID_tours() +
+                    " COMMIT TRAN END TRY BEGIN CATCH " +
+                    "SELECT error_message() AS ErrorMessage " +
+                    "ROLLBACK TRAN END CATCH";
 
 
-            if(Connection_db.Cancel_Dialog("DELETE FROM Clients_tours WHERE ID_tours = " + tours.getID_tours())) {
-                Connection_db.Cancel_Dialog("DELETE FROM [Options] o JOIN Tours_entertainment t ON o.ID_tours_enter = t.ID_TEN WHERE t.ID_tours = " + tours.getID_tours());
-                Connection_db.executeQuery("DELETE FROM Tours_entertainment WHERE ID_tours = " + tours.getID_tours());
-                Connection_db.executeQuery("DELETE FROM Tours_worker WHERE ID_tours = " + tours.getID_tours());
-                Connection_db.executeQuery("DELETE FROM Tour WHERE ID_tours = " + tours.getID_tours());
-            }
+
+            Connection_db.executeQuery(query);
+
             ShowTours();
         }
     }

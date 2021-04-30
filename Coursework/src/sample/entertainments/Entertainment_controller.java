@@ -137,6 +137,7 @@ public class Entertainment_controller {
         sortedData.comparatorProperty().bind(table_entertainments.comparatorProperty());
 
         table_entertainments.setItems(sortedData);
+        table_entertainments.refresh();
     }
 
     public static ObservableList<Entertainments> getEntertainments(String query) {
@@ -191,11 +192,17 @@ public class Entertainment_controller {
     public void Delete_method(ActionEvent actionEvent) {
         Entertainments entertainments = table_entertainments.getSelectionModel().getSelectedItem();
         if(entertainments != null) {
-            String query_4 = "DELETE FROM Tours_entertainment t WHERE t.ID_entertainments = " + entertainments.getID_Entertainment();
-            String query_3 = "DELETE FROM [Options] o JOIN Tours_entertainment t ON o.ID_tours_enter = t.ID_TEN WHERE t.ID_entertainments = " + entertainments.getID_Entertainment();
-            String query_2 = "DELETE FROM Category_Entertainment WHERE ID_entertainment = " + entertainments.getID_Entertainment();
-            String query = "DELETE FROM Entertainment WHERE ID_Entertainment = " + entertainments.getID_Entertainment();
-            Connection_db.Cancel_Dialog(query_3 + query_4 + query_2 + query);
+
+            String query = "BEGIN TRY BEGIN TRAN " +
+                    "DELETE o FROM Options o JOIN Tours_entertainment t ON o.ID_tours_enter = t.ID_TEN WHERE t.ID_entertainments = " + entertainments.getID_Entertainment() +
+                    " DELETE FROM Tours_entertainment  WHERE ID_entertainments = " + entertainments.getID_Entertainment() +
+                    " DELETE FROM Category_Entertainment WHERE ID_entertainment = " + entertainments.getID_Entertainment() +
+                    " DELETE FROM Entertainment WHERE ID_Entertainment = " + entertainments.getID_Entertainment() +
+                    " COMMIT TRAN END TRY BEGIN CATCH " +
+                    "SELECT error_message() AS ErrorMessage " +
+                    "ROLLBACK TRAN END CATCH";
+
+            new Connection_db().Cancel_Dialog(query);
             ShowEntertainments();
         }
     }
@@ -242,6 +249,8 @@ public class Entertainment_controller {
             Parent parent = fxmlLoader.load();
             Categories_controller categories_controller = fxmlLoader.getController();
             categories_controller.SetWorker(worker);
+            categories_controller.setWindow(2);
+            categories_controller.setButtons();
             root.getChildren().setAll(parent);
         } else {
             Connection_db.closeWindowImg(mouseEvent);

@@ -111,6 +111,7 @@ public class Homesteads_controller {
     public void initialize() {
         Back_img.setPickOnBounds(true);
         homesteads_list_str = FXCollections.observableArrayList();
+
     }
 
 
@@ -191,6 +192,7 @@ public class Homesteads_controller {
         sortedData.comparatorProperty().bind(table_homesteads.comparatorProperty());
 
         table_homesteads.setItems(sortedData);
+        table_homesteads.refresh();
 
 
     }
@@ -223,10 +225,16 @@ public class Homesteads_controller {
     public void Delete_method(ActionEvent actionEvent) {
         Homesteads homestead = table_homesteads.getSelectionModel().getSelectedItem();
         if(homestead != null) {
-            String query_3 = "UPDATE Tour SET ID_homestead = NULL WHERE ID_homestead = " + homestead.getID_homestead();
-            String query_2 = " DELETE FROM Category_Homesteads WHERE ID_homestead = " + homestead.getID_homestead();
-            String query = " DELETE FROM Homesteads WHERE ID_Homestead = " + homestead.getID_homestead();
-            Connection_db.Cancel_Dialog(query_3 + query_2 + query);
+
+            String query = "BEGIN TRY BEGIN TRAN " +
+                    "UPDATE Tour SET ID_homestead = NULL WHERE ID_homestead = " + homestead.getID_homestead() +
+                    " DELETE FROM Category_Homesteads WHERE ID_homestead = " + homestead.getID_homestead() +
+                    " DELETE FROM Homesteads WHERE ID_Homestead = " + homestead.getID_homestead() +
+                    " COMMIT TRAN END TRY BEGIN CATCH " +
+                    "SELECT error_message() AS ErrorMessage " +
+                    "ROLLBACK TRAN END CATCH";
+
+            new Connection_db().Cancel_Dialog(query);
             ShowHomesteads();
         }
 

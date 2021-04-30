@@ -149,7 +149,7 @@ public class Options_enter_controller {
         table_options.setItems(sortedData);
     }
 
-    private ObservableList<Options_enter> getOptions(String query) {
+    public ObservableList<Options_enter> getOptions(String query) {
         ObservableList<Options_enter> OptionsList = FXCollections.observableArrayList();
         Connection conn = Connection_db.GetConnection();
 

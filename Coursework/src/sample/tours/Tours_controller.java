@@ -1,7 +1,20 @@
 package sample.tours;
 
+import com.itextpdf.io.font.FontConstants;
+import com.itextpdf.io.font.PdfEncodings;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.property.HorizontalAlignment;
+import com.itextpdf.layout.property.TextAlignment;
+import com.itextpdf.layout.property.VerticalAlignment;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +22,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -25,13 +39,24 @@ import sample.workers.Add_update_workers;
 import sample.workers.Workers_controller;
 
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.*;
 
+
+
+
+
+
 public class Tours_controller {
+
+
+    private final String FONT_NOTEWORTHY = "src/sample/fonts/Noteworthy-Lt.ttf";
+    @FXML
+    private TextField search_field;
     @FXML
     private ImageView Back_img;
     @FXML
@@ -70,7 +95,7 @@ public class Tours_controller {
 
     public void initialize() {
         Back_img.setPickOnBounds(true);
-        //ShowTours();
+        ShowTours();
     }
 
     public void ShowTours() {
@@ -96,7 +121,40 @@ public class Tours_controller {
         Clients_col.setCellValueFactory(new PropertyValueFactory<>("clientsChoiceBox"));
         Enter_col.setCellValueFactory(new PropertyValueFactory<>("entertainmentsChoiceBox"));
         Worker_col.setCellValueFactory(new PropertyValueFactory<>("workersChoiceBox"));
-        table_tours.setItems(list);
+
+        FilteredList<Tours> filteredData = new FilteredList<>(list, b -> true);
+
+        search_field.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(tours -> {
+                if(newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+                if(tours.getDate_start_tour().toString().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else if(tours.getDate_end_tour().toString().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else if(tours.getHomestead().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else if(tours.getWorkersChoiceBox().toString().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else if(tours.getClientsChoiceBox().toString().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else if(tours.getEntertainmentsChoiceBox().toString().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+        });
+
+        SortedList<Tours> sortedData = new SortedList<>(filteredData);
+
+        sortedData.comparatorProperty().bind(table_tours.comparatorProperty());
+
+        table_tours.setItems(sortedData);
+
     }
 
     private ObservableList<Tours> getTours(String query) {
@@ -292,6 +350,70 @@ public class Tours_controller {
         categories_controller.setButtons();
         root.getChildren().setAll(parent);
 
+    }
+
+    public void GeneratePDF() {
+        String path = "/Users/yuraslipenkyi/Documents/Java/Green_resort/PDF_doc/ticket.pdf";
+        try {
+            PdfWriter writer = new PdfWriter(path);
+            PdfDocument pdf = new PdfDocument(writer);
+            Document document = new Document(pdf);
+
+            PdfFont font1250 = PdfFontFactory.createFont(FONT_NOTEWORTHY, "Cp1251", true);
+
+            document.add(new Paragraph().setFont(font1250)
+                    .add("Курорт зеленого туризму \"Інтермецо\" ").setTextAlignment(TextAlignment.CENTER));
+
+            Tours tours = table_tours.getSelectionModel().getSelectedItem();
+            if(tours != null) {
+
+                String query = "SELECT e.Name_entertainment, o.Date_options, o.Time_options FROM [Options] o JOIN Tours_entertainment te ON te.ID_TEN = o.ID_tours_enter JOIN Entertainment e ON e.ID_Entertainment = te.ID_entertainments WHERE te.ID_tours = " + tours.getID_tours();
+
+                ObservableList<String> options = getOptions(query);
+
+                document.add(new Paragraph().setFont(font1250)
+                        .add("Клієнти: " + tours.getClientsChoiceBox().toString() + "\nРозваги: " + options.toString()
+                        +"\n Гіди: " + tours.getWorkersChoiceBox().toString()
+                                +"\n Садиба: " + tours.getHomestead()
+                                +"\n Cніданок: " + tours.getIsBreakfast_tours()
+                                +"\n Ціна туру: " + tours.getCost_tour()
+                                +"\n Дата початку: " + tours.getDate_start_tour()
+                                +"\n Дата кінця: " + tours.getDate_end_tour()));
+
+                document.add(new Paragraph().setFont(font1250)
+                        .add("Бажаємо хорошого відпочинку!").setTextAlignment(TextAlignment.CENTER));
+            }
+
+            document.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void GeneratePDF_method(ActionEvent actionEvent) {
+        GeneratePDF();
+    }
+
+    public ObservableList<String> getOptions(String query) {
+        ObservableList<String> OptionsList = FXCollections.observableArrayList();
+        Connection conn = Connection_db.GetConnection();
+        Statement st;
+        ResultSet rs;
+
+        try {
+            if(conn != null) {
+                st = conn.createStatement();
+                rs = st.executeQuery(query);
+                String options_enter;
+                while (rs.next()) {
+                    options_enter = rs.getString("Name_entertainment") + "  " + rs.getDate("Date_options").toString() + " " + rs.getTime("Time_options").toString();
+                    OptionsList.add(options_enter);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return OptionsList;
     }
 
 }

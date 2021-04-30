@@ -239,6 +239,7 @@ public class Add_update_tours {
         Entertainment_controller entertainment_controller = fxmlLoader.getController();
         entertainment_controller.setTours(this);
         entertainment_controller.SetChoiceBox();
+
         entertainment_controller.ShowEntertainments();
         Connection_db.Get_Dialog(parent, 1000, 650);
     }

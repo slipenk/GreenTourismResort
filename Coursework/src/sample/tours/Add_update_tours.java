@@ -26,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -65,9 +66,7 @@ public class Add_update_tours {
     private Tours_controller tc;
     private boolean Add_Update;
     private Tours tours;
-    private boolean b_clients = false;
-    private boolean b_enters = false;
-    private boolean b_workers = false;
+
 
     public void setController(Tours_controller tc) {
         this.tc = tc;
@@ -168,6 +167,9 @@ public class Add_update_tours {
         Date_end.setValue(tours.getDate_end_tour().toLocalDate());
         Price.setText(String.valueOf(tours.getCost_tour()));
         home_label.setText(tours.getHomestead());
+        ObservableList<Homesteads> h = Homesteads_controller.getHomesteads("SELECT * FROM Homesteads WHERE Name_homestead = N'" + tours.getHomestead() + "'");
+        if(h.size() != 0)
+        homesteads = h.get(0);
         clients_box.setItems(tours.getClientsChoiceBox());
         if(tours.getClientsChoiceBox().size() != 0)
         clients_box.setValue(tours.getClientsChoiceBox().get(0));
@@ -275,7 +277,6 @@ public class Add_update_tours {
 
 
     public void add_clients(ActionEvent actionEvent) throws IOException {
-        b_clients = true;
         SetClients();
         clients_str.clear();
         for(Clients c: clients) {
@@ -287,7 +288,6 @@ public class Add_update_tours {
     }
 
     public void add_enter(ActionEvent actionEvent) throws IOException  {
-        b_enters = true;
         SetEntertainments();
         entertainments_str.clear();
         for(Entertainments e: entertainments) {
@@ -299,7 +299,6 @@ public class Add_update_tours {
     }
 
     public void add_workers(ActionEvent actionEvent) throws IOException  {
-        b_workers = true;
         SetWorkers();
         workers_str.clear();
         for(Workers c: workers) {
@@ -312,7 +311,11 @@ public class Add_update_tours {
 
     public void add_home(ActionEvent actionEvent) throws IOException  {
         SetHomestead();
-        home_label.setText(homesteads.getName_homestead());
+        if(homesteads == null)
+            home_label.setText("");
+        else {
+            home_label.setText(homesteads.getName_homestead());
+        }
     }
 
     public void Add_method(ActionEvent actionEvent) {
@@ -322,45 +325,72 @@ public class Add_update_tours {
             format.parse(Date_start.getValue().toString());
             format.parse(Date_end.getValue().toString());
         } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.NONE, "Правильний формат дати \"yyyy-MM-dd\" ", ButtonType.OK);
-            alert.showAndWait();
-            if (alert.getResult() == ButtonType.OK) {
-                return;
-            }
+            GetAlert("Правильний формат дати \"yyyy-MM-dd\" ");
+            return;
+        }
+        if(Date_start.getValue().compareTo(Date_end.getValue()) > 0) {
+            GetAlert("Перевірте дати");
+            return;
+        }
+        float price = 0;
+        long days = getDifferenceDays(Date.valueOf(Date_start.getValue()), Date.valueOf(Date_end.getValue()));
+
+        if(clients.size() == 0) {
+            GetAlert("Додайте клієнтів");
+            return;
+        } else if(workers.size() == 0) {
+            GetAlert("Додайте гіда");
+            return;
+        } else if(entertainments.size() == 0) {
+            return;
         }
 
         String query;
         if(Add_Update) {
-            float price = 0;
-            long days = getDifferenceDays(Date.valueOf(Date_start.getValue()), Date.valueOf(Date_end.getValue()));
-            if (Is_breakfast.isSelected()) {
+            if (Is_breakfast.isSelected() && homesteads != null) {
                 price += days * PRICE_BREAKFAST + homesteads.getPrice_homestead();
-            } else {
+            } else if(homesteads == null && Is_breakfast.isSelected()) {
+                price += days * PRICE_BREAKFAST;
+            } else if(!Is_breakfast.isSelected() && homesteads != null) {
                 price += homesteads.getPrice_homestead();
+            } else {
+                price = 0;
             }
 
-            query = "INSERT INTO Tour VALUES ( " +
-                    (Is_breakfast.isSelected() ? 1 : 0) + ", " +
-                    price + ", '" +
-                    Date.valueOf(Date_start.getValue()) + "', '" +
-                    Date.valueOf(Date_end.getValue()) + "', " +
-                    homesteads.getID_homestead() + ", " +
-                    (Is_active.isSelected() ? 1 : 0) + ")";
+            if (homesteads == null) {
+                query = "INSERT INTO Tour VALUES ( " +
+                        (Is_breakfast.isSelected() ? 1 : 0) + ", " +
+                        price + ", '" +
+                        Date.valueOf(Date_start.getValue()) + "', '" +
+                        Date.valueOf(Date_end.getValue()) + "', null, " +
+                        (Is_active.isSelected() ? 1 : 0) + ")";
+            } else {
+                query = "INSERT INTO Tour VALUES ( " +
+                        (Is_breakfast.isSelected() ? 1 : 0) + ", " +
+                        price + ", '" +
+                        Date.valueOf(Date_start.getValue()) + "', '" +
+                        Date.valueOf(Date_end.getValue()) + "', " +
+                        homesteads.getID_homestead() + ", " +
+                        (Is_active.isSelected() ? 1 : 0) + ")";
+            }
         } else {
-            query = "d";
-
             int id_homestead = -1;
             if(homesteads != null) {
                 id_homestead = homesteads.getID_homestead();
+                query = "UPDATE Tour SET IsBreakfast_tours = " + (Is_breakfast.isSelected() ? 1 : 0)  + ", Cost_tour = " +
+                        Float.parseFloat(Price.getText()) + ", Date_start_tour = '" + Date.valueOf(Date_start.getValue()) + "', Date_end_tour = '" +
+                        Date.valueOf(Date_end.getValue()) + "', ID_homestead = " + id_homestead + ", Is_active_tours = " +
+                        (Is_active.isSelected() ? 1 : 0) + " WHERE ID_tours = " +
+                        tours.getID_tours();
             } else {
-                id_homestead = getID_homestead();
+                query = "UPDATE Tour SET IsBreakfast_tours = " + (Is_breakfast.isSelected() ? 1 : 0)  + ", Cost_tour = " +
+                        Float.parseFloat(Price.getText()) + ", Date_start_tour = '" + Date.valueOf(Date_start.getValue()) + "', Date_end_tour = '" +
+                        Date.valueOf(Date_end.getValue()) + "', ID_homestead = null, Is_active_tours = " +
+                        (Is_active.isSelected() ? 1 : 0) + " WHERE ID_tours = " +
+                        tours.getID_tours();
             }
 
-            query = "UPDATE Tour SET IsBreakfast_tours = " + (Is_breakfast.isSelected() ? 1 : 0)  + ", Cost_tour = " +
-                    Float.parseFloat(Price.getText()) + ", Date_start_tour = '" + Date.valueOf(Date_start.getValue()) + "', Date_end_tour = '" +
-                    Date.valueOf(Date_end.getValue()) + "', ID_homestead = " + id_homestead + ", Is_active_tours = " +
-                    (Is_active.isSelected() ? 1 : 0) + " WHERE ID_tours = " +
-                    tours.getID_tours();
+
         }
 
         Connection_db.executeQuery(query);
@@ -369,23 +399,28 @@ public class Add_update_tours {
         Connection_db.closeWindow(actionEvent);
     }
 
+    private void GetAlert(String text) {
+        Alert alert = new Alert(Alert.AlertType.NONE, text, ButtonType.OK);
+        alert.getDialogPane().getStylesheets().add(
+                Objects.requireNonNull(getClass().getResource("/sample/style.css")).toExternalForm());
+        alert.showAndWait();
+    }
+
     private void AddOtherData() {
         int id_tour = getID_tour();
-        if(b_clients) {
-            if(!Add_Update) {
-                Connection_db.executeQuery("DELETE FROM Clients_tours WHERE ID_tours = " + tours.getID_tours());
-                for (Clients c : clients) {
-                    Connection_db.executeQuery("INSERT INTO Clients_tours VALUES ( " + tours.getID_tours() + ", " +
-                            c.getID_client() + " )");
-                }
-            } else {
-                for (Clients c : clients) {
-                    Connection_db.executeQuery("INSERT INTO Clients_tours VALUES ( " + id_tour + ", " +
-                            c.getID_client() + " )");
-                }
+        if(!Add_Update) {
+            Connection_db.executeQuery("DELETE FROM Clients_tours WHERE ID_tours = " + tours.getID_tours());
+            for (Clients c : clients) {
+                Connection_db.executeQuery("INSERT INTO Clients_tours VALUES ( " + tours.getID_tours() + ", " +
+                        c.getID_client() + " )");
+            }
+        } else {
+            for (Clients c : clients) {
+                Connection_db.executeQuery("INSERT INTO Clients_tours VALUES ( " + id_tour + ", " +
+                        c.getID_client() + " )");
             }
         }
-        if(b_enters) {
+
             if(!Add_Update) {
                 Connection_db.executeQuery("DELETE FROM Tours_entertainment WHERE ID_tours = " + tours.getID_tours());
                 for (Entertainments e : entertainments) {
@@ -398,24 +433,20 @@ public class Add_update_tours {
                             e.getID_Entertainment() + " )");
                 }
             }
-        }
-        if(b_workers) {
-            if(!Add_Update) {
-                Connection_db.executeQuery("DELETE FROM Tours_worker WHERE ID_tours = " + tours.getID_tours());
-                for (Workers w : workers) {
-                    Connection_db.executeQuery("INSERT INTO Tours_worker VALUES ( " + tours.getID_tours() + ", " +
-                            w.getID_workers() + " )");
-                }
-            } else {
-                for (Workers w : workers) {
-                    Connection_db.executeQuery("INSERT INTO Tours_worker VALUES ( " + id_tour + ", " +
-                            w.getID_workers() + " )");
-                }
+
+        if(!Add_Update) {
+            Connection_db.executeQuery("DELETE FROM Tours_worker WHERE ID_tours = " + tours.getID_tours());
+            for (Workers w : workers) {
+                Connection_db.executeQuery("INSERT INTO Tours_worker VALUES ( " + tours.getID_tours() + ", " +
+                        w.getID_workers() + " )");
+            }
+        } else {
+            for (Workers w : workers) {
+                Connection_db.executeQuery("INSERT INTO Tours_worker VALUES ( " + id_tour + ", " +
+                        w.getID_workers() + " )");
             }
         }
-        b_clients = false;
-        b_enters = false;
-        b_workers = false;
+
     }
 
     private int getID_tour() {
@@ -438,25 +469,6 @@ public class Add_update_tours {
         return id_tour;
     }
 
-    private int getID_homestead() {
-        Connection conn = Connection_db.GetConnection();
-        String query = "SELECT ID_homestead FROM Tour WHERE ID_tours = " + tours.getID_tours();
-        Statement st;
-        ResultSet rs;
-        int ID_homestead = -1;
-        try {
-            if(conn != null) {
-                st = conn.createStatement();
-                rs = st.executeQuery(query);
-                while (rs.next()) {
-                    ID_homestead = rs.getInt("ID_homestead");
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return ID_homestead;
-    }
 
     public static long getDifferenceDays(Date d1, Date d2) {
         long diff = d2.getTime() - d1.getTime();

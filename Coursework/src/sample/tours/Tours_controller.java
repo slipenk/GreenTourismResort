@@ -154,7 +154,7 @@ public class Tours_controller {
         sortedData.comparatorProperty().bind(table_tours.comparatorProperty());
 
         table_tours.setItems(sortedData);
-
+        table_tours.refresh();
     }
 
     private ObservableList<Tours> getTours(String query) {
@@ -322,7 +322,7 @@ public class Tours_controller {
 
             String query = "BEGIN TRY BEGIN TRAN " +
                     "DELETE FROM Clients_tours WHERE ID_tours = " + tours.getID_tours() +
-                    " DELETE FROM [Options] o JOIN Tours_entertainment t ON o.ID_tours_enter = t.ID_TEN WHERE t.ID_tours = " + tours.getID_tours() +
+                    " DELETE o FROM [Options] o JOIN Tours_entertainment t ON o.ID_tours_enter = t.ID_TEN WHERE t.ID_tours = " + tours.getID_tours() +
                     " DELETE FROM Tours_entertainment WHERE ID_tours = " + tours.getID_tours() +
                     " DELETE FROM Tours_worker WHERE ID_tours = " + tours.getID_tours() +
                     " DELETE FROM Tour WHERE ID_tours = " + tours.getID_tours() +
@@ -331,9 +331,7 @@ public class Tours_controller {
                     "ROLLBACK TRAN END CATCH";
 
 
-
-            Connection_db.executeQuery(query);
-
+            new Connection_db().Cancel_Dialog(query);
             ShowTours();
         }
     }
@@ -347,6 +345,7 @@ public class Tours_controller {
             Options_enter_controller options_enter_controller = fxmlLoader.getController();
             options_enter_controller.SetTour(tours);
             options_enter_controller.GetEnters();
+            options_enter_controller.ShowOptions();
             Connection_db.Get_Dialog(parent, 1000, 650);
         }
     }

@@ -14,6 +14,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 public class Add_update_workers {
     @FXML
@@ -88,7 +89,10 @@ public class Add_update_workers {
                 setDisable(empty || date.compareTo(LocalDate.now()) > 0 );
             }
         });
-
+        Surname.setPromptText("Прізвище");
+        Name.setPromptText("Ім'я");
+        Middle_name.setPromptText("По батькові");
+        Phone_number_worker.setPromptText("Номер");
 
     }
 
@@ -104,9 +108,20 @@ public class Add_update_workers {
         }
     }
 
-
+    private void GetAlert(String text) {
+        Alert alert = new Alert(Alert.AlertType.NONE, text, ButtonType.OK);
+        alert.getDialogPane().getStylesheets().add(
+                Objects.requireNonNull(getClass().getResource("/sample/style.css")).toExternalForm());
+        alert.showAndWait();
+    }
 
     public void Add_method(ActionEvent actionEvent) {
+
+        if (Surname.getText().isBlank() || Name.getText().isBlank() || Phone_number_worker.getText().isBlank()) {
+            GetAlert("Введіть прізвище, ім'я та номер телефону гіда");
+            return;
+        }
+
         DateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
         try {
             formatDate.parse(Date_birth_worker.getValue().toString());

@@ -154,8 +154,8 @@ public class Add_update_options_enter {
                     Count_box.getValue() + ", '" +
                     Time.valueOf(Time_box.getValue()) + "', " +
                     id_te + ") " +
-                    "UPDATE Tour t SET t.Cost_tour = " + price +
-                    " COMMIT TRAN END TRY BEGIN CATCH " +
+                    "UPDATE Tour  SET Cost_tour = " + price +
+                    " WHERE ID_tours = " + tours.getID_tours() + " COMMIT TRAN END TRY BEGIN CATCH " +
                     "SELECT error_message() AS ErrorMessage " +
                     "ROLLBACK TRAN END CATCH";
 

@@ -136,6 +136,8 @@ public class Options_enter_controller {
                     return true;
                 } else if(options.getEnters().toLowerCase().indexOf(lowerCaseFilter) != -1) {
                     return true;
+                } else if(options.getClients().toString().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
                 } else {
                     return false;
                 }
@@ -147,6 +149,7 @@ public class Options_enter_controller {
         sortedData.comparatorProperty().bind(table_options.comparatorProperty());
 
         table_options.setItems(sortedData);
+        table_options.refresh();
     }
 
     public ObservableList<Options_enter> getOptions(String query) {

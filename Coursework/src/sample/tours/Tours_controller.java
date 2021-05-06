@@ -109,7 +109,6 @@ public class Tours_controller {
             query = "SELECT * FROM Tour";
         }
 
-
         ObservableList<Tours> list = getTours(query);
 
         Breakfast_col.setCellValueFactory(new PropertyValueFactory<>("IsBreakfast_tours"));
@@ -329,13 +328,10 @@ public class Tours_controller {
                     " COMMIT TRAN END TRY BEGIN CATCH " +
                     "SELECT error_message() AS ErrorMessage " +
                     "ROLLBACK TRAN END CATCH";
-
-
             new Connection_db().Cancel_Dialog(query);
             ShowTours();
         }
     }
-
 
     public void Options_method(ActionEvent actionEvent) throws IOException {
         Tours tours = table_tours.getSelectionModel().getSelectedItem();
@@ -345,6 +341,7 @@ public class Tours_controller {
             Options_enter_controller options_enter_controller = fxmlLoader.getController();
             options_enter_controller.SetTour(tours);
             options_enter_controller.GetEnters();
+            options_enter_controller.setFromStartWindow(false, 4, "");
             options_enter_controller.ShowOptions();
             Connection_db.Get_Dialog(parent, 1000, 650);
         }

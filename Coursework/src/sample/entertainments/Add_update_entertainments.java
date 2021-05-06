@@ -117,7 +117,7 @@ public class Add_update_entertainments {
     public void Add_method(ActionEvent actionEvent) {
 
         if (Name.getText().isBlank() || Price.getText().isBlank()) {
-            GetAlert("Введіть назву та ціну садиби");
+            GetAlert("Введіть назву та ціну розваги");
             return;
         }
 

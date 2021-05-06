@@ -17,14 +17,12 @@ import sample.homesteads.Homesteads_controller;
 import sample.workers.Workers_controller;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -66,6 +64,7 @@ public class Add_update_tours {
     private Tours_controller tc;
     private boolean Add_Update;
     private Tours tours;
+    private boolean workers_b = false, clients_b = false, enter_b = false;
 
 
     public void setController(Tours_controller tc) {
@@ -236,6 +235,7 @@ public class Add_update_tours {
 
 
     public void SetEntertainments() throws IOException {
+        enter_b = true;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sample/entertainments/Entertainments.fxml"));
         Parent parent = fxmlLoader.load();
         Entertainment_controller entertainment_controller = fxmlLoader.getController();
@@ -248,6 +248,7 @@ public class Add_update_tours {
 
 
     public void SetClients() throws IOException {
+        clients_b = true;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sample/clients/Clients.fxml"));
         Parent parent = fxmlLoader.load();
         Clients_controller clients_controller = fxmlLoader.getController();
@@ -267,6 +268,7 @@ public class Add_update_tours {
     }
 
     public void SetWorkers() throws IOException {
+        workers_b = true;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sample/workers/Workers.fxml"));
         Parent parent = fxmlLoader.load();
         Workers_controller workers_controller = fxmlLoader.getController();
@@ -341,18 +343,16 @@ public class Add_update_tours {
         } else if(workers.size() == 0) {
             GetAlert("Додайте гіда");
             return;
-        } else if(entertainments.size() == 0) {
-            return;
         }
 
         String query;
         if(Add_Update) {
             if (Is_breakfast.isSelected() && homesteads != null) {
-                price += days * PRICE_BREAKFAST + homesteads.getPrice_homestead();
+                price += days * PRICE_BREAKFAST * getClients().size() + homesteads.getPrice_homestead() * days;
             } else if(homesteads == null && Is_breakfast.isSelected()) {
-                price += days * PRICE_BREAKFAST;
+                price += days * PRICE_BREAKFAST * getClients().size();
             } else if(!Is_breakfast.isSelected() && homesteads != null) {
-                price += homesteads.getPrice_homestead();
+                price += homesteads.getPrice_homestead() * days;
             } else {
                 price = 0;
             }
@@ -409,10 +409,12 @@ public class Add_update_tours {
     private void AddOtherData() {
         int id_tour = getID_tour();
         if(!Add_Update) {
-            Connection_db.executeQuery("DELETE FROM Clients_tours WHERE ID_tours = " + tours.getID_tours());
-            for (Clients c : clients) {
-                Connection_db.executeQuery("INSERT INTO Clients_tours VALUES ( " + tours.getID_tours() + ", " +
-                        c.getID_client() + " )");
+            if(clients_b) {
+                Connection_db.executeQuery("DELETE FROM Clients_tours WHERE ID_tours = " + tours.getID_tours());
+                for (Clients c : clients) {
+                    Connection_db.executeQuery("INSERT INTO Clients_tours VALUES ( " + tours.getID_tours() + ", " +
+                            c.getID_client() + " )");
+                }
             }
         } else {
             for (Clients c : clients) {
@@ -420,12 +422,20 @@ public class Add_update_tours {
                         c.getID_client() + " )");
             }
         }
-
             if(!Add_Update) {
-                Connection_db.executeQuery("DELETE FROM Tours_entertainment WHERE ID_tours = " + tours.getID_tours());
-                for (Entertainments e : entertainments) {
-                    Connection_db.executeQuery("INSERT INTO Tours_entertainment VALUES ( " + tours.getID_tours() + ", " +
-                            e.getID_Entertainment() + " )");
+                if(enter_b ) {
+                    ArrayList<Integer> list = getID_tour_enter();
+                    for (Entertainments e : entertainments) {
+                        Connection_db.executeQuery("INSERT INTO Tours_entertainment VALUES ( " + tours.getID_tours() + ", " +
+                                e.getID_Entertainment() + " )");
+                        Connection_db.executeQuery(" UPDATE o SET o.ID_tours_enter = (SELECT MAX(ID_TEN) FROM Tours_entertainment)  FROM [Options] o INNER JOIN Tours_entertainment AS t2 ON o.ID_tours_enter = t2.ID_TEN  WHERE t2.ID_tours = " + tours.getID_tours() + " AND t2.ID_entertainments = " +
+                                + e.getID_Entertainment());
+
+                    }
+                    for(Integer i : list) {
+                        Connection_db.executeQuery("DELETE FROM Tours_entertainment WHERE ID_TEN = " + i);
+                    }
+
                 }
             } else {
                 for (Entertainments e : entertainments) {
@@ -435,10 +445,12 @@ public class Add_update_tours {
             }
 
         if(!Add_Update) {
-            Connection_db.executeQuery("DELETE FROM Tours_worker WHERE ID_tours = " + tours.getID_tours());
-            for (Workers w : workers) {
-                Connection_db.executeQuery("INSERT INTO Tours_worker VALUES ( " + tours.getID_tours() + ", " +
-                        w.getID_workers() + " )");
+            if(workers_b) {
+                Connection_db.executeQuery("DELETE FROM Tours_worker WHERE ID_tours = " + tours.getID_tours());
+                for (Workers w : workers) {
+                    Connection_db.executeQuery("INSERT INTO Tours_worker VALUES ( " + tours.getID_tours() + ", " +
+                            w.getID_workers() + " )");
+                }
             }
         } else {
             for (Workers w : workers) {
@@ -447,7 +459,31 @@ public class Add_update_tours {
             }
         }
 
+        clients_b = false;
+        workers_b = false;
+        enter_b = false;
     }
+
+    private ArrayList<Integer> getID_tour_enter() {
+        Connection conn = Connection_db.GetConnection();
+        String query = "SELECT te.ID_TEN FROM Tours_entertainment te WHERE te.ID_tours = " + tours.getID_tours();
+        Statement st;
+        ResultSet rs;
+        ArrayList<Integer> list = new ArrayList<>();
+        try {
+            if(conn != null) {
+                st = conn.createStatement();
+                rs = st.executeQuery(query);
+                while (rs.next()) {
+                    list.add(rs.getInt("ID_TEN"));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
 
     private int getID_tour() {
         Connection conn = Connection_db.GetConnection();

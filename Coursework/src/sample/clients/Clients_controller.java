@@ -101,13 +101,11 @@ public class Clients_controller {
         Registration_date_col.setCellValueFactory(new PropertyValueFactory<>("Registration_date_client"));
 
         FilteredList<Clients> filteredData = new FilteredList<>(list, b -> true);
-
         search_field.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(client -> {
                 if(newValue == null || newValue.isEmpty()) {
                     return true;
                 }
-
                 String lowerCaseFilter = newValue.toLowerCase();
                 if(client.getSurname_client().toLowerCase().indexOf(lowerCaseFilter) != -1) {
                     return true;

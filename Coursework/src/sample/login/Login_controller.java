@@ -84,17 +84,6 @@ public class Login_controller {
                     error_label.setText("Неправильний логін або пароль. Спробуйте ще раз");
                     return -1;
                 }
-                if(count > 1) {
-                    Alert alert = new Alert(Alert.AlertType.NONE, "Сталася помилка. Користувачів з таким паролем та логіном не може бути більше одного. Зверніться до головного", ButtonType.OK);
-
-                    alert.getDialogPane().getStylesheets().add(
-                            Objects.requireNonNull(getClass().getResource("/sample/style.css")).toExternalForm());
-
-                    alert.showAndWait();
-                    if (alert.getResult() == ButtonType.OK) {
-                        return -1;
-                    }
-                }
             }
         } catch (Exception e) {
             e.printStackTrace();

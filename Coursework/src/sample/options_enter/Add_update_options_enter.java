@@ -119,8 +119,8 @@ public class Add_update_options_enter {
                         setDisable(item.isAfter(tours.getDate_end_tour().toLocalDate()) || item.isBefore(tours.getDate_start_tour().toLocalDate()));
                     }});
 
-
-
+        Name_window.setText("Оновити запис");
+        Add_btn.setText("Оновити");
     }
 
     public void Add_method(ActionEvent actionEvent) {

@@ -109,7 +109,10 @@ public class Options_enter_controller {
 
         if (Category == 3) {
             query = "SELECT * FROM [Options] o WHERE o.Date_options = '" + sdf.format(d) + "'";
-        } else {
+        }  else if(Category == 4) {
+            query = "SELECT * FROM [Options] o JOIN Tours_entertainment te ON te.ID_TEN = o.ID_tours_enter WHERE te.ID_tours = " + tours.getID_tours();
+        }
+        else {
             query = "SELECT * FROM Options";
         }
 
@@ -196,23 +199,27 @@ public class Options_enter_controller {
 
 
     public void Add_method(ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Add_update_options_enter.fxml"));
-        Parent parent = fxmlLoader.load();
-        Add_update_options_enter add_update_options_enter = fxmlLoader.getController();
-        add_update_options_enter.SetEnters(entertainments, enter_box.getValue(), this, true, tours);
-        Connection_db.Get_Dialog(parent, 490, 680);
-    }
-
-    public void Update_method(ActionEvent actionEvent) throws IOException {
-        Options_enter options_enter = table_options.getSelectionModel().getSelectedItem();
-        if(options_enter != null) {
+        if(entertainments.size() != 0) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Add_update_options_enter.fxml"));
             Parent parent = fxmlLoader.load();
             Add_update_options_enter add_update_options_enter = fxmlLoader.getController();
             add_update_options_enter.SetEnters(entertainments, enter_box.getValue(), this, true, tours);
-            add_update_options_enter.setOptions_enter(options_enter);
-            add_update_options_enter.setValues();
             Connection_db.Get_Dialog(parent, 490, 680);
+        }
+    }
+
+    public void Update_method(ActionEvent actionEvent) throws IOException {
+        if(entertainments.size() != 0) {
+            Options_enter options_enter = table_options.getSelectionModel().getSelectedItem();
+            if (options_enter != null) {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Add_update_options_enter.fxml"));
+                Parent parent = fxmlLoader.load();
+                Add_update_options_enter add_update_options_enter = fxmlLoader.getController();
+                add_update_options_enter.SetEnters(entertainments, enter_box.getValue(), this, true, tours);
+                add_update_options_enter.setOptions_enter(options_enter);
+                add_update_options_enter.setValues();
+                Connection_db.Get_Dialog(parent, 490, 680);
+            }
         }
     }
 
